@@ -1,0 +1,7 @@
+# Editor swap files
+*.swp
+*.swo
+
+# Local Claude Code settings
+**/.claude/settings.local.json
+.claude/settings.local.json

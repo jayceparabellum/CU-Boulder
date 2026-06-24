@@ -1,0 +1,213 @@
+1.
+Question 1
+Which method is typically used to determine model complexity in statistical learning?
+
+Analyzing the degrees of freedom in the model.
+
+Studying the model's parameters and hyperparameters settings.
+
+Assessing the computational cost of the model.
+
+Evaluating the model's accuracy using test data.
+
+Nice work
+***Correct! Degrees of freedom are a key factor in assessing model complexity.
+
+1 / 1 point
+
+
+
+2.
+Question 2
+What is the primary reason for using different metrics when evaluating the performance of a machine learning model?
+
+Do you understand?.
+
+To ensure the model runs efficiently on hardware and software.
+
+To compare the model's performance with unsupervised learning models.
+
+To determine the simplicity of the model's structure.
+
+To understand the model's ability to generalize to new data.
+
+Nice work
+***Correct! Evaluating with different metrics provides insights into the model's generalization.
+
+1 / 1 point
+
+
+
+3.
+Question 3
+What is a key characteristic of supervised learning?
+
+Do you understand?.
+
+The requirement for vast amounts of unlabeled data.
+
+Its exclusive use in clustering tasks.
+
+The presence of labeled data for training.
+
+It does not require validation datasets.
+
+Nice work
+***Correct! Supervised learning relies heavily on labeled data to learn mapping functions.
+
+1 / 1 point
+
+
+
+4.
+Question 4
+Which of the following explains the bias-variance trade-off and its impact on model performance in machine learning?
+
+A high bias model leads to overfitting, while a high variance model leads to underfitting.
+
+The bias-variance trade-off involves managing the balance between underfitting and overfitting to achieve optimal model performance.
+
+Variance refers to the error due to overly simplistic models, while bias refers to errors from overly complex models.
+
+A model with high bias typically performs well on training data but poorly on new data.
+
+Nice work
+***Correct! This trade-off is crucial in balancing model complexity and performance.
+
+1 / 1 point
+
+
+
+5.
+Question 5
+Which strategy is essential for achieving optimal model accuracy in machine learning?
+
+Balancing the bias-variance trade-off.
+
+Increasing model complexity indefinitely.
+
+Selecting the simplest model possible.
+
+Using the maximum amount of available data.
+
+Nice work
+***Correct! Balancing bias and variance is crucial for optimizing model accuracy.
+
+1 / 1 point
+
+
+
+6.
+Question 6
+Which of the following statements is true regarding the appropriate approach (regression or classification) to predicting the price of a house based on its features?
+
+Classification is suitable since house prices fall into distinct categories.
+
+Both regression and classification are equally suitable for predicting prices.
+
+Regression is appropriate because it predicts continuous values like prices.
+
+Neither regression nor classification can predict house prices accurately.
+
+Nice work
+***Correct! Regression is ideal for predicting continuous outcomes like prices.
+
+1 / 1 point
+
+
+7.
+Question 7
+Identify the following scenarios where supervised learning is the appropriate approach. Select all that apply.
+
+Market basket analysis
+
+Image recognition
+
+Nice work
+***Correct! Image recognition often requires labeled data for training, making supervised learning appropriate.
+
+Customer segmentation
+
+Spam email detection
+
+Nice work
+***Correct! Spam detection involves classifying emails into spam or non-spam, a task well-suited for supervised learning.
+
+Predicting house prices
+
+Nice work
+***Correct! Predicting house prices uses labeled data to train models, ideal for supervised learning.
+
+1 / 1 point
+
+
+
+8.
+Question 8
+Which metric is most appropriate for evaluating the accuracy of a regression model?
+
+
+ROC curve
+
+Mean Squared Error (MSE)
+
+F1 Score
+
+Confusion matrix
+
+Nice work
+***Correct! MSE measures the average of the squares of the errors, which is suitable for regression models.
+
+1 / 1 point
+
+
+
+9.
+Question 9
+Identify the scenarios where regression models are preferred over classification models. Select all that apply.
+
+Calculating the return on investment over time.
+
+Nice work
+***Correct! Calculating continuous outcomes like return on investment suits regression models.
+
+Predicting continuous numerical values such as house prices.
+
+Nice work
+****Correct! Regression models are ideal for predicting continuous numerical values.
+
+Grouping customers based on purchasing behavior.
+
+Forecasting sales volume for the next quarter.
+
+Nice work
+***Correct! Regression models are suitable for forecasting continuous numerical outcomes.
+
+Estimating the probability of an event occurring.
+
+1 / 1 point
+
+
+
+10.
+Question 10
+Identify the strategies that manage the bias-variance trade-off in machine learning models. Select all that apply.
+
+Nice work
+***Correct! Feature selection can help simplify the model, potentially reducing variance while controlling bias.
+
+Using cross-validation techniques.
+
+Nice work
+***Correct! Cross-validation helps balance bias and variance by testing the model on different datasets.
+
+Reducing the training dataset size.
+
+Increasing the model complexity.
+
+Regularization techniques.
+
+Nice work
+***Correct! Regularization helps manage complexity and maintain balance between bias and variance.
+
+1 / 1 point
