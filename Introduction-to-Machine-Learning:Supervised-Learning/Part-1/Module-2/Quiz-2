@@ -1,0 +1,179 @@
+Question 1
+What is the primary purpose of applying ordinary least squares in linear regression?
+
+To transform non-linear relationships into linear ones.
+
+To maximize the correlation between the predictor and response variables.
+
+To ensure all data points are perfectly on the regression line.
+
+To minimize the sum of squared differences between observed and predicted values.
+
+Nice work
+Correct! Ordinary least squares aims to find the best-fit line by minimizing these differences.
+
+1 / 1 point
+
+
+
+Question 2
+Which of the following are benefits of understanding the matrix representation of linear regression? Select all that apply.
+
+It provides a clear framework for extending to multiple linear regression.
+
+Nice work
+Correct! Matrix representation naturally extends to handling multiple predictors.
+
+It guarantees better predictions than other methods.
+
+It completely eliminates prediction error.
+
+It allows for efficient computation using linear algebra libraries.
+
+Nice work
+Correct! Matrix operations can significantly speed up computations.
+
+It simplifies the process of transforming non-linear models into linear ones.
+
+1 / 1 point
+
+
+
+Question 3
+Which of the following statements best describes the least squares method in linear regression?
+
+It maximizes the correlation between the input and output variables.
+
+It minimizes the sum of the squared differences between observed and predicted values.
+
+It calculates the median difference between observed and predicted values.
+
+It ensures that the predicted values always match the observed ones.
+
+Nice work
+Correct! The least squares method aims to minimize the sum of squared residuals, providing the best fit line in linear regression.
+
+1 / 1 point
+
+
+Question 4
+Calculate the R-squared value for a model where the total sum of squares (TSS) is 200 and the residual sum of squares (RSS) is 80.
+
+0.6
+Nice work
+Correct! The R-squared value is calculated as 1 minus the ratio of RSS to TSS, which measures the proportion of variance explained by the model.
+
+1 / 1 point
+
+
+
+Question 5
+In linear regression, if you increase the number of predictor variables, what is expected to happen to the risk of overfitting the model?
+
+The risk of overfitting remains the same.
+
+Overfitting is unrelated to the number of predictor variables.
+
+The risk of overfitting increases.
+
+The risk of overfitting decreases.
+
+Nice work
+Correct! Increasing the number of predictor variables can lead to overfitting if the model complexity becomes too high without sufficient data.
+
+1 / 1 point
+
+
+
+Question 6
+Select the key components of simple linear regression. Select all that apply.
+
+Predictor and response variables.
+
+Nice work
+Correct! These are essential for establishing a relationship in regression.
+
+Interaction effects between variables.
+
+Intercept and slope.
+
+Nice work
+Correct! These components define the regression line.
+
+Categorical variables.
+
+Polynomial terms.
+
+1 / 1 point
+
+
+
+Question 7
+What is the primary advantage of using matrix operations in deriving least squares solutions for simple linear regression?
+
+It eliminates multicollinearity in the model.
+
+It reduces the need for predictor variable scaling.
+
+It simplifies calculations and enables efficient computation on large datasets.
+
+It increases the interpretability of the model parameters.
+
+Nice work
+Correct! Using matrix operations streamlines calculations and is computationally efficient, especially for large datasets.
+
+1 / 1 point
+
+
+
+Question 8
+What would be the impact on the regression model if the assumption of homoscedasticity is violated?
+
+The model may have unreliable predictions and confidence intervals.
+
+The model's coefficients become zero.
+
+The residuals become perfectly normally distributed.
+
+The regression line becomes a curve.
+
+Nice work
+Correct! Violation of homoscedasticity leads to unreliable predictions due to unequal variance of residuals.
+
+1 / 1 point
+
+
+
+Question 9
+What is the potential drawback of using higher degree polynomials in regression models?
+
+Reducing the complexity of the model.
+
+Overfitting the model to the training data.
+
+Improving the homoscedasticity of residuals.
+
+Increasing the linearity of the model.
+
+Nice work
+Correct! Higher degree polynomials can capture more nuances but may lead to overfitting.
+
+1 / 1 point
+
+
+
+Question 10
+Which of the following statements best describes a limitation of linear models for nonlinear relationships?
+
+Linear models do not require assumptions about data distribution.
+
+Linear models can perfectly fit nonlinear relationships.
+
+Linear models are more flexible than polynomial models.
+
+Linear models assume a straight-line relationship which can lead to inaccurate predictions for nonlinear data.
+
+Nice work
+Correct! Linear models are not suitable for capturing complex nonlinear patterns without transformation.
+
+

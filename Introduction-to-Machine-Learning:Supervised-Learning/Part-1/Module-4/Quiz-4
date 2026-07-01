@@ -1,0 +1,266 @@
+Which regularization technique uses the sum of squared coefficients as a penalty term?
+
+L1 Regularization
+
+No Regularization
+
+L2 Regularization
+
+Elastic Net Regularization1.
+Question 1
+How does irreducible noise impact regression analysis?
+
+
+Irreducible noise can be completely eliminated with more data.
+
+Irreducible noise increases as model complexity decreases.
+
+Irreducible noise represents the uncertainty that remains despite model improvements.
+
+Irreducible noise impacts only the bias of predictions.
+
+Nice work
+Correct! Irreducible noise is the inherent uncertainty beyond model corrections.
+
+1 / 1 point
+
+
+
+2.
+Question 2
+Which mathematical concept allows for the decomposition of mean square error into bias and variance in regression analysis?
+
+Bayes' Theorem.
+
+Law of Large Numbers.
+
+Expected value of squared error based on probability properties.
+
+Central Limit Theorem.
+
+Nice work
+Correct! The bias and variance decomposition helps to split mean square error into distinct components.
+
+1 / 1 point
+
+
+3.
+Question 3
+Select the differences between empirical risk and true risk in statistical learning. Select all that apply.
+
+Empirical risk and true risk are identical if the model is perfect.
+
+True risk is directly observable from training datasets.
+
+True risk is the theoretical prediction error on unseen data.
+
+Nice work
+Correct! True risk accounts for errors on data not yet encountered.
+
+Empirical risk is calculated based on training data.
+
+Nice work
+Correct! Empirical risk relies on the data used to train the model.
+
+1 / 1 point
+
+
+4.
+Question 4
+Which of the following are components of a model's prediction error? Select all that apply.
+
+Bias
+
+Nice work
+Correct! Bias is one of the components of prediction error, representing the error due to assumptions made by the model.
+
+Feature selection error
+
+Variance
+
+Nice work
+Correct! Variance is another key component and reflects the error introduced due to fluctuations in the training data.
+
+Data normalization error
+
+Irreducible noise
+
+Nice work
+Correct! Irreducible noise is also a component of prediction error and is the part that cannot be reduced by the model.
+
+1 / 1 point
+
+
+5.
+Question 5
+Identify the sources of prediction error in a machine learning model. Select all that apply.
+
+Computational cost
+
+Variance
+
+Nice work
+Correct! Variance affects prediction error by causing fluctuations in model performance due to data changes.
+
+Bias
+
+Nice work
+Correct! Bias contributes to the prediction error by introducing systematic error in the model assumptions.
+
+Training time
+
+Irreducible error
+
+Nice work
+Correct! Irreducible error is the noise inherent in data that contributes to prediction error regardless of the model.
+
+1 / 1 point
+
+
+
+6.
+Question 6
+What is the relationship between model complexity and the bias-variance trade-off?
+
+Lower complexity always results in lower bias and higher variance.
+
+Model complexity is unrelated to bias and variance.
+
+Higher complexity tends to decrease bias but increase variance.
+
+Increased complexity typically reduces both bias and variance equally.
+
+Nice work
+Correct! More complex models typically exhibit lower bias and higher variance.
+
+1 / 1 point
+
+
+7.
+Question 7
+How can the bias-variance trade-off be optimized during model selection in regression analysis?
+
+By selecting a model with balanced complexity that offers an acceptable compromise between bias and variance.
+
+By focusing only on variance reduction irrespective of bias.
+
+By choosing models that minimize both bias and variance simultaneously.
+
+By prioritizing low bias models regardless of variance levels.
+
+Nice work
+Correct! The bias-variance tradeoff is optimized by finding a model that balances complexity, minimizing both bias and variance to acceptable levels.
+
+1 / 1 point
+
+
+8.
+Question 8
+Which of the following statements about bias and variance in regression are true? Select all that apply.
+
+Bias and variance together determine the irreducible error.
+
+Variance quantifies the model's sensitivity to changes in the training dataset.
+
+Nice work
+Correct! Variance captures how much the model's predictions change with different training data sets.
+
+Bias measures the error due to assumptions in the model.
+
+Nice work
+Correct! Bias quantifies the error from incorrect assumptions or oversimplifications in the model.
+
+Increasing variance reduces the irreducible error in predictions.
+
+High bias always leads to overfitting.
+
+1 / 1 point
+
+
+9.
+Question 9
+Select the principles of shrinkage methods in statistical learning. Select all that apply.
+
+Utilize bootstrap samples to enhance prediction accuracy.
+
+Increase the number of variables in the model to capture more information.
+
+Reduce model complexity by penalizing large coefficients.
+
+Nice work
+Correct! Shrinkage methods penalize large coefficients to reduce model complexity.
+
+Balance fit and simplicity to prevent overfitting.
+
+Nice work
+Correct! Shrinkage methods aim to balance fit and simplicity, aiding in preventing overfitting.
+
+1 / 1 point
+
+
+
+10.
+Question 10
+Select all the principles associated with the bootstrap method and its applications in estimating uncertainty in machine learning models. Select all that apply.
+
+Bootstrap method can be used for estimating the distribution of a statistic.
+
+Nice work
+Correct! The bootstrap method is used to approximate the distribution of a statistic by resampling.
+
+Bootstrap method reduces variance by averaging multiple models.
+
+Bootstrap sampling involves sampling with replacement.
+
+Nice work
+Correct! Bootstrap sampling involves sampling with replacement to generate multiple datasets.
+
+Bootstrap is used to validate models through repeated training and testing.
+
+Bootstrap estimates the confidence intervals for model parameters.
+
+Nice work
+Correct! Bootstrap is commonly used to estimate confidence intervals for various statistics, including model parameters.
+
+Bootstrap helps in assessing the stability of model predictions.
+
+Nice work
+Correct! Bootstrap can help assess how stable model predictions are by evaluating variability across samples.
+
+1 / 1 point
+
+
+
+11.
+Question 11
+What is the primary purpose of regularization in machine learning?
+
+To reduce the risk of overfitting.
+
+To ensure the model is deterministic.
+
+To increase the complexity of the model.
+
+To improve training speed.
+
+Nice work
+Correct! Regularization is aimed at reducing overfitting, which enhances the model's performance on new data.
+
+1 / 1 point
+
+
+
+12.
+Question 12
+Which regularization technique uses the sum of squared coefficients as a penalty term?
+
+L1 Regularization
+
+No Regularization
+
+L2 Regularization
+
+Elastic Net Regularization
+
+Nice work
+Correct! L2 regularization employs the sum of squared coefficients as its penalty term, leading to ridge regression.
