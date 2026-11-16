@@ -1,0 +1,121 @@
+
+
+######## release/A_M6/A_M6.ipynb ########
+
+[MD]
+# Module 6 Autograded Assignment
+
+[CODE]
+# Load Packages
+library(testthat)
+
+[MD]
+# Problem 1
+
+You are a quality assurance tester for hardware equipment and been given a lot of $10,000$ nails to test. You decide to randomly sample $100$ nails from the lot and test if they are defective. The whole lot would be considered defective if the average of the sample is less than $11.97$cm or greater than $12.04$cm. Given that the true population mean $\mu$ is $12$cm with a true standard deviation $\sigma$ of $0.2$cm, what is the probability that the lot is **not** defective? Round your answer to two decimal places. Save your answer as `p1`.
+
+[CODE]
+mu <- 12; sigma <- 0.2; n <- 100
+se <- sigma / sqrt(n)                                  # 0.02
+p1 = round(pnorm(12.04, mu, se) - pnorm(11.97, mu, se), 2)   # 0.91
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+# Problem 2
+
+Suppose you are out fishing and you want to predict the amount of time (in minutes) it takes to catch 3 fish. Let $T_F \sim N(15, 10)$ be the time it takes to reel in a fish. Let $T_T \sim N(10, 8)$ be the amount of time you spend waiting for the fish to take the bait. Assume $T_F$ and $T_T$ are independent. Also assume you start timing as soon as you start reeling in the first fish, and the time ends when you have finished catching the third fish. 
+
+[MD]
+**a)** Let $T$ be the random variable for the total amount of time spent fishing. What is $E[T]$ and $Var[T]$? Save your variables as `exp.T` and `var.T`. (Hint: Note that a variance of 122 is incorrect for this problem. Why? If $Z_1$ and $Z_2$ are indepedent N(0,1) random variables, the distribution of $Z_1 + Z_2 $ is not the same as $2Z_1$. If you want to explore this, you can run some simulations to see for yourself.) 
+
+[CODE]
+mu_F <- 15; var_F <- 10
+mu_T <- 10; var_T <- 8
+n_fish <- 3
+n_waits <- n_fish - 1    # waits between catches only
+
+exp.T = n_fish * mu_F + n_waits * mu_T     # 65
+var.T = n_fish * var_F + n_waits * var_T   # 46
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**b)** What is the probability that you finish catching the three fish in 60 minutes or less? Round your answer to three decimal places. Save your answer as `p2.2`.
+
+[CODE]
+p2.2 = round(pnorm(60, mean = 65, sd = sqrt(46)), 3)   # 0.23
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+# Problem 3
+
+Exams given by a particular instructor in a freshman-level statistics course have a mean of $75$ and a standard deviation of $17$. The instructor gives an exam to two classes, one with $30$ students and the other with $90$ students.
+
+[MD]
+**a)** Let $\bar{X}$ represent the average exam score in the class of $30$. Approximate the probability that the average test score $\bar{X}$ exceeds $80$, that is, estimate $P(\bar{X} \ge 80)$. Round your answer to four decimal places. Save your answer as `p3.a`.
+
+[CODE]
+mu <- 75; sigma <- 17; n <- 30
+p3.a = round(pnorm(80, mu, sigma / sqrt(n), lower.tail = FALSE), 4)   # 0.0536
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**b)** Let $\bar{Y}$ represent the average exam score in the class of $90$. Approximate the probability that the average test score $\bar{Y}$ exceeds $80$, that is, estimate $P(\bar{Y} \ge 80)$. Round your answer to four decimal places. Save your answer as `p3.b`.
+
+[CODE]
+mu <- 75; sigma <- 17; n <- 90
+p3.b = round(pnorm(80, mu, sigma / sqrt(n), lower.tail = FALSE), 4)   # 0.0026
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**Thought Question (Not Graded)** Would you be surpised to learn that the $90$ person class had an exam average of $80$ or higher?
+
+[MD]
+**c)** Estimate the probability that the averages of the two classes are within one point of each other, that is, estimate $P(-1 \le \bar{Y} - \bar{X} \le 1)$. Hint: What is the distribution of $\bar{Y} - \bar{X}$? Round your answer to two decimal places. Save your answer as `p3.c`.
+
+[CODE]
+mu <- 75; sigma <- 17
+n_x <- 30; n_y <- 90
+
+# Variances add for a difference of independent means
+sd_diff <- sqrt(sigma^2 / n_y + sigma^2 / n_x)   # 3.584
+
+p3.c = round(pnorm(1, 0, sd_diff) - pnorm(-1, 0, sd_diff), 2)   # 0.22
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+# Problem 4
+
+ The Central Limit Theorem states: Let $X_1, \dots, X_n$ be a random sample with $E[X_i] = \mu$ and $Var(X_i)=\sigma^2$. If $n$ is sufficiently large, then $\bar{X}$ has approximately a normal distribution with mean $\mu_{\bar{X}} = \mu$ and variance $\sigma_{\bar{X}}^2 = \sigma^2/n$. It's also true that $\sum_{i=1}^n X_i \sim N(n\mu, n\sigma^2)$. 
+ 
+Suppose a machine requires a specific type of battery that lasts an exponential amount of time with mean $25$ hours. As soon as the battery fails, you replace it immediately. If you have $50$ such batteries, estimate the probability that the machine is still operating after $1300$ hours. Round your answer to three decimal places. Save your answer as `p4`.
+
+[CODE]
+mean_life <- 25      # exponential mean, so sd = 25 as well
+n_batt <- 50
+
+mu_S <- n_batt * mean_life               # 1250
+sd_S <- sqrt(n_batt * mean_life^2)       # 176.78
+
+p4 = round(pnorm(1300, mu_S, sd_S, lower.tail = FALSE), 3)   # 0.389
+
+
+[CODE]
+# Hidden Test Cell

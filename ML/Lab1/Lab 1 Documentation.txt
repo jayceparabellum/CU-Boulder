@@ -1,0 +1,51 @@
+Lab 1 Documentation
+
+####Step 1
+cd /path/to/your/script/folder
+
+
+####script utilized to generate the CSV in the same folder
+python3 -c "
+from sklearn.datasets import fetch_california_housing
+import pandas as pd
+df = fetch_california_housing(as_frame=True).frame
+df.to_csv('california_housing.csv', index=False)
+print('Done! california_housing.csv created.')
+"
+
+
+####Run the Script normally
+python3 Setup.text
+
+
+#####The "california_house.csv" was generated. 
+
+
+####Step 2 Instructions
+#####Write a function load_housing() that reads the CSV into a pandas.DataFrame. Store the shape of that DataFrame in a variable called q1_shape.
+
+
+def load_housing() -> pd.DataFrame:
+    """Load the California Housing data from ``california_housing.csv``.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame containing the 8 predictors plus the target column ``MedHouseVal``.
+    """
+    # your code here
+    raise NotImplementedError
+
+
+# Compute the answer required by the autograder
+q1_shape: Tuple[int, int] = load_housing().shape
+
+
+
+
+# If all tests pass (there might be hidden tests), you will earn 10 points
+# Test Cell: Exercise 5.1
+assert isinstance(q1_shape, tuple), "q1_shape must be a tuple"
+assert len(q1_shape) == 2, "q1_shape should have 2 elements (rows, cols)"
+assert q1_shape[0] > 0 and q1_shape[1] > 0, "Shape values must be positive"
+print(f"Dataset shape: {q1_shape}")

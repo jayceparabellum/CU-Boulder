@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APPA 5001 Final Prep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<style>
+/* Layout: sticky contents rail beside a single reading column; module sections as "state" blocks */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1b2130;
+  --muted: #5a6274;
+  --rule: #dde1e8;
+  --accent: #2c4a94;
+  --accent-soft: #e6ecf8;
+  --trap: #9a5b10;
+  --trap-soft: #fbf1e2;
+  --ok: #24704a;
+  --code-bg: #eef0f4;
+  --f-display: "Literata", Georgia, "Times New Roman", serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+    --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+    --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+  --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+  --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body);
+  font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px;
+}
+@media (max-width: 860px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+nav.toc .label { text-transform: uppercase; letter-spacing: .08em; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+nav.toc a { display: block; padding: 4px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; border-left: 2px solid transparent; }
+nav.toc a:hover { background: var(--accent-soft); }
+nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+nav.toc .progress { margin-top: 16px; font-size: 13px; color: var(--muted); }
+nav.toc .bar { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+nav.toc .bar span { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+@media (max-width: 860px) {
+  nav.toc { position: static; }
+  nav.toc ol { display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { border: 1px solid var(--rule); padding: 3px 10px; }
+}
+
+main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+main > *, section.mod > *, .box > *, .modhead > * { min-width: 0; }
+section.mod, .box, .modhead, header.top { grid-template-columns: minmax(0, 1fr); }
+mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }
+header.top { display: grid; gap: 10px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .09em; font-size: 12px; font-weight: 600; color: var(--accent); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 650; }
+h2 { font-size: 27px; font-weight: 650; }
+h3 { font-size: 19px; font-weight: 650; margin-top: 8px; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); font-size: 17px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 8px; }
+.fact { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; }
+.fact .k { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+.fact .v { font-family: var(--f-display); font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.fact .s { font-size: 13.5px; color: var(--muted); }
+
+section.mod { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.modhead { display: grid; gap: 6px; border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.modhead .num { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
+
+.box { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.box h3 { margin: 0; }
+ul.k { margin: 0; padding-left: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+ul.k li { max-width: 72ch; min-width: 0; }
+.recipe ol, .checks label > span { min-width: 0; }
+.trap { background: var(--trap-soft); border: 1px solid color-mix(in srgb, var(--trap) 35%, transparent); border-radius: 8px; padding: 14px 18px; display: grid; gap: 8px; }
+.trap .tl { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--trap); }
+.recipe ol { margin: 0; padding-left: 22px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.recipe li { min-width: 0; }
+
+.math { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+mjx-container[display="true"] { margin: 6px 0 !important; }
+
+details.prob { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+details.prob > summary { cursor: pointer; padding: 14px 18px; list-style: none; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start; }
+details.prob > summary::-webkit-details-marker { display: none; }
+details.prob > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+details.prob .tag { font-family: var(--f-mono); font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; margin-top: 3px; white-space: nowrap; }
+details.prob .reveal { font-size: 13px; color: var(--muted); margin-top: 6px; }
+details.prob[open] .reveal { display: none; }
+details.prob .sol { border-top: 1px dashed var(--rule); padding: 14px 18px; display: grid; gap: 8px; }
+details.prob .ans { font-weight: 600; color: var(--ok); }
+
+pre { margin: 0; background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; }
+code { font-family: var(--f-mono); font-size: .92em; }
+p code, li code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+.checks { display: grid; gap: 8px; }
+.checks label { display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 10px; align-items: start; cursor: pointer; }
+.checks input { margin-top: 4px; accent-color: var(--ok); width: 16px; height: 16px; }
+
+table.plan { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.plan th, table.plan td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.plan th { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+table.plan td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 500; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+
+footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--rule); padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+details, details > *, p { min-width: 0; max-width: 100%; }
+mjx-container[display="true"] { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+@media print {
+  .wrap { display: block; padding: 0; }
+  nav.toc { display: none; }
+  main, section.mod { display: block; }
+  main > * { margin-bottom: 32px; }
+  section.mod > * { margin-bottom: 14px; }
+  .box, .trap, details.prob, .tablewrap, pre, .fact { break-inside: avoid; }
+  .modhead { break-after: avoid; }
+  #plan { break-before: page; }
+  details.prob .reveal { display: none; }
+  .math, pre, .tablewrap, mjx-container { overflow: visible !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="label">Contents</div>
+  <ol>
+    <li><a href="#exam">The exam</a></li>
+    <li><a href="#plan">Prep plan</a></li>
+    <li><a href="#sheet">What the sheet gives you</a></li>
+    <li><a href="#m2">Axioms &amp; counting</a></li>
+    <li><a href="#m3">Conditional probability</a></li>
+    <li><a href="#m4">Discrete RVs</a></li>
+    <li><a href="#m5">Continuous RVs</a></li>
+    <li><a href="#m6">Joint &amp; covariance</a></li>
+    <li><a href="#m7">Central Limit Theorem</a></li>
+    <li><a href="#code">R calculator toolkit</a></li>
+    <li><a href="#ready">Readiness check</a></li>
+  </ol>
+  <div class="progress"><span id="progText">0 of 0 ready</span><div class="bar"><span id="progBar"></span></div></div>
+</nav>
+
+<main>
+<header class="top" id="exam">
+  <div class="eyebrow">APPA 5001 · CU Boulder MS-AI · Final exam prep</div>
+  <h1>Probability Foundations for Data Science &amp; AI</h1>
+  <p class="lede">You've finished Modules 1–7 with every graded item at 100%, and the Program Policy Quiz is passed. Only the proctored final is left. You get the course formula sheet and an R notebook, so this guide focuses on what the sheet <i>doesn't</i> give you: the rules, the recipes, and the traps.</p>
+  <div class="facts">
+    <div class="fact"><div class="k">Due</div><div class="v">Dec 11</div><div class="s">4:50 PM MST · <span id="countdown">—</span></div></div>
+    <div class="fact"><div class="k">Length</div><div class="v">2 hours</div><div class="s">Submit as often as you like. Your last submission when time runs out is graded.</div></div>
+    <div class="fact"><div class="k">Allowed</div><div class="v">Sheet + R</div><div class="s">DTSA 5001 Formula Sheet (printed or on screen), the course R notebook, blank scrap paper, pen, snack. Nothing else.</div></div>
+    <div class="fact"><div class="k">Weight</div><div class="v">22%</div><div class="s">The rest of your grade (78%) is already at 100%.</div></div>
+  </div>
+  <div class="trap">
+    <div class="tl">Logistics that cost people the exam</div>
+    <ul class="k">
+      <li><b>Check the Password Quiz.</b> Coursera shows the "MS-AI Proctored Exam Password Quiz" as <i>Started</i> with a Resume button. Don't click it. The proctor opens it, and submitting it locks you into a grade. If you didn't start it on purpose, ask the course facilitator whether anything needs resetting before exam day.</li>
+      <li>Book the ProctorU slot now, no later than 72 h before course access ends. APPA 5002 and APPA 5003 finals are due the same day, so you need <b>three</b> separate slots. Spread them over different days.</li>
+      <li>Submit early and often. Unlike APPA 5003, this exam lets you resubmit within the 2 hours, and refreshing the page shows updated feedback.</li>
+      <li>Print the <code>DTSA5001__formulasheet.pdf</code> (it's in Module1) or have it open. It's two pages. Know where every line is so you don't hunt for it.</li>
+      <li>If the R notebook won't load, open any course lab, click New → R notebook, and have the proctor confirm it's blank.</li>
+      <li><b>Your "R Notebook for Final Calculations" isn't blank.</b> The Calculator Notebook still has practice code (one cell errors when run), and there's an <code>Untitled.ipynb</code> with Bayes practice next to it. Clear both before exam day so the proctor sees an empty notebook.</li>
+      <li>The homework autograders wanted answers rounded to a stated number of decimals. Expect the same on the exam: compute in full, then round once at the end with <code>round(x, k)</code>.</li>
+    </ul>
+  </div>
+</header>
+
+<section class="mod" id="plan">
+  <div class="modhead"><span class="num">33 days</span><h2>Prep plan</h2><p class="lede">This is the lightest of your three finals, and it's the base the other two build on. One focused day every few days is enough. Work each problem by hand first, then check it in R.</p></div>
+  <div class="tablewrap"><table class="plan">
+    <thead><tr><th>Dates</th><th>Focus</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td>Nov 8 – 10</td><td>Logistics</td><td>Book ProctorU. Sort out the Password Quiz status. Print the formula sheet. Open the R notebook once and run every line in the toolkit below.</td></tr>
+      <tr><td>Nov 11 – 17</td><td>Modules 2 – 3</td><td>Inclusion–exclusion, counting, conditional probability, LOTP, Bayes, independence. Redo the Module 2 and 3 homework.</td></tr>
+      <tr><td>Nov 18 – 24</td><td>Module 4</td><td>Recognize each named discrete distribution from its story. E/Var from a pmf table. Geometric vs. negative binomial conventions.</td></tr>
+      <tr><td>Nov 25 – Dec 1</td><td>Module 5</td><td>pdf integrals (find c, probabilities, E, Var), standardizing normals, percentiles, exponential and Poisson, continuity correction.</td></tr>
+      <tr><td>Dec 2 – 6</td><td>Modules 6 – 7</td><td>Joint pmf tables to marginals, Cov, ρ. Var of linear combinations. CLT for means and sums.</td></tr>
+      <tr><td>Dec 7 – 10</td><td>Mixed &amp; timed</td><td>One 2-hour mock with only the formula sheet, scrap paper and R. Redo every practice problem here without opening the solutions.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="mod" id="sheet">
+  <div class="modhead"><span class="num">Formula sheet</span><h2>What the sheet gives you, and what it doesn't</h2></div>
+  <div class="box">
+    <h3>On the sheet</h3>
+    <ul class="k">
+      <li>pmf/pdf, mean and variance for Bernoulli, discrete uniform, geometric, binomial, negative binomial, Poisson, uniform, exponential, and normal.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>Not on the sheet: memorize</h3>
+    <ul class="k">
+      <li>Axioms, complement, inclusion–exclusion, counting formulas</li>
+      <li>Conditional probability, multiplication rule, LOTP, Bayes, the definition of independence</li>
+      <li>\(E[g(X)]\), \(\mathrm{Var}[X]=E[X^2]-(E[X])^2\), linearity, \(\mathrm{Var}[aX+b]=a^2\mathrm{Var}[X]\)</li>
+      <li>CDF facts: \(F(x)=\int_{-\infty}^x f\), \(f=F'\), the exponential CDF \(1-e^{-\lambda x}\), memorylessness</li>
+      <li>Standardizing, \(\Phi(-z)=1-\Phi(z)\), continuity correction</li>
+      <li>Marginals from a joint table, Cov, ρ, variance of a sum</li>
+      <li>CLT for \(\bar X\) and for \(\sum X_i\), sums of independent normals</li>
+    </ul>
+  </div>
+  <div class="trap">
+    <div class="tl">Convention trap: the sheet vs. your textbook notes</div>
+    <ul class="k">
+      <li><b>Geometric.</b> The course sheet counts <i>trials up to and including</i> the first success: \(P(X=i)=p(1-p)^{i-1}\), \(i\ge1\), mean \(1/p\). Your Chapter 3 notes (from the <i>Probability!</i> textbook) call that "First Success" and use Geom for <i>failures</i>. <b>The wording decides, not the name.</b> The Module 4 homework asked for the "expected number of flips <i>before</i> we get a heads", which counts failures: \((1-p)/p\), not \(1/p\). "Until" or "including" means trials; "before" means failures.</li>
+      <li><b>Negative binomial.</b> The sheet and the lecture both count <i>failures before the r-th success</i>: \(P(X=i)=\binom{i+r-1}{r-1}p^r(1-p)^i\), mean \(r(1-p)/p\). R's <code>dnbinom(i, r, p)</code> matches this.</li>
+      <li>R's <code>dgeom(k, p)</code> counts <i>failures</i>. For the sheet's geometric, use <code>dgeom(i - 1, p)</code>.</li>
+      <li>The sheet's discrete uniform is on \(\{0,1,\dots,n\}\) (n + 1 values), but it prints \(P=1/n\). Read any discrete-uniform question carefully and compute from the definition.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MODULE 2 ============ -->
+<section class="mod" id="m2">
+  <div class="modhead"><span class="num">Module 2</span><h2>Descriptive Statistics and the Axioms of Probability</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Axioms.</b> \(0\le P(A)\le1\), \(P(S)=1\), and for disjoint \(A_1,A_2,\dots\), \(P(\bigcup A_i)=\sum P(A_i)\).</li>
+      <li><b>Complement.</b> \(P(A^c)=1-P(A)\). Use it for every "at least one" question.</li>
+      <li><b>Inclusion–exclusion.</b> \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\), and
+        <div class="math">\[ P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(AB)-P(AC)-P(BC)+P(ABC) \]</div></li>
+      <li><b>Exactly one</b> of A, B: \(P(A)+P(B)-2P(A\cap B)\). <b>Exactly two</b> of A, B, C: \(P(AB)+P(AC)+P(BC)-3P(ABC)\).</li>
+      <li><b>A single Venn region.</b> "A and C but not B" = \(P(A\cap C)-P(A\cap B\cap C)\). Draw the three-circle Venn diagram and fill it from the centre outwards.</li>
+      <li><b>Sample spaces.</b> Encode outcomes as 0/1 tuples (3 defects → 8 outcomes) and list events as sets. A sample space can be countably infinite: flip until the first tail gives \(P(n \text{ flips})=1/2^n\), and \(\sum 1/2^n=1\).</li>
+      <li><b>Equally likely outcomes.</b> \(P(A)=|A|/|S|\).</li>
+      <li><b>Counting.</b> Ordered without replacement: \(P_{k,n}=\frac{n!}{(n-k)!}\). Unordered: \(\binom nk=\frac{n!}{k!(n-k)!}\), with \(\binom nk=\binom n{n-k}\) and \(0!=1\). With replacement, ordered: \(n^k\).</li>
+      <li><b>"At least k" with combinations.</b> Sum the "exactly" cases: \(P(\ge4)=P(=4)+P(=5)\). For "at least 5 of each" from a group of 11, list every split that qualifies (5–6 and 6–5).</li>
+      <li><b>Drawing one at a time vs. all at once.</b> Without replacement, the probability is the same either way: \(\frac{20\cdot19\cdots15}{45\cdot44\cdots40}=\binom{20}6/\binom{45}6\).</li>
+      <li><b>"At least one group unrepresented"</b> (homework): let \(B_i\) = no one from group i. Use inclusion–exclusion on \(P(B_1\cup B_2\cup B_3)\), where \(P(B_1)=\binom{n-n_1}{k}/\binom nk\) and \(P(B_1B_2)=\binom{n_3}{k}/\binom nk\).</li>
+      <li><b>Birthday problem</b> (ungraded lab): \(P(\text{some shared birthday})=1-\frac{365\cdot364\cdots(365-N+1)}{365^N}\). It first passes 1/2 at N = 23 (0.507). With N = 10 it's 0.117.</li>
+    </ul>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>"Does order matter?" decides permutation vs. combination. Committees and hands: no. PINs, rankings, seatings: yes.</li>
+      <li>Count the numerator and denominator the same way. If one counts ordered selections, both must.</li>
+      <li>"At most two of three" is \(1-P(ABC)\), not "exactly two."</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P2.1</span><div>\(P(A)=0.5\), \(P(B)=0.4\), \(P(A\cap B)=0.2\). Find P(exactly one of A, B) and P(neither).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Exactly one: \(0.5+0.4-2(0.2)\). \(P(A\cup B)=0.7\), so neither is \(1-0.7\).</p><p class="ans">0.5 and 0.3</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.2</span><div>A committee of 5 is chosen at random from 6 women and 4 men. Find P(exactly 3 women).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\binom63\binom42/\binom{10}5=20\cdot6/252\). R: <code>choose(6,3)*choose(4,2)/choose(10,5)</code>.</p><p class="ans">120/252 ≈ 0.4762</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.3</span><div>A random 4-digit PIN (digits 0–9, repeats allowed). Find P(at least one digit repeats).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Complement: all distinct, \(10\cdot9\cdot8\cdot7=5040\) out of \(10^4\).</p><p class="ans">1 − 0.504 = 0.496</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.4</span><div>\(P(A)=P(B)=P(C)=0.3\), each pairwise intersection is 0.1, and \(P(ABC)=0.05\). Find P(at least one) and P(exactly two).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Union: \(0.9-0.3+0.05\). Exactly two: \(0.3-3(0.05)\).</p><p class="ans">0.65 and 0.15</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.5</span><div><i>From the lecture.</i> A car may have defects 1, 2, 3 (events A, B, C) with \(P(A)=.2,\ P(B)=.25,\ P(C)=.3,\ P(AB)=.05,\ P(BC)=.075,\ P(AC)=.06,\ P(ABC)=.015\). Find P(at least one), P(none), and P(defects 1 and 3 but not 2).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Union: \(.75-.185+.015\). None: complement. Region: \(P(AC)-P(ABC)\).</p><p class="ans">0.7, 0.3, 0.045</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.6</span><div><i>From the lecture.</i> 8 of 20 buses have cracks. You inspect 5 at random. Find P(exactly 4 cracked) and P(at least 4 cracked).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\binom84\binom{12}1/\binom{20}5\). At least 4 adds \(\binom85\binom{12}0/\binom{20}5\). R: <code>choose(8,4)*choose(12,1)/choose(20,5)</code>.</p><p class="ans">≈ 0.0542 and ≈ 0.0578</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.7</span><div><i>From the lecture.</i> Flip a fair coin until the first tail. Find P(at least 3 flips).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(1-P(1)-P(2)=1-\tfrac12-\tfrac14\).</p><p class="ans">1/4</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.8</span><div><i>From the homework.</i> A 20-question multiple-choice test has 5 choices per question. How many ways can it be completed? If a student guesses every answer, find P(at least 14 correct). If instead they know each answer with probability 0.9, find P(at least 14 correct).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(5^{20}\). Bin(20, 0.2): <code>pbinom(13, 20, 0.2, lower.tail = FALSE)</code>. Bin(20, 0.9): <code>pbinom(13, 20, 0.9, lower.tail = FALSE)</code>.</p><p class="ans">95,367,431,640,625; ≈ 0.0000018; ≈ 0.9976</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.9</span><div><i>From the homework.</i> 20 day, 15 swing and 10 night workers; 6 are chosen at random. Find P(all 6 from the day shift), P(all 6 from the same shift), and P(at least one shift is unrepresented).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\binom{20}6/\binom{45}6\). Same shift: add \(\binom{15}6\) and \(\binom{10}6\) to the numerator. Unrepresented: \(\big[\binom{25}6+\binom{30}6+\binom{35}6-\binom{10}6-\binom{15}6-\binom{20}6\big]/\binom{45}6\). The triple term is 0, because all 6 can't avoid every shift.</p><p class="ans">≈ 0.00476, ≈ 0.0054, ≈ 0.2885</p></div></details>
+</section>
+
+<!-- ============ MODULE 3 ============ -->
+<section class="mod" id="m3">
+  <div class="modhead"><span class="num">Module 3</span><h2>Conditional Probability</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <div class="math">\[ P(A\mid B)=\frac{P(A\cap B)}{P(B)},\qquad P(A\cap B)=P(A\mid B)P(B) \]</div>
+    <div class="math">\[ \text{LOTP: } P(A)=\sum_i P(A\mid B_i)P(B_i) \qquad \text{Bayes: } P(B_j\mid A)=\frac{P(A\mid B_j)P(B_j)}{\sum_i P(A\mid B_i)P(B_i)} \]</div>
+    <ul class="k">
+      <li><b>Independent:</b> \(P(A\cap B)=P(A)P(B)\), equivalently \(P(A\mid B)=P(A)\). If A, B are independent, so are \(A, B^c\) and \(A^c, B^c\).</li>
+      <li><b>Mutually independent</b> (three or more events) needs every subset to factor, not just the pairs. Lecture counterexample with two dice: E = sum is 7, F = first is 4, G = second is 3. Every pair factors (1/36 = 1/6 · 1/6), but \(P(EFG)=1/36\ne1/216\).</li>
+      <li><b>LOTP needs a partition:</b> the \(B_i\) are mutually exclusive and their union is S. \(P(B_i)\) is the <i>prior</i> and \(P(B_i\mid A)\) the <i>posterior</i>.</li>
+      <li><b>Independence from a count table.</b> Compare \(P(S\mid J)\) with \(P(S)\), or \(P(S\cap J)\) with \(P(S)P(J)\).</li>
+      <li><b>Chain rule.</b> \(P(A_1\cap\dots\cap A_n)=P(A_1)P(A_2\mid A_1)P(A_3\mid A_1A_2)\cdots\)</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>Bayes problems in four lines</h3>
+    <ol>
+      <li>Name the hidden cause (\(B_i\): which machine, disease or not) and the observed evidence (A: defective, positive test).</li>
+      <li>Write the priors \(P(B_i)\) and the likelihoods \(P(A\mid B_i)\). A tree diagram makes this fast.</li>
+      <li>LOTP for the denominator: \(P(A)=\sum P(A\mid B_i)P(B_i)\).</li>
+      <li>Divide the branch you want by the total.</li>
+    </ol>
+  </div>
+
+  <div class="box recipe">
+    <h3>System reliability (from the lecture)</h3>
+    <ol>
+      <li>List every path that makes the system work, e.g. {1,2}, {1,3}, {4,5}.</li>
+      <li>P(system works) = P(at least one path works). Use inclusion–exclusion over the path events.</li>
+      <li>Each intersection is "all components in those paths work". With independent components that's \(p^{\#\text{distinct components}}\). Count shared components once.</li>
+    </ol>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>\(P(A\mid B)\ne P(B\mid A)\). A 95%-accurate test for a rare disease still gives a low \(P(\text{disease}\mid +)\).</li>
+      <li>Disjoint events with positive probability are <i>dependent</i>, not independent.</li>
+      <li>Prove independence by checking \(P(AB)=P(A)P(B)\) before you multiply.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P3.1</span><div>1% of people have a disease. The test is positive for 95% of the sick and 5% of the healthy. Find P(disease | positive).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Numerator \(0.95(0.01)=0.0095\). Denominator \(0.0095+0.05(0.99)=0.059\).</p><p class="ans">≈ 0.161</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.2</span><div>Machine A makes 60% of parts with 2% defective; machine B makes 40% with 5% defective. Find P(defective) and P(A | defective).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(P(D)=0.6(0.02)+0.4(0.05)=0.012+0.02\). \(P(A\mid D)=0.012/0.032\).</p><p class="ans">0.032 and 0.375</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.3</span><div>\(P(A)=0.4\), \(P(B)=0.5\), \(P(A\cup B)=0.7\). Are A and B independent?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(P(A\cap B)=0.4+0.5-0.7=0.2=P(A)P(B)\).</p><p class="ans">Yes</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.4</span><div>Roll a fair die 4 times. Find P(at least one 6).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Rolls are independent: \(1-(5/6)^4\).</p><p class="ans">≈ 0.5177</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.5</span><div><i>From the lecture.</i> A disease has prevalence 0.001. The test is positive for 99% of the sick and 2% of the healthy. Find P(disease | positive).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\frac{.99(.001)}{.99(.001)+.02(.999)}=\frac{.00099}{.02097}\).</p><p class="ans">≈ 0.0472</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.6</span><div><i>From the lecture.</i> A system has 5 independent components, each working with probability 0.9. It works if components {1,2}, {1,3} or {4,5} all work. Find P(system works).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Singles: \(3(.9^2)\). Pairs: {1,2}∩{1,3} uses 3 components, the other two pairs use 4, so subtract \(.9^3+2(.9^4)\). Triple: 5 components, add \(.9^5\).</p><p class="ans">≈ 0.97929 (compared with 0.81 for one path)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.7</span><div><i>From the lecture.</i> A school has 1200 students: 250 juniors, 150 taking statistics, 40 both. Are "junior" and "takes statistics" independent?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(P(S\mid J)=40/250=0.16\), but \(P(S)=150/1200=0.125\).</p><p class="ans">Not independent</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.8</span><div><i>From the homework.</i> A suspect is equally likely to be guilty or not. A guilty suspect's prints are found 85% of the time, an innocent one's 30% of the time. Find P(prints found), P(guilty | prints), and P(guilty | no prints).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(0.85(0.5)+0.30(0.5)\). Then \(0.425/0.575\). For "no prints", use the complements: \(0.15(0.5)/(1-0.575)\).</p><p class="ans">0.575, ≈ 0.739, ≈ 0.176</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.9</span><div><i>From the homework.</i> 3% of adults have a PhD (A), 45% a bachelor's (B), and 75% work full-time (C). Every PhD has a bachelor's. Can \(P(A\cap B)=0.03\)? If \(P(B\cup C)=0.75\), find \(P(B\cap C)\) and \(P(B\mid C)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>A ⊂ B, so \(A\cap B=A\). \(P(B\cap C)=0.45+0.75-0.75\), which means B ⊂ C. Then \(0.45/0.75\).</p><p class="ans">Yes (it must be 0.03); 0.45; 0.6</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.10</span><div><i>From the ungraded lab.</i> Bag 1 has 7 white, 6 black, 3 gold marbles; Bag 2 has 4 white, 5 black, 15 gold. You're twice as likely to grab Bag 1. Find P(gold). Also: roll two dice; find P(sum is 5 | at least one 4).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>LOTP: \(\tfrac23\cdot\tfrac3{16}+\tfrac13\cdot\tfrac{15}{24}=\tfrac18+\tfrac{5}{24}\). Dice: B has 11 outcomes, of which (1,4) and (4,1) sum to 5.</p><p class="ans">1/3 and 2/11</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.11</span><div><i>From the homework.</i> Roll five fair dice. Find P(all five match, a "Yahtzee") and P(a small straight: exactly four in a row, not five).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>6 matching outcomes out of \(6^5\). Small straights: 960 outcomes (count by enumeration in R with <code>expand.grid</code>).</p><p class="ans">6/7776 ≈ 0.0008; 960/7776 ≈ 0.123</p></div></details>
+</section>
+
+<!-- ============ MODULE 4 ============ -->
+<section class="mod" id="m4">
+  <div class="modhead"><span class="num">Module 4</span><h2>Discrete Random Variables</h2></div>
+
+  <div class="box">
+    <h3>Recognize the story (formulas are on the sheet)</h3>
+    <ul class="k">
+      <li><b>Bernoulli(p):</b> one trial, 1 = success.</li>
+      <li><b>Binomial(n, p):</b> number of successes in a <i>fixed</i> number n of independent trials.</li>
+      <li><b>Geometric(p):</b> number of <i>trials</i> until the first success (sheet convention). \(P(X\gt k)=(1-p)^k\). Memoryless.</li>
+      <li><b>Negative binomial(r, p):</b> number of <i>failures</i> before the r-th success. It's a sum of r failure-counting geometrics, which is why the mean and variance are r times those of one. NB(1, p) = (sheet geometric) − 1.</li>
+      <li><b>Discrete uniform on {0, …, 9}</b> (lecture example): P = 1/10 each, E = 4.5, E[X²] = 28.5, Var = 8.25. The sheet's mean n/2 and variance n(n+2)/12 are right with n = 9, but each probability is 1/(n+1), not the 1/n it prints.</li>
+      <li><b>Poisson(λ):</b> count of rare events in a fixed interval at average rate λ. Approximates Bin(n, p) with λ = np when n is large and p small.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Valid pmf:</b> \(p(x)\ge0\) and \(\sum p(x)=1\). Use this to find an unknown constant.</li>
+      <li><b>CDF:</b> \(F(x)=P(X\le x)\), a step function for discrete X. \(P(a\lt X\le b)=F(b)-F(a)\).</li>
+      <li>\(E[X]=\sum x\,p(x)\), \(E[g(X)]=\sum g(x)p(x)\), \(\mathrm{Var}[X]=E[X^2]-(E[X])^2\).</li>
+      <li>\(E[aX+b]=aE[X]+b\), \(\mathrm{Var}[aX+b]=a^2\mathrm{Var}[X]\), \(\mathrm{SD}=\sqrt{\mathrm{Var}}\).</li>
+    </ul>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>For discrete X, \(P(X\lt 3)\ne P(X\le3)\). Write out which integers are included. "At least 3" = \(1-P(X\le2)\).</li>
+      <li>Binomial needs a fixed n. "Until the 5th head" is negative binomial; "until the first head" is geometric.</li>
+      <li>\(\mathrm{Var}[-X]=\mathrm{Var}[X]\), and \(\mathrm{Var}[X-Y]\) adds variances (when independent).</li>
+      <li>"15 people must be asked before 5 are found" is ambiguous. If 15 people are asked in total, that's 10 failures. The lecture plugged 15 in as the number of failures. Read the wording, decide what is being counted, and write it down.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P4.1</span><div>Toss a fair coin 12 times. Find P(exactly 5 heads).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\binom{12}{5}(0.5)^{12}=792/4096\). R: <code>dbinom(5, 12, 0.5)</code>.</p><p class="ans">≈ 0.1934</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.2</span><div>5% of circuit boards are defective. In a sample of 25, find P(3 or more defective).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(X\sim\text{Bin}(25,0.05)\). \(1-P(X\le2)\). R: <code>1 - pbinom(2, 25, 0.05)</code>.</p><p class="ans">≈ 0.1271</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.3</span><div>Each call succeeds with probability 0.2 independently. X = number of calls until the first success. Find P(X = 4), P(X &gt; 3), E[X] and Var[X].<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(0.8^3(0.2)\); \(P(X\gt3)=0.8^3\); \(1/p\); \((1-p)/p^2=0.8/0.04\). R: <code>dgeom(3, 0.2)</code> (failures = 3).</p><p class="ans">0.1024, 0.512, 5, 20</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.4</span><div>Toss a fair coin until you get 5 heads. Find P(exactly 3 tails before the 5th head), and the expected number of tails.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Negative binomial, r = 5, i = 3: \(\binom{7}{4}(0.5)^5(0.5)^3=35/256\). Mean \(r(1-p)/p=5\). R: <code>dnbinom(3, 5, 0.5)</code>.</p><p class="ans">≈ 0.1367, and 5 tails</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.5</span><div>X takes values 0, 1, 2, 3 with probabilities 0.1, 0.3, 0.4, 0.2. Find E[X], Var[X], E[3X − 2] and Var[3X − 2].<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(E[X]=0.3+0.8+0.6=1.7\). \(E[X^2]=0.3+1.6+1.8=3.7\), Var \(=3.7-2.89\). Then \(3(1.7)-2\) and \(9(0.81)\).</p><p class="ans">1.7, 0.81, 3.1, 7.29</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.6</span><div><i>From the lecture.</i> A lab has 6 computers. X = number in use, with P(X = 0, …, 6) = .05, .10, .15, .25, .20, .15, .10. Write the CDF, and find P(X ≤ 2), P(X ≥ 3), and P(3 or 4 computers are free).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>CDF steps: 0, .05, .15, .30, .55, .75, .90, 1. "k free" means 6 − k in use, so 3 or 4 free = P(X = 3) + P(X = 2).</p><p class="ans">0.3, 0.7, 0.4</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.7</span><div><i>From the lecture.</i> Recruiting: each person agrees with probability 0.2, independently. You need 5 recruits. Find P(exactly 10 people refuse before the 5th agrees).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>NB(5, 0.2) at k = 10: \(\binom{14}{4}(.2)^5(.8)^{10}\). R: <code>dnbinom(10, 5, 0.2)</code>. If the question means 15 refusals, use k = 15: ≈ 0.0436.</p><p class="ans">≈ 0.0344</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.8</span><div><i>From the homework.</i> \(P(Y=y)=ky\) for y = 1, …, 5. Find k, P(Y ≤ 3) and P(2 ≤ Y ≤ 4). Could \(y^2/50\) be a pmf on the same values?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(k(1+\dots+5)=1\). Then \(6k\) and \(9k\). \(\sum y^2/50=55/50\ne1\).</p><p class="ans">k = 1/15; 0.4; 0.6; no</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.9</span><div><i>From the homework.</i> A and B play chess until one has 9 wins; A wins each game with probability p (no draws). X = games played. What values can X take? With p = 0.5, find P(X = 12).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>From 9 (a sweep) to 17 (8–8 and then a decider). A wins in 12 games if A has 8 wins in the first 11 and wins game 12: \(p\cdot\binom{11}{8}p^8(1-p)^3\). Add the mirror case for B. It's a negative-binomial idea split into two disjoint cases.</p><p class="ans">9, …, 17; ≈ 0.0806</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.10</span><div><i>From the homework.</i> A coin lands heads with probability 0.6. Find the expected number of flips <i>before</i> the first head, and the expected number of tails before the 3rd head. Also: X has pmf \(\log_{10}\frac{x+1}x\), x = 1, …, 9 (Benford's law). Find E[X].<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>"Before" counts failures: \(0.4/0.6\). Tails before the 3rd head: NB mean \(3(0.4)/0.6\). Benford: <code>x &lt;- 1:9; sum(x * log10((x+1)/x))</code>.</p><p class="ans">≈ 0.67; 2; ≈ 3.44</p></div></details>
+</section>
+
+<!-- ============ MODULE 5 ============ -->
+<section class="mod" id="m5">
+  <div class="modhead"><span class="num">Module 5</span><h2>Continuous Random Variables</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Valid pdf:</b> \(f\ge0\), \(\int f=1\). \(P(a\le X\le b)=\int_a^b f(x)\,dx=F(b)-F(a)\), and \(P(X=a)=0\), so \(\lt\) and \(\le\) are interchangeable.</li>
+      <li>\(F(x)=\int_{-\infty}^x f(t)\,dt\), \(f(x)=F'(x)\). \(E[X]=\int xf(x)\,dx\), \(E[g(X)]=\int g(x)f(x)\,dx\).</li>
+      <li><b>Percentile:</b> the p-th quantile solves \(F(x_p)=p\). The median solves \(F(m)=0.5\).</li>
+      <li><b>Exponential(λ):</b> \(F(x)=1-e^{-\lambda x}\), \(P(X\gt x)=e^{-\lambda x}\). Memoryless: \(P(X\gt s+t\mid X\gt s)=P(X\gt t)\). If the problem gives a <i>mean</i> of 10, then λ = 1/10.</li>
+      <li><b>Uniform(a, b):</b> \(F(x)=\frac{x-a}{b-a}\) on (a, b). Probability = length / (b − a).</li>
+      <li><b>Exponential by integration</b> (the lecture derives these): \(\int_0^\infty\lambda e^{-\lambda x}dx=1\), \(E[X]=1/\lambda\), \(E[X^2]=2/\lambda^2\) by parts, and memorylessness from \(e^{-\lambda(s+t)}/e^{-\lambda s}=e^{-\lambda t}\).</li>
+      <li><b>Poisson ↔ exponential.</b> The same λ per unit time: 5 customers per hour means an average gap of 1/5 hour between customers.</li>
+      <li><b>Rescale λ to the time window.</b> In the homework, accidents average 5 per week, so the wait for the next one is Exp(5) in weeks. P(wait ≥ 1 week) = \(e^{-5}\), and P(no accident for 2 more weeks) = \(e^{-5\cdot2}=e^{-10}\) by memorylessness, however long it's already been.</li>
+      <li><b>\(E[g(X)]\ne g(E[X])\).</b> A die pays \(1/X\) dollars: \(E[1/X]=\frac16\sum_{k=1}^6\frac1k\approx0.408\), not \(1/3.5\approx0.286\). That's better than a guaranteed $0.25.</li>
+      <li><b>Linear transformation of a normal</b> (ungraded lab): if Z ~ N(0, 1), then 2Z − 1 ~ N(−1, 4), with mean −1 and variance \(2^2\).</li>
+      <li><b>Modelling assumptions.</b> A Poisson count has infinite support, and a normal model of a positive quantity (like reaction time) allows negative values. Both are fine when those tails have negligible probability.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Normal distribution</h3>
+    <div class="math">\[ Z=\frac{X-\mu}{\sigma}\sim N(0,1),\qquad P(X\le x)=\Phi\!\left(\frac{x-\mu}{\sigma}\right),\qquad \Phi(-z)=1-\Phi(z),\qquad x_p=\mu+z_p\sigma \]</div>
+    <ul class="k">
+      <li>Landmarks: \(\Phi(1.645)=0.95\), \(\Phi(1.96)=0.975\), \(\Phi(2.33)\approx0.99\), \(\Phi(2.576)=0.995\). Lecture values: within ±1σ is 0.6826, within ±2σ is 0.954, and \(P(-1.645\lt Z\lt1.645)=0.90\).</li>
+      <li><b>Shape.</b> Symmetric about μ, inflection points at μ ± σ, and a smaller σ gives a taller, narrower curve.</li>
+      <li>\(aX+b\sim N(a\mu+b,\ a^2\sigma^2)\).</li>
+      <li><b>Reading the Φ table.</b> The row gives the units and tenths, the column the hundredths: \(\Phi(0.23)\) is row 0.2, column 0.03 = 0.5910. For an inverse lookup that falls between two entries, interpolate. The lecture gets \(\Phi(z)=0.7\Rightarrow z\approx0.525\), halfway between 0.52 and 0.53. In the exam, <code>qnorm(0.7)</code> = 0.5244 is faster.</li>
+      <li><b>The lecture's z<sub>α</sub></b> means \(\Phi(z_\alpha)=\alpha\), a <i>lower</i>-tail area: "α = 0.95 gives z = 1.645". That's the opposite of the upper-tail convention used in APPA 5003.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Normal approximation to the binomial</h3>
+    <p>If \(X\sim\text{Bin}(n,p)\) and <b>\(np(1-p)\ge10\)</b> (the lecture's rule), then \(X\approx N(np,\ np(1-p))\). Because X is discrete, widen each end by 0.5 (continuity correction):</p>
+    <div class="math">\[ P(X\ge k)\approx1-\Phi\!\left(\frac{k-0.5-np}{\sqrt{np(1-p)}}\right),\qquad P(X\le k)\approx\Phi\!\left(\frac{k+0.5-np}{\sqrt{np(1-p)}}\right) \]</div>
+    <div class="math">\[ P(a\le X\le b)\approx\Phi\!\left(\frac{b+0.5-np}{\sqrt{np(1-p)}}\right)-\Phi\!\left(\frac{a-0.5-np}{\sqrt{np(1-p)}}\right) \]</div>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>\(N(\mu,\sigma^2)\): the second number is the <i>variance</i>. R's <code>pnorm(x, mean, sd)</code> takes the standard deviation, so <code>pnorm(62, 50, 10)</code> for N(50, 100).</li>
+      <li>R's <code>pexp(x, rate)</code> takes the rate λ, not the mean.</li>
+      <li>A pdf can be bigger than 1. A probability can't.</li>
+      <li>Piecewise pdfs: integrate only over the region where f is nonzero, and split the integral at the break points.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P5.1</span><div>\(f(x)=cx^2\) for \(0\lt x\lt2\), 0 otherwise. Find c, P(X &gt; 1), E[X] and Var[X].<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\int_0^2cx^2=8c/3=1\Rightarrow c=3/8\). \(P(X\gt1)=1-\frac{3}{8}\cdot\frac13=7/8\). \(E[X]=\frac38\int_0^2x^3=\frac38\cdot4\). \(E[X^2]=\frac38\cdot\frac{32}5=2.4\), Var \(=2.4-2.25\).</p><p class="ans">c = 3/8, 7/8, 1.5, 0.15</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.2</span><div>\(X\sim N(50,100)\). Find \(P(45\lt X\lt62)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>σ = 10. \(\Phi(1.2)-\Phi(-0.5)=0.8849-0.3085\). R: <code>pnorm(62,50,10) - pnorm(45,50,10)</code>.</p><p class="ans">≈ 0.5764</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.3</span><div>Same X. Find the 90th percentile.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(z_{0.90}=1.2816\), so \(50+1.2816(10)\). R: <code>qnorm(0.9, 50, 10)</code>.</p><p class="ans">≈ 62.82</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.4</span><div>Service time is exponential with mean 10 minutes. Find P(longer than 15 min), and P(longer than 25 min | already 10 min).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>λ = 0.1. \(e^{-1.5}\). Memoryless: the conditional probability is \(P(X\gt15)\) again.</p><p class="ans">Both ≈ 0.2231</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.5</span><div>Calls arrive at an average of 3 per hour (Poisson). Find P(at least 2 calls in an hour).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(1-P(0)-P(1)=1-e^{-3}(1+3)\). R: <code>1 - ppois(1, 3)</code>.</p><p class="ans">≈ 0.8009</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.6</span><div>60% of buyers want a used book. Among 100 buyers, approximate P(50 or more want used).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>np = 60, np(1−p) = 24 ≥ 10, so the approximation is OK. \(1-\Phi\big((49.5-60)/\sqrt{24}\big)=1-\Phi(-2.143)\). Exact: <code>1 - pbinom(49, 100, 0.6)</code> = 0.9832.</p><p class="ans">≈ 0.9840</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.7</span><div><i>From the lecture.</i> Aerosol particle size is Unif(2, 6). Find P(X &gt; 3), E[X] and Var[X].<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\((6-3)/(6-2)\). \((2+6)/2\). \((6-2)^2/12\).</p><p class="ans">3/4, 4, 4/3</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.8</span><div><i>From the lecture.</i> X ~ N(1, 4). Find \(P(0\le X\le3.2)\), and a with \(P(X\le a)=0.7\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>σ = 2. \(\Phi(1.1)-\Phi(-0.5)\). \(a=1+2z\) with \(\Phi(z)=0.7\), z ≈ 0.525 by interpolation (0.5244 in R).</p><p class="ans">≈ 0.5558, a ≈ 2.05</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.9</span><div><i>From the lecture.</i> Brake reaction time is N(1.25, 0.46²) seconds. Find \(P(1\le X\le1.75)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\Phi(0.5/0.46)-\Phi(-0.25/0.46)=\Phi(1.087)-\Phi(-0.543)\).</p><p class="ans">≈ 0.568</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.10</span><div><i>From the lecture.</i> 1000 visitors each buy with probability 0.25. Approximate P(200 ≤ buyers ≤ 225).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>μ = 250, σ² = 187.5 ≥ 10. \(\Phi\big((225.5-250)/\sqrt{187.5}\big)-\Phi\big((199.5-250)/\sqrt{187.5}\big)=\Phi(-1.789)-\Phi(-3.688)\). Exact binomial: 0.0356.</p><p class="ans">≈ 0.0367</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.11</span><div><i>From the lecture.</i> Mosquito bites average 4.5 (Poisson). Find P(X = 5) and P(X ≤ 5). Then: a teller's service time is exponential with mean 5 min. Find P(service lasts 4+ more minutes).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p><code>dpois(5, 4.5)</code>, <code>ppois(5, 4.5)</code>. λ = 1/5, so \(e^{-4/5}\), whatever time has already passed (memoryless).</p><p class="ans">≈ 0.1708, ≈ 0.7029, ≈ 0.449</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.12</span><div><i>From the homework.</i> Car accidents are Poisson with mean 5 per week. Find P(more than 6 in a week), P(the wait until an accident is at least a week), and, given none for two weeks, P(none for another two weeks).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p><code>1 - ppois(6, 5)</code>. The wait is Exp(5) per week: \(e^{-5}\). Memoryless: \(e^{-5(2)}\).</p><p class="ans">≈ 0.2378; ≈ 0.00674; ≈ 0.0000454</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.13</span><div><i>From the homework.</i> A machine's time to failure has pdf \(f(x)=ce^{-x/50}\) for x &gt; 0. Find c, P(it lasts at least 100 hours), and the expected lifetime.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>This is exponential with λ = 1/50, so c = λ. \(e^{-100/50}\). Mean \(1/\lambda\).</p><p class="ans">1/50; e⁻² ≈ 0.135; 50 hours</p></div></details>
+</section>
+
+<!-- ============ MODULE 6 ============ -->
+<section class="mod" id="m6">
+  <div class="modhead"><span class="num">Module 6</span><h2>Joint Distributions and Covariance</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Joint pmf</b> \(p(x,y)=P(X=x,Y=y)\), summing to 1 over the table. <b>Marginals</b>: row and column sums, \(p_X(x)=\sum_y p(x,y)\).</li>
+      <li><b>Independent</b> iff \(p(x,y)=p_X(x)p_Y(y)\) for <i>every</i> cell. One failing cell proves dependence.</li>
+      <li>\(E[g(X,Y)]=\sum_x\sum_y g(x,y)\,p(x,y)\). In particular \(E[XY]=\sum\sum xy\,p(x,y)\).</li>
+      <li><b>Covariance.</b> \(\mathrm{Cov}(X,Y)=E[XY]-E[X]E[Y]\). \(\mathrm{Cov}(aX+b,cY+d)=ac\,\mathrm{Cov}(X,Y)\), \(\mathrm{Cov}(X,X)=\mathrm{Var}[X]\).</li>
+      <li><b>Correlation.</b> \(\rho=\dfrac{\mathrm{Cov}(X,Y)}{\sigma_X\sigma_Y}\in[-1,1]\), unitless, ±1 only for an exact linear relationship.</li>
+      <li><b>Variance of a combination.</b> \(\mathrm{Var}[aX+bY]=a^2\mathrm{Var}[X]+b^2\mathrm{Var}[Y]+2ab\,\mathrm{Cov}(X,Y)\).</li>
+      <li><b>Covariance by definition.</b> \(\sum\sum(x-\mu_X)(y-\mu_Y)p(x,y)\). Positive when points sit mostly in the "both above" or "both below" quadrants. A strong <i>curved</i> relationship can still have Cov ≈ 0.</li>
+      <li><b>ρ = ±1 for Y = aX + b.</b> \(\mathrm{Cov}(X,aX+b)=a\sigma_X^2\) and \(\sigma_Y=|a|\sigma_X\), so ρ = sign(a).</li>
+      <li><b>Var of g(X).</b> Find \(E[g(X)]\) first, then \(\sum(g(x)-E[g(X)])^2p(x)\), or use \(\mathrm{Var}[aX+b]=a^2\mathrm{Var}[X]\) when g is linear.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Continuous joint distributions</h3>
+    <p>\(P(a\lt X\lt b,\ c\lt Y\lt d)=\int_a^b\!\int_c^d f(x,y)\,dy\,dx\). X and Y are independent iff \(f(x,y)=f_X(x)f_Y(y)\). In that case the double integral splits into a product: \(P(X\in A,\ Y\in B)=P(X\in A)\,P(Y\in B)\). The lecture only uses this factored form.</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>Independent ⇒ Cov = 0, but Cov = 0 doesn't imply independent.</li>
+      <li>\(\mathrm{Var}[X-Y]=\mathrm{Var}[X]+\mathrm{Var}[Y]-2\mathrm{Cov}\). The variances still add.</li>
+      <li>For ρ, use standard deviations (square roots), not variances.</li>
+      <li>Changing units changes the covariance but not ρ: \(\mathrm{Cov}(100X,100Y)=10^4\,\mathrm{Cov}(X,Y)\), while ρ stays the same (homework).</li>
+      <li>Given ρ and two SDs, first get \(\mathrm{Cov}=\rho\,\sigma_X\sigma_Y\), then use the Var formula. The SD of a combination is the square root at the very end.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P6.1</span><div>Joint pmf: \(p(0,0)=0.10,\ p(0,1)=0.20,\ p(0,2)=0.10,\ p(1,0)=0.20,\ p(1,1)=0.30,\ p(1,2)=0.10\). Find the marginals, Cov(X, Y), ρ, P(X + Y = 2), and whether X and Y are independent.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(p_X=(0.4,0.6)\), \(p_Y=(0.3,0.5,0.2)\). \(E[X]=0.6\), \(E[Y]=0.9\), \(E[XY]=0.30+0.20=0.5\). Cov \(=0.5-0.54\). \(\mathrm{Var}[X]=0.24\), \(\mathrm{Var}[Y]=1.3-0.81=0.49\). \(P(X+Y=2)=p(0,2)+p(1,1)\). \(p(0,0)=0.10\ne0.4\cdot0.3\).</p><p class="ans">Cov = −0.04, ρ ≈ −0.117, P = 0.4, not independent</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.2</span><div>\(\mathrm{Var}[X]=4\), \(\mathrm{Var}[Y]=9\), \(\mathrm{Cov}(X,Y)=-2\). Find \(\mathrm{Var}[2X-3Y]\) and \(\mathrm{Corr}(X,Y)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(4(4)+9(9)+2(2)(-3)(-2)=16+81+24\). ρ \(=-2/(2\cdot3)\).</p><p class="ans">121 and −1/3</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.3</span><div><i>From the lecture.</i> X = auto deductible (100 or 250), Y = home deductible (0, 100, 200). Joint pmf: row X = 100 is .20, .10, .20; row X = 250 is .05, .15, .30. Find the marginals, whether X and Y are independent, Cov(X, Y) and ρ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(p_X=(.5,.5)\), \(p_Y=(.25,.25,.5)\). \(p(100,100)=.1\ne.5(.25)\). \(E[X]=175\), \(E[Y]=125\), \(E[XY]=23750\), Cov \(=23750-21875\). \(\sigma_X=75\), \(\sigma_Y=\sqrt{6875}\).</p><p class="ans">Not independent; Cov = 1875; ρ ≈ 0.30 (a weak positive linear relationship)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.4</span><div><i>From the lecture.</i> A room has two independent bulbs with exponential lifetimes, means 2000 h and 3000 h. Find P(the room is dark by 4000 h).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Dark means both have failed: \((1-e^{-4000/2000})(1-e^{-4000/3000})\).</p><p class="ans">≈ 0.6368</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.5</span><div><i>From the lecture.</i> A course load X has E[X] = 4.57 and Var[X] ≈ 1.265. Tuition is 500X + 100 dollars. Find its mean and variance.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(500(4.57)+100\). \(500^2(1.265)\).</p><p class="ans">$2,385 and ≈ 316,273</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.6</span><div><i>From the homework.</i> E[X] = 3, sd(X) = 4, E[Y] = 1, sd(Y) = 2, ρ = 0.5. Find E[X + 3Y + 1], sd(4X + 2Y + 2), E[3X − 2Y − 10] and sd(3X − 3Y − 5).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Cov = 0.5(4)(2) = 4. \(\mathrm{Var}(4X+2Y)=16(16)+4(4)+2(4)(2)(4)=336\). \(\mathrm{Var}(3X-3Y)=9(16)+9(4)-2(9)(4)=108\). Constants drop out of the variance.</p><p class="ans">7; √336 ≈ 18.33; −3; √108 ≈ 10.39</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.7</span><div><i>From the homework.</i> Component costs X, Y (in $100s) with joint pmf: x = 7 row .05, .05, .10; x = 9 row .05, .10, .35; x = 10 row 0, .20, .10 (columns y = 7, 9, 10). Find Cov(X, Y), Cov(100X, 100Y), and ρ for each.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>E[X] = 8.9, E[Y] = 9.35, E[XY] − E[X]E[Y] = 0.135. Scaling both by 100 multiplies Cov by 10⁴. ρ = 0.135 / (σ_X σ_Y).</p><p class="ans">0.135; 1350; ρ ≈ 0.142 in both units</p></div></details>
+</section>
+
+<!-- ============ MODULE 7 ============ -->
+<section class="mod" id="m7">
+  <div class="modhead"><span class="num">Module 7</span><h2>The Central Limit Theorem</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Random sample:</b> \(X_1,\dots,X_n\) iid. Then \(E[\bar X]=\mu\) and \(\mathrm{Var}[\bar X]=\sigma^2/n\), because independence removes every covariance term.</li>
+      <li><b>Law of Large Numbers.</b> \(\bar X\) itself converges to μ as n grows (iid Unif(0, 1) gives \(\bar X\to1/2\)). LLN says <i>where</i> \(\bar X\) goes; the CLT describes the <i>shape</i> of its spread.</li>
+      <li><b>Normal data:</b> if the \(X_i\) are iid N(μ, σ²), then \(\bar X\sim N(\mu,\sigma^2/n)\) <i>exactly</i>, for any n.</li>
+      <li><b>Sums of independent normals are exactly normal.</b> \(\sum c_iX_i\sim N\big(\sum c_i\mu_i,\ \sum c_i^2\sigma_i^2\big)\).</li>
+      <li><b>CLT.</b> For iid \(X_1,\dots,X_n\) with mean μ, variance σ², and n large (rule of thumb n ≥ 30):</li>
+    </ul>
+    <div class="math">\[ \bar X\approx N\!\left(\mu,\frac{\sigma^2}{n}\right),\qquad \sum_{i=1}^n X_i\approx N(n\mu,\ n\sigma^2) \]</div>
+    <ul class="k">
+      <li>The more skewed the original distribution, the larger n needs to be.</li>
+      <li>The normal approximation to the binomial (with continuity correction) is the CLT applied to a sum of Bernoullis.</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>CLT problems in four lines</h3>
+    <ol>
+      <li>Find μ and σ² for <i>one</i> observation.</li>
+      <li>Decide: mean or sum? Scale to σ²/n (mean) or nσ² (sum).</li>
+      <li>Standardize with the <i>standard deviation</i> of that mean or sum.</li>
+      <li>Read Φ, or use <code>pnorm</code>. Add a continuity correction if the sum is integer-valued.</li>
+    </ol>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>\(\mathrm{SD}(\bar X)=\sigma/\sqrt n\), not σ/n.</li>
+      <li>"Variance is 0.5" means σ² = 0.5, so \(\mathrm{Var}[\bar X]=0.5/n\).</li>
+      <li>The CLT is about the mean or sum. A single observation from a skewed distribution doesn't become normal.</li>
+      <li>The lecture rounds \(z_{0.99}\) to 2.33 (table value); R gives 2.326. On the errands example that's 52.76 vs. 52.74 min. Carry R's value unless a question tells you to use the table, and don't round z until the end.</li>
+      <li><b>\(X_1+X_2\ne2X_1\).</b> For independent copies, \(\mathrm{Var}(X_1+X_2)=2\sigma^2\), but \(\mathrm{Var}(2X_1)=4\sigma^2\). The homework's fishing problem warned that 122 is wrong for exactly this reason: three catches is a sum of three independent times, not 3 × one time.</li>
+      <li><b>Difference of two sample means</b> from independent groups: \(\bar Y-\bar X\approx N\big(\mu_Y-\mu_X,\ \sigma_Y^2/n_Y+\sigma_X^2/n_X\big)\). The variances add.</li>
+      <li>The lecture writes "binomial 19.08 and 8.97" for a binomial with <i>mean</i> 19.08 and <i>variance</i> 8.97. Bin(n, p) takes n and p, so don't copy that notation.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P7.1</span><div>Three independent task times: N(10, 4), N(15, 9), N(20, 3) minutes. Find P(total &gt; 50), and the time t with P(total ≤ t) = 0.99.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Total ~ N(45, 16), σ = 4. \(1-\Phi(1.25)\). \(t=45+2.326(4)\).</p><p class="ans">≈ 0.1056, and t ≈ 54.3 min</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.2</span><div>36 iid observations with mean 12 and SD 3. Find \(P(\bar X\gt13)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\mathrm{SD}(\bar X)=3/6=0.5\). \(1-\Phi(2)\).</p><p class="ans">≈ 0.0228</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.3</span><div>100 iid exponential waiting times, each with mean 2. Approximate P(total &gt; 230).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Each has variance \(2^2=4\). Sum ≈ N(200, 400), SD 20. \(1-\Phi(1.5)\).</p><p class="ans">≈ 0.0668</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.4</span><div>Flip a fair coin 200 times. Approximate P(at least 110 heads).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>np = 100, np(1−p) = 50. \(1-\Phi\big((109.5-100)/\sqrt{50}\big)=1-\Phi(1.344)\). Exact: 0.0895.</p><p class="ans">≈ 0.0896</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.5</span><div><i>From the lecture.</i> Errands: four independent normal times with means 15, 5, 8, 12 and variances 16, 1, 4, 9 minutes. You leave at 10:00. What return time t gives P(back by t) = 0.99?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Total ~ N(40, 30). \(t=40+2.33\sqrt{30}\) (lecture) or \(40+2.326\sqrt{30}\) (R).</p><p class="ans">≈ 52.76 min (52.74 with R), so about 10:53</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.6</span><div><i>From the lecture.</i> Fertilizer bags: n = 50, μ = 25 kg, σ² = 0.5. Find \(P(24.75\le\bar X\le25.25)\). Then find the same probability if the true mean is 24.5 (underfilling).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\bar X\sim N(25,0.01)\), SD 0.1: \(\Phi(2.5)-\Phi(-2.5)\). With μ = 24.5: \(\Phi(7.5)-\Phi(2.5)\). A low probability means 50 bags would detect the underfilling.</p><p class="ans">≈ 0.9876, then ≈ 0.0062</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.7</span><div><i>From the lecture.</i> 53% of a class of 36 usually score at least 80%. Approximate P(at least 20 students do).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Mean 19.08, variance 8.97. \(1-\Phi\big((19.5-19.08)/\sqrt{8.97}\big)=1-\Phi(0.14)\). Exact binomial: 0.4457.</p><p class="ans">≈ 0.4443</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.8</span><div><i>From the homework.</i> Nails have μ = 12 cm and σ = 0.2 cm. You test 100. The lot fails if the sample mean is below 11.97 or above 12.04. Find P(the lot passes).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>SD of \(\bar X\) = 0.2/10 = 0.02. <code>pnorm(12.04, 12, 0.02) - pnorm(11.97, 12, 0.02)</code>.</p><p class="ans">≈ 0.91</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.9</span><div><i>From the homework.</i> Reeling in a fish takes N(15, 10) minutes and waiting for a bite takes N(10, 8), all independent. Timing starts when you begin reeling the first fish and ends when the third is in. Find E[T], Var[T], and P(T ≤ 60).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Three reels and two waits: E = 3(15) + 2(10). Var = 3(10) + 2(8): variances of independent terms add. Not 9(10) + 4(8) = 122, which treats it as 3·reel + 2·wait. <code>pnorm(60, 65, sqrt(46))</code>.</p><p class="ans">65; 46; ≈ 0.230</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.10</span><div><i>From the homework.</i> Exam scores have mean 75 and SD 17. Classes of 30 and 90 take it. Find P(class-of-30 average ≥ 80), P(class-of-90 average ≥ 80), and P(the two averages are within 1 point).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>SDs of the means: \(17/\sqrt{30}\) and \(17/\sqrt{90}\). Difference: N(0, 17²/30 + 17²/90), SD ≈ 3.584. <code>pnorm(1,0,3.584) - pnorm(-1,0,3.584)</code>.</p><p class="ans">≈ 0.0536; ≈ 0.0026; ≈ 0.22</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P7.11</span><div><i>From the homework.</i> Batteries last an exponential time with mean 25 h and are replaced immediately. With 50 batteries, approximate P(the machine still runs after 1300 h).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>An exponential's SD equals its mean, so each battery has variance 625. Sum ≈ N(1250, 50 · 625), SD ≈ 176.8. <code>1 - pnorm(1300, 1250, sqrt(50*625))</code>.</p><p class="ans">≈ 0.389</p></div></details>
+</section>
+
+<!-- ============ CODE ============ -->
+<section class="mod" id="code">
+  <div class="modhead"><span class="num">Exam notebook</span><h2>R calculator toolkit</h2><p class="lede">The R notebook is your calculator and your Φ table. You can't paste these in, so practise typing them from a blank cell. Prefixes: <code>d</code> = pmf/pdf, <code>p</code> = CDF, <code>q</code> = quantile.</p></div>
+
+  <div class="box"><h3>Counting and discrete distributions</h3>
+<pre>factorial(5); choose(10, 5); factorial(10) / factorial(6)   # 10P4
+dbinom(5, 12, 0.5)            # P(X = 5), Bin(12, .5)
+1 - pbinom(2, 25, 0.05)       # P(X &gt;= 3)
+dgeom(4 - 1, 0.2)             # sheet geometric: P(first success on trial 4)
+1 - pgeom(3 - 1, 0.2)         # sheet geometric: P(X &gt; 3)
+dnbinom(3, size = 5, prob = 0.5)   # 3 failures before 5th success
+dpois(2, 3); 1 - ppois(1, 3)  # Poisson
+x &lt;- 0:3; p &lt;- c(.1, .3, .4, .2)
+m &lt;- sum(x * p); v &lt;- sum(x^2 * p) - m^2   # E and Var from a pmf table
+pbinom(13, 20, 0.2, lower.tail = FALSE)  # P(X &gt;= 14): upper tail, no "1 -"
+qpois(0.9, 3.2)               # smallest x with P(X &lt;= x) &gt;= 0.9  (6)
+prod(20:15) / prod(45:40)     # falling products for draws without replacement
+1 - prod((365 - 0:22) / 365)  # birthday problem, N = 23
+round(x, 4)                   # round only at the end, as asked</pre></div>
+
+  <div class="box"><h3>Enumerate or simulate to check an answer</h3>
+<pre>d &lt;- expand.grid(r1 = 1:6, r2 = 1:6)        # all 36 two-dice outcomes
+A &lt;- d$r1 + d$r2 == 5; B &lt;- d$r1 == 4 | d$r2 == 4
+sum(A &amp; B) / sum(B)                          # exact P(A | B) = 2/11
+r1 &lt;- sample(1:6, 1e6, TRUE); r2 &lt;- sample(1:6, 1e6, TRUE)
+mean((r1 + r2 == 5)[r1 == 4 | r2 == 4])      # simulated check
+mean(rbinom(1e5, 8, 0.3) == 2)               # vs dbinom(2, 8, 0.3)</pre></div>
+
+  <div class="box"><h3>Continuous distributions</h3>
+<pre>pnorm(1.96); qnorm(0.975)     # Phi and its inverse
+pnorm(62, 50, 10) - pnorm(45, 50, 10)   # N(50, 100): sd = 10
+qnorm(0.90, 50, 10)           # 90th percentile
+1 - pexp(15, rate = 1/10)     # exponential with mean 10
+punif(0.3, 0, 2)              # Unif(0, 2)
+f &lt;- function(x) 3/8 * x^2    # check a pdf numerically
+integrate(f, 0, 2)$value; integrate(function(x) x * f(x), 0, 2)$value</pre></div>
+
+  <div class="box"><h3>Joint tables and CLT</h3>
+<pre>P &lt;- matrix(c(.10, .20, .10,
+              .20, .30, .10), nrow = 2, byrow = TRUE)   # rows X = 0,1; cols Y = 0,1,2
+x &lt;- 0:1; y &lt;- 0:2
+px &lt;- rowSums(P); py &lt;- colSums(P)
+EX &lt;- sum(x * px); EY &lt;- sum(y * py)
+EXY &lt;- sum(outer(x, y) * P)
+cv &lt;- EXY - EX * EY
+rho &lt;- cv / sqrt((sum(x^2 * px) - EX^2) * (sum(y^2 * py) - EY^2))
+all.equal(P, outer(px, py))   # TRUE only if independent
+
+1 - pnorm(13, 12, 3 / sqrt(36))            # CLT for a mean
+1 - pnorm(230, 100 * 2, sqrt(100 * 4))     # CLT for a sum
+1 - pnorm(109.5, 100, sqrt(50))            # binomial, continuity-corrected</pre></div>
+</section>
+
+<!-- ============ READINESS ============ -->
+<section class="mod" id="ready">
+  <div class="modhead"><span class="num">Self-check</span><h2>Readiness check</h2><p class="lede">Tick an item only when you can do it on blank paper without looking. Your ticks are saved in this browser.</p></div>
+  <div class="box checks" id="checks">
+    <label><input type="checkbox" id="c1"><span>ProctorU slot booked; Password Quiz status checked; formula sheet printed</span></label>
+    <label><input type="checkbox" id="c2"><span>Use inclusion–exclusion for two and three events, including "exactly one" and "exactly two"</span></label>
+    <label><input type="checkbox" id="c3"><span>Pick permutations vs. combinations and count both sides of a probability the same way</span></label>
+    <label><input type="checkbox" id="c4"><span>Solve a Bayes problem with a tree and the LOTP denominator</span></label>
+    <label><input type="checkbox" id="c5"><span>Check independence from \(P(AB)=P(A)P(B)\), and explain why disjoint ≠ independent</span></label>
+    <label><input type="checkbox" id="c6"><span>Identify binomial, geometric, negative binomial and Poisson from a word problem</span></label>
+    <label><input type="checkbox" id="c7"><span>Use the sheet's geometric (trials) and negative binomial (failures) conventions, and the matching R calls</span></label>
+    <label><input type="checkbox" id="c8"><span>Compute E, Var, E[aX + b] and Var[aX + b] from a pmf table</span></label>
+    <label><input type="checkbox" id="c9"><span>Find c in a pdf, then probabilities, E, Var and percentiles by integration</span></label>
+    <label><input type="checkbox" id="c10"><span>Standardize a normal both ways (probability and percentile)</span></label>
+    <label><input type="checkbox" id="c11"><span>Use the exponential CDF, memorylessness, and the Poisson–exponential link</span></label>
+    <label><input type="checkbox" id="c12"><span>Apply the normal approximation to the binomial with a continuity correction</span></label>
+    <label><input type="checkbox" id="c13"><span>Get marginals, E[XY], Cov and ρ from a joint table, and test independence</span></label>
+    <label><input type="checkbox" id="c14"><span>Compute Var[aX + bY] with a covariance term</span></label>
+    <label><input type="checkbox" id="c15"><span>Use sums of independent normals and the CLT for a mean and for a sum</span></label>
+    <label><input type="checkbox" id="c16"><span>Type every R call in the toolkit from memory</span></label>
+    <label><input type="checkbox" id="c17"><span>Compute a system's reliability from its working paths with inclusion–exclusion</span></label>
+    <label><input type="checkbox" id="c18"><span>Read the Φ table (including interpolation) and check \(np(1-p)\ge10\) before approximating</span></label>
+    <label><input type="checkbox" id="c19"><span>Explain the LLN vs. the CLT, and when \(\bar X\) is exactly normal</span></label>
+    <label><input type="checkbox" id="c20"><span>Calculator notebook cleared; redo every homework problem (P2.8–P7.11 "From the homework") from a blank cell</span></label>
+    <label><input type="checkbox" id="c21"><span>Tell "trials until" from "failures before" in a geometric or negative binomial question</span></label>
+    <label><input type="checkbox" id="c22"><span>Handle sums of independent copies (variances add) vs. a multiple of one variable (variance × c²)</span></label>
+  </div>
+</section>
+
+<footer>Built from the APPA 5001 syllabus, the final-exam pages, all 18 lecture transcripts (saved in <code>Lecture Transcripts/</code>; problems marked "From the lecture" are the lecturer's own worked examples), the 6 graded R homeworks and 5 ungraded labs (saved in each <code>ModuleN</code> folder; problems marked "From the homework" or "From the ungraded lab" come from them), the DTSA 5001 formula sheet, and your chapter formula sheets in this folder (as of Nov 8, 2026). Practice-problem numbers were checked in software. Where this guide differs from a lecture, the lecture convention wins.</footer>
+</main>
+</div>
+
+
+<script>
+(function () {
+  // Countdown to Dec 11, 2026 4:50 PM MST (UTC-7)
+  var due = new Date(Date.UTC(2026, 11, 11, 23, 50));
+  var el = document.getElementById('countdown');
+  var days = Math.ceil((due - new Date()) / 86400000);
+  el.textContent = days > 1 ? days + ' days left' : days === 1 ? '1 day left' : days === 0 ? 'today' : 'past due';
+
+  // Readiness checklist, saved per browser
+  var KEY = 'appa5001-ready';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#checks input'));
+  function update() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById('progText').textContent = n + ' of ' + boxes.length + ' ready';
+    document.getElementById('progBar').style.width = (100 * n / boxes.length) + '%';
+  }
+  boxes.forEach(function (b) {
+    b.checked = !!saved[b.id];
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>

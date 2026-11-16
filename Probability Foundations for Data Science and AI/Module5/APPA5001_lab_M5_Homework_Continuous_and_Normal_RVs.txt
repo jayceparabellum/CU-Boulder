@@ -1,0 +1,102 @@
+
+
+######## release/A_M4/A_M4.ipynb ########
+
+[MD]
+## Module 4 Assessment
+
+[CODE]
+# Load Necesary Libraries
+library(testthat)
+
+[MD]
+### Problem 1
+Suppose that car accidents in a given town have a Poisson distribution, with an
+average of 5 per week (i.e. λ = 5). Also, note that, given a Poisson process with
+mean λ, the waiting time until the first outcome has an exponential distribution
+with mean $1/λ$.
+
+[MD]
+**a)** What is the probability that more than 6 accidents occur in a given week? Round your answer to four decimal places.
+
+[CODE]
+p1.1 = round(1 - ppois(6, lambda = 5), 4)
+p1.1   # 0.2378
+[OUT] [1] 0.2378
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**b)** What is the probability that the time until an accident will be at least one
+week? Give the exact answer or round your answer to four decimal places.
+
+[CODE]
+p1.2 = exp(-5)
+p1.2   # 0.006737947
+
+[OUT] [1] 0.006737947
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**c)** Suppose that no accidents have occurred for two weeks. What is the probability that no accidents will occur for another two weeks? Give the exact value or round your answer to six decimal places.
+
+[CODE]
+p1.3 = exp(-10)
+p1.3   # 4.539993e-05
+
+[OUT] [1] 4.539993e-05
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 2
+Let X = the outcome when a fair die is rolled once. Suppose that, before the die
+is rolled, you are offered a choice: Option #1: a guarantee of $1/4$ dollars (whatever
+the outcome of the roll); Option #2: $h(X) = 1/X$ dollars. Which option would
+you prefer? Store your answer in the given variable as a numeric 1 or 2.
+
+[CODE]
+option_2.1 = 2
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 3
+
+Suppose $X$ is a random variable for the length of time (in hours) it takes for a piece of machinery to fail. Let $X$ have PDF $f(x) = ce^{-x/50}$ for $x>0$ and $f(x) = 0$ for $x \le 0$.
+
+[MD]
+**a)** What is the value of c?
+
+[CODE]
+c = 1/50
+c   # 0.02
+[OUT] [1] 0.02
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**b)** What is the probability that the machine will function for at least 100 hours? Give the exact value or round your answer to three decimal places.
+
+[CODE]
+p3.b = NA
+p3.b = exp(-2)   # 0.1353353
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**c)** What is the expected amount of time for the machine to break?
+
+[CODE]
+p3.c = 50
+e3.c = 50
+
+[CODE]
+# Hidden Test Cell

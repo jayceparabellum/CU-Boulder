@@ -1,0 +1,100 @@
+
+
+######## release/A_M5/A_M5.ipynb ########
+
+[MD]
+## Module 5 Assessment
+
+[CODE]
+library(testthat)
+
+[MD]
+### Problem 1
+Let $X$ be a random variable such that $E(X) = 3$, $sd(X) = 4$, and let $Y$ be a
+r.v. such that $E(Y ) = 1$, $sd(Y ) = 2$. $X$ and $Y$ are not linearly independent, and
+$corr(X, Y ) = 0.5$.
+
+[MD]
+**a)** What is $E(X + 3Y + 1)$?
+
+[CODE]
+e1.1 = 7
+
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**b)** What is $sd(4X + 2Y + 2)$? Round your answer to two decimal places.
+
+[CODE]
+sd1.2 = round(sqrt(336), 2)   # 18.33
+
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**c)** What is $E(3X - 2Y - 10)$?
+
+[CODE]
+e1.3 = -3
+
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**d)** What is $sd(3X - 3Y - 5)$? Round your answer to two decimal places.
+
+[CODE]
+sd1.4 = round(sqrt(108), 2)   # 10.39
+
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 2
+
+Two components needed in automotive manufacturing each can be represented in 1 of 3 grades. Let $X$ be the cost of the first component (in hundreds of dollars) and let $Y$ be the cost of the second component (also in hundreds of dollars). The following table represents the weekly fraction of cars that utilize each combination of these components.
+
+|      | y=7 | y=9 | y=10 |
+| ----- | ----- | ----- | ----- |
+| x=7 | 0.05 | 0.05 | 0.10 |
+| x=9 | 0.05 | 0.10 | 0.35 |
+| x=10 | 0 | 0.20 | 0.10 |
+
+[MD]
+**a)** What is $Cov(X, Y)$? Round your answer to three decimal places.
+
+[CODE]
+cov.xy = 0.135
+p2.1 = cov.xy
+p2.a = cov.xy
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**b)** Suppose the random variables measure the cost of each part in dollars, rather than hundreds of dollars. In this case, the random variables would be $U = 100X$ and $V = 100Y$. What is $Cov(U, V)$? (This question shows us how changing the units of the random variable can change the value of the covariance) 
+
+[CODE]
+cov.uv = 1350
+p2.2 = cov.uv
+p2.b = cov.uv
+
+
+[CODE]
+# Hidden Test Cell
+
+[MD]
+**c)** What is the correlation coefficient $\rho_{X,Y}$? Save this value as `rho.xy`. What is the correlation coefficient $\rho_{U,V}$? Save this value as `rho.uv`? Round your answers to three decimal places.
+
+[CODE]
+rho.xy = 0.142
+rho.uv = 0.142
+
+
+[CODE]
+# Hidden Test Cell

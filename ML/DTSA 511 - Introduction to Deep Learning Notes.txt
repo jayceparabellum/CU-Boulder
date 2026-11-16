@@ -1,0 +1,217 @@
+Module 1
+
+From Linear Models to Neural Networks - Recommended Reading
+Recommended Reading
+The recommended reading for this lesson from Dive into Deep Learning (2021) is:
+
+Chapter 3: Linear Neural Networks for Regression (Sections 3.1, 3.4)
+
+Chapter 5: Multilayer Perceptrons (Sections 5.1, 5.3)
+
+Chapter 12: Optimization Algorithms (Sections 12.1, 12.3)
+
+
+
+
+Lecture 1
+From Linear Regression to the Artificial Neuron
+
+Linear Regression: Our Starting Point
+
+Visualizing Linear Regression
+
+From Linear Regression to a Neuron
+Linear Regression
+
+
+Linear Regression:
+- Output can be any real number
+- Good for regression tasks
+- Cannot model non-linear patterns
+
+Single Neuron
+- Apply activation function
+- Can introduce non-linearity
+- Building block of neural networks
+
+
+The Perceptron: First Artificial Neuron
+The Artificial Neuron (Perceptron)
+
+
+Mathematical Formulation
+Step 1: Compute the weighed sum (pre-activation)
+
+Step 2: Apply the activation function
+
+Together = final equation
+
+
+The Sigmoid Activation Function
+
+Connection to Logistic Regression
+Logistic regression is a single neuron with sigmoid activation!
+Logistic regression vs. Single Neuron
+
+Why Neurons? The Limitation of Linear Models
+
+
+Neural Network Foundation Quiz Notes
+
+Describe the significance of 'width' in neural networks.
+- It affects the network's capacity to model complex functions
+- it determines the number of neurons in each layer.
+
+Best descriptions of the concept of 'backpropagation' in neural networks??
+- Backward of propagation of errors to update weights.
+
+A limitation of using linear activations in neural networks?
+- They cannot model complex patterns.
+
+The 'depth' of a neural network refers to?
+- the number of layers in the network
+
+The primary purpose of an activation function in a neural network?
+- to introduce non-linearity to the network.
+
+These statements correctly describes the mathematical representation of neural network layers?
+- Activation functions are applied element-wise after matrix multiplication and bias addition in each layer
+- Each layer of a neural network can be represented as a matrix multiplication followed by a bias addition.
+
+
+
+
+
+
+
+Lecture 2
+Activation Functions and Non-Linearity: The Mathematical Notation and Problem Setup
+
+
+
+
+
+
+
+
+Module 2
+Recommended Reading
+The recommended reading for this lesson from Dive into Deep Learning (2021) is:
+
+Chapter 3: Linear Neural Networks for Regression (Section 3.7: Weight Decay)
+
+Chapter 5: Multilayer Perceptrons (Sections 5.5, 5.6: Generalization and Dropout)
+
+Chapter 12: Optimization Algorithms (Sections 12.4–12.6, 12.10: SGD, Momentum, Adam)
+
+
+
+SGD, Momentum, and Adam
+Stochastic Gradient Descent (SGD)
+Full-batch gradient descent equation
+
+Stochastic gradient descent
+
+Mini-batch gradient descent (most common):
+
+
+Mini-Batch SGD in Practice
+
+Momentum: Building Up Speed
+Add velocity that accumulates gradient direction equation
+
+
+Adam: Adaptive Learning Rates
+Key ideas: Different parameters need different learning rates
+Adam (Adaptive Moment Estimation) maintains
+- First moment (mean of gradients)
+- Second moment (variance of gradients)
+
+Adam: The Default Choice
+Hyperparameters:
+Why Adam is popular
+- works well with default hyperparameters
+- Adapts to different parameter scales
+- Fast convergence on most problems
+- Robust to noisy gradients
+
+
+
+
+Understanding Overfitting
+
+What is Overfitting?
+
+The Overfitting Problem
+Overfitting = memorizing instead of learning
+
+Metric: Training Accuracy - Good Model: 90% - Overfit Model 100%
+Metric: Test Accuracy - Good Model: 88% - Overfit Model: 60%
+Perfect training performance does NOT = good model!
+
+Why Neural Networks Overfit
+Many parameters = high capacity
+Network: Small MLP (784 -> 64 -> 10) - Parameters ~50,000
+Network: RessNet-50 - Parameters ~25,000,000
+Network: GPT-3 - Parameters ~175,000,000,000
+A network with more parameters than training samples can memorizing everything!
+
+The Bias-Variance Trade-off
+
+
+
+
+Regularization Techniques - Recommended Reading
+Recommended Reading
+The recommended reading for this lesson from Dive into Deep Learning (2021) is:
+
+Chapter 8: Modern CNNs (Section 8.5: Batch Normalization)
+
+
+
+
+
+
+
+Training and Regularizing Neural Networks Quiz
+
+Patterns in training curves indicate overfitting
+- Large and growing gap between training and validation loss
+- Validation loss starts increasing while training loss continues decreasing
+- Training accuracy is much higher than validation accuracy.
+
+If your neural network shows both training and validation loss remaining high throughout training, what is the most likely diagnosis?
+- Underfitting
+
+What is the main mechanism by which dropouts prevents overfitting?
+- Randomly setting neuron activations to zero forces the network to learn robust, distributed representations.
+
+What does Adam maintain in addition to momentum's first moment estimate?
+- A second moment estimate that tracks the squared gradients for per-parameter learning rate adaption.
+
+The core idea behind L2 regularization (weight decay)?
+-Penalize large weights by adding Lambda Sigma w^2 to the loss function.
+
+The one epoch in the context of neural network training?
+- One complete pass through all training data.
+
+When monitoring training, why is it important to track both training loss and validation loss?
+- The gap between them reveals whether the model is overfitting.
+
+Where is the bath normalization typically placed in a neural network layer?
+- After the linear transformation and before the activation function.
+
+What is a characteristic symptom of a learning rate that is too large?
+- The loss oscillates or diverges to infinity/NaN
+
+Why neural networks with many parameters tend to overfit?
+-They can memorize the training data including nose.
+
+
+
+
+
+
+
+
+

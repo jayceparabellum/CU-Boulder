@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APPA 5003 Final Prep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<style>
+/* Layout: sticky contents rail beside a single reading column; module sections as "state" blocks */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1b2130;
+  --muted: #5a6274;
+  --rule: #dde1e8;
+  --accent: #2c4a94;
+  --accent-soft: #e6ecf8;
+  --trap: #9a5b10;
+  --trap-soft: #fbf1e2;
+  --ok: #24704a;
+  --code-bg: #eef0f4;
+  --f-display: "Literata", Georgia, "Times New Roman", serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+    --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+    --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+  --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+  --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body);
+  font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px;
+}
+@media (max-width: 860px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+nav.toc .label { text-transform: uppercase; letter-spacing: .08em; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+nav.toc a { display: block; padding: 4px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; border-left: 2px solid transparent; }
+nav.toc a:hover { background: var(--accent-soft); }
+nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+nav.toc .progress { margin-top: 16px; font-size: 13px; color: var(--muted); }
+nav.toc .bar { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+nav.toc .bar span { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+@media (max-width: 860px) {
+  nav.toc { position: static; }
+  nav.toc ol { display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { border: 1px solid var(--rule); padding: 3px 10px; }
+}
+
+main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+main > *, section.mod > *, .box > *, .modhead > * { min-width: 0; }
+section.mod, .box, .modhead, header.top { grid-template-columns: minmax(0, 1fr); }
+mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }
+header.top { display: grid; gap: 10px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .09em; font-size: 12px; font-weight: 600; color: var(--accent); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 650; }
+h2 { font-size: 27px; font-weight: 650; }
+h3 { font-size: 19px; font-weight: 650; margin-top: 8px; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); font-size: 17px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 8px; }
+.fact { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; }
+.fact .k { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+.fact .v { font-family: var(--f-display); font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.fact .s { font-size: 13.5px; color: var(--muted); }
+
+section.mod { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.modhead { display: grid; gap: 6px; border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.modhead .num { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
+
+.box { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.box h3 { margin: 0; }
+ul.k { margin: 0; padding-left: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+ul.k li { max-width: 72ch; min-width: 0; }
+.recipe ol, .checks label > span { min-width: 0; }
+.trap { background: var(--trap-soft); border: 1px solid color-mix(in srgb, var(--trap) 35%, transparent); border-radius: 8px; padding: 14px 18px; display: grid; gap: 8px; }
+.trap .tl { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--trap); }
+.recipe ol { margin: 0; padding-left: 22px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.recipe li { min-width: 0; }
+
+.math { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+mjx-container[display="true"] { margin: 6px 0 !important; }
+
+details.prob { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+details.prob > summary { cursor: pointer; padding: 14px 18px; list-style: none; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start; }
+details.prob > summary::-webkit-details-marker { display: none; }
+details.prob > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+details.prob .tag { font-family: var(--f-mono); font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; margin-top: 3px; white-space: nowrap; }
+details.prob .reveal { font-size: 13px; color: var(--muted); margin-top: 6px; }
+details.prob[open] .reveal { display: none; }
+details.prob .sol { border-top: 1px dashed var(--rule); padding: 14px 18px; display: grid; gap: 8px; }
+details.prob .ans { font-weight: 600; color: var(--ok); }
+
+pre { margin: 0; background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; }
+code { font-family: var(--f-mono); font-size: .92em; }
+p code, li code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+.checks { display: grid; gap: 8px; }
+.checks label { display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 10px; align-items: start; cursor: pointer; }
+.checks input { margin-top: 4px; accent-color: var(--ok); width: 16px; height: 16px; }
+
+table.plan { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.plan th, table.plan td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.plan th { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+table.plan td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 500; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+
+footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--rule); padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+details, details > *, p { min-width: 0; max-width: 100%; }
+mjx-container[display="true"] { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+@media print {
+  .wrap { display: block; padding: 0; }
+  nav.toc { display: none; }
+  main, section.mod { display: block; }
+  main > * { margin-bottom: 32px; }
+  section.mod > * { margin-bottom: 14px; }
+  .box, .trap, details.prob, .tablewrap, pre, .fact { break-inside: avoid; }
+  .modhead { break-after: avoid; }
+  details.prob .reveal { display: none; }
+  .math, pre, .tablewrap, mjx-container { overflow: visible !important; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="label">Contents</div>
+  <ol>
+    <li><a href="#exam">The exam</a></li>
+    <li><a href="#plan">Prep plan</a></li>
+    <li><a href="#m2">Point estimation</a></li>
+    <li><a href="#m3">Maximum likelihood</a></li>
+    <li><a href="#m4">Large-sample MLEs</a></li>
+    <li><a href="#m5">Normal CIs</a></li>
+    <li><a href="#m6">CIs beyond normality</a></li>
+    <li><a href="#code">R calculator toolkit</a></li>
+    <li><a href="#ready">Readiness check</a></li>
+  </ol>
+  <div class="progress"><span id="progText">0 of 0 ready</span><div class="bar"><span id="progBar"></span></div></div>
+</nav>
+
+<main>
+<header class="top" id="exam">
+  <div class="eyebrow">APPA 5003 · CU Boulder MS-AI · Final exam prep</div>
+  <h1>Statistical Estimation for Data Science &amp; AI</h1>
+  <p class="lede">You've finished Modules 2–6 with every graded item at 100%. What's left is the Program Policy Quiz and the proctored final. The exam is closed-book except for a discrete-distribution table and an R notebook, so this guide is about what you have to know from memory and what you can compute in R in under a minute.</p>
+  <div class="facts">
+    <div class="fact"><div class="k">Due</div><div class="v">Dec 11</div><div class="s">4:50 PM MST · <span id="countdown">—</span></div></div>
+    <div class="fact"><div class="k">Length</div><div class="v">2 hours</div><div class="s">One submission only. Whatever is entered when time runs out is graded.</div></div>
+    <div class="fact"><div class="k">Allowed</div><div class="v">Table + R</div><div class="s">"Parametric Families of Discrete Distributions" PDF, the course R notebook, blank scrap paper, pen, snack. No notes.</div></div>
+    <div class="fact"><div class="k">Weight</div><div class="v">20%</div><div class="s">The rest of your grade (80%) is already at 100%.</div></div>
+  </div>
+  <div class="trap">
+    <div class="tl">Logistics that cost people the exam</div>
+    <ul class="k">
+      <li>Book the ProctorU slot now, at least 3 days ahead and no later than 72 h before course access ends. APPA 5002's final is due the same day, so book two separate slots, ideally not back to back.</li>
+      <li>Pass the <b>Program Policy Quiz</b> in Module 1. It's worth 0% but it's must-pass, and it's the only non-exam item still open.</li>
+      <li>Don't open the "MS-AI Proctored Exam Password Quiz" yourself. The proctor opens it, and opening it locks you into a grade (no drop, withdrawal or refund).</li>
+      <li>Unlike the module quizzes, you get <b>one submission</b>. Don't submit early "to check," and enter answers as you go so a timeout doesn't cost you.</li>
+      <li>The calculator is an <b>R</b> notebook, not Python. If it won't load, open any course lab, click New → R notebook, and have the proctor confirm it's blank.</li>
+      <li>The allowed table covers <i>discrete</i> distributions only. Continuous pdfs, means and variances must come from memory.</li>
+    </ul>
+  </div>
+</header>
+
+<section class="mod" id="plan">
+  <div class="modhead"><span class="num">33 days</span><h2>Prep plan</h2><p class="lede">This runs alongside your APPA 5002 plan, so the load is about half as heavy: alternate days between the two courses. Work problems on paper first and check them in R second, the way the exam runs.</p></div>
+  <div class="tablewrap"><table class="plan">
+    <thead><tr><th>Dates</th><th>Focus</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td>Nov 8 – 9</td><td>Logistics</td><td>Pass the Program Policy Quiz. Book the ProctorU slot. Open the Calculator Notebook once and run every line in the R toolkit below.</td></tr>
+      <tr><td>Nov 10 – 16</td><td>Module 2</td><td>Continuous distributions from memory, E/Var rules, distributions of sums, unbiasedness, method of moments. Retake the four Module 2 quizzes.</td></tr>
+      <tr><td>Nov 17 – 23</td><td>Modules 3 – 4</td><td>MLEs (calculus and indicator cases), invariance, MSE/bias/relative efficiency, Fisher information, CRLB, consistency, asymptotic normality.</td></tr>
+      <tr><td>Nov 24 – 30</td><td>Module 5</td><td>Every one- and two-sample mean CI (z, t, pooled t, Welch). Practise picking the right case from the wording.</td></tr>
+      <tr><td>Dec 1 – 5</td><td>Module 6</td><td>Proportion, variance and variance-ratio CIs, plus the 4-step pivot method on exponential and other non-normal models.</td></tr>
+      <tr><td>Dec 6 – 10</td><td>Mixed &amp; timed</td><td>One 2-hour mock using only scrap paper, the discrete table and R. Redo every practice problem here without opening the solutions.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ MODULE 2 ============ -->
+<section class="mod" id="m2">
+  <div class="modhead"><span class="num">Module 2</span><h2>Point Estimation</h2></div>
+
+  <div class="box">
+    <h3>Continuous distributions (not on the allowed table)</h3>
+    <ul class="k">
+      <li><b>Uniform(a, b).</b> \(f(x)=\frac{1}{b-a}I_{(a,b)}(x)\), mean \(\frac{a+b}2\), variance \(\frac{(b-a)^2}{12}\).</li>
+      <li><b>Exponential(rate λ).</b> \(f(x)=\lambda e^{-\lambda x}I_{(0,\infty)}(x)\), mean \(1/\lambda\), variance \(1/\lambda^2\), \(P(X\gt x)=e^{-\lambda x}\).</li>
+      <li><b>Gamma(α, β), β a rate.</b> \(f(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\), mean \(\alpha/\beta\), variance \(\alpha/\beta^2\). Exponential(λ) = Γ(1, λ).</li>
+      <li><b>Normal(μ, σ²).</b> \(f(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}\). \(Z=(X-\mu)/\sigma\sim N(0,1)\).</li>
+      <li><b>χ²(n)</b> = Γ(n/2, 1/2): mean \(n\), variance \(2n\). <b>Beta(α, β)</b>: mean \(\frac{\alpha}{\alpha+\beta}\).</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Linearity.</b> \(E[aX+b]=aE[X]+b\), \(\mathrm{Var}[aX+b]=a^2\mathrm{Var}[X]\), \(\mathrm{Var}[X]=E[X^2]-(E[X])^2\).</li>
+      <li><b>Sums.</b> \(\mathrm{Var}[X\pm Y]=\mathrm{Var}[X]+\mathrm{Var}[Y]\pm2\,\mathrm{Cov}(X,Y)\), and the covariance is 0 when independent. So \(E[\bar X]=\mu\), \(\mathrm{Var}[\bar X]=\sigma^2/n\).</li>
+      <li><b>Sums of iid variables.</b> Bernoulli(p) → bin(n, p). Poisson(λ) → Poisson(nλ). Exp(λ) → Γ(n, λ). Γ(αᵢ, β) → Γ(Σαᵢ, β). Normals → normal.</li>
+      <li><b>Transformations.</b> CDF method: \(F_Y(y)=P(g(X)\le y)\), then differentiate. Scaling: if \(X\sim\Gamma(\alpha,\beta)\) then \(cX\sim\Gamma(\alpha,\beta/c)\).</li>
+      <li><b>Unbiased.</b> \(E[\hat\theta]=\theta\). \(S^2=\frac{1}{n-1}\sum(X_i-\bar X)^2\) is unbiased for σ²; dividing by \(n\) gives \(E=\frac{n-1}{n}\sigma^2\).</li>
+      <li><b>\(E[g(X)]\ne g(E[X])\)</b> in general. \(\bar X^2\) is biased for \(\mu^2\), since \(E[\bar X^2]=\mu^2+\sigma^2/n\).</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Probability tools from the lectures</h3>
+    <ul class="k">
+      <li><b>Change of variables</b> (g invertible): \(f_Y(y)=f_X\!\big(g^{-1}(y)\big)\left|\frac{d}{dy}g^{-1}(y)\right|\). If g isn't invertible (e.g. \(X^2\)), go through the CDF instead.</li>
+      <li><b>LOTUS.</b> \(E[g(X)]=\int g(x)f_X(x)\,dx\); no need to find the distribution of \(g(X)\) first. Works for joint pdfs too.</li>
+      <li><b>Independence.</b> X, Y are independent iff the joint pdf factors into an x-part and a y-part <i>including the indicators</i>. Quick check: the support is a rectangle. Independent ⇒ \(E[g(X)h(Y)]=E[g(X)]E[h(Y)]\), but not conversely.</li>
+      <li><b>Covariance &amp; correlation.</b> \(\mathrm{Cov}(X,Y)=E[XY]-\mu_X\mu_Y\), \(\rho=\frac{\mathrm{Cov}(X,Y)}{\sigma_X\sigma_Y}\in[-1,1]\). Independent ⇒ uncorrelated, not conversely (e.g. \(X\in\{-1,0,1\}\), \(Y=X^2\)).</li>
+      <li><b>Gamma function.</b> \(\Gamma(\alpha)=\int_0^\infty x^{\alpha-1}e^{-x}dx\), \(\Gamma(1)=1\), \(\Gamma(\alpha)=(\alpha-1)\Gamma(\alpha-1)\), \(\Gamma(n)=(n-1)!\).</li>
+      <li><b>"Integrate without integrating."</b> If an integrand looks like a known pdf without its constant, put the constant in and compensate outside; the pdf part integrates to 1. This is how \(E[1/Y]\) and MGFs for gamma variables are done in lecture.</li>
+      <li><b>Expected value of an indicator</b> is a probability: \(E[I_A(X)]=P(X\in A)\). So a sample proportion is unbiased for the probability it counts.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Moment generating functions</h3>
+    <ul class="k">
+      <li>\(M_X(t)=E[e^{tX}]\). It must exist on a neighborhood of 0, and it <b>uniquely determines the distribution</b>: match an MGF, name the distribution.</li>
+      <li>For iid \(X_i\): \(M_{\sum X_i}(t)=[M_X(t)]^n\). For independent, non-identical \(X_i\): \(M_{\sum X_i}(t)=\prod M_{X_i}(t)\).</li>
+    </ul>
+    <div class="math">\[
+    \begin{aligned}
+    \text{Bernoulli}(p):&\ 1-p+pe^t &\quad \text{bin}(n,p):&\ (1-p+pe^t)^n &\quad \text{Poisson}(\lambda):&\ e^{\lambda(e^t-1)}\\
+    \text{Exp}(\lambda):&\ \tfrac{\lambda}{\lambda-t},\ t\lt\lambda &\quad \Gamma(\alpha,\beta):&\ \left(\tfrac{\beta}{\beta-t}\right)^{\alpha},\ t\lt\beta &\quad \chi^2(n):&\ (1-2t)^{-n/2}
+    \end{aligned}\]</div>
+    <ul class="k">
+      <li>More sums: m iid bin(n, p) → bin(nm, p). Independent \(\chi^2(n_i)\) → \(\chi^2(\sum n_i)\). Independent \(N(\mu_i,\sigma_i^2)\): \(\sum a_iX_i\sim N(\sum a_i\mu_i,\ \sum a_i^2\sigma_i^2)\).</li>
+      <li>\(Z^2\sim\chi^2(1)\). If \(X\sim\Gamma(n,\beta)\) then \(2\beta X\sim\chi^2(2n)\), the key move for exponential confidence intervals.</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>Method of moments</h3>
+    <ol>
+      <li>Write the population moments as functions of the parameters: \(E[X]=\mu_1(\theta)\), \(E[X^2]=\mu_2(\theta)\), … (as many as there are parameters).</li>
+      <li>Set each equal to its sample moment: \(\mu_k(\theta)=\frac1n\sum X_i^k\).</li>
+      <li>Solve for the parameters. Using \(\frac1n\sum X_i^2-\bar X^2=\frac1n\sum(X_i-\bar X)^2\) usually simplifies the algebra.</li>
+    </ol>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>Gamma and exponential use a <i>rate</i> β in this course (mean α/β). R's <code>qgamma(p, shape, rate)</code> matches only if you pass the rate.</li>
+      <li>MoM estimators can land outside the parameter space, and they're often biased. Check both before you trust one.</li>
+      <li>Unbiasedness doesn't survive nonlinear maps: \(1/\bar X\) is biased for λ even though \(\bar X\) is unbiased for \(1/\lambda\).</li>
+      <li>Two geometrics: \(\text{geom}_1(p)\) counts trials to the first success (\(x=1,2,\dots\)); \(\text{geom}_0(p)\) counts failures before it (\(x=0,1,\dots\)). Check which one the problem means before using the table.</li>
+      <li>"Sample variance" means \(S^2\) with \(n-1\) unless a question says otherwise.</li>
+      <li>The "Shape of Data" lab asks you to tell exponential, normal and <b>Pareto</b> data apart from a histogram. Pareto isn't in this guide's tables. Look up the course's form of its pdf in your distribution notes so you can recognize it (very heavy right tail, support starting at a positive minimum).</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P2.1</span><div>\(X_1,\dots,X_n\) iid Unif(0, θ). Find the MoM estimator of θ, check whether it's unbiased, and find its variance.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(E[X]=\theta/2=\bar X\Rightarrow\hat\theta=2\bar X\). \(E[2\bar X]=\theta\). \(\mathrm{Var}[2\bar X]=4\cdot\frac{\theta^2/12}{n}\).</p><p class="ans">θ̂ = 2X̄, unbiased, variance θ²/(3n)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.2</span><div>\(X_1,\dots,X_n\) iid Γ(α, β). Find the MoM estimators of α and β.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Let \(\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2\). Matching \(\alpha/\beta=\bar X\) and \(\alpha/\beta^2=\hat\sigma^2\): divide to get \(\beta=\bar X/\hat\sigma^2\), then \(\alpha=\beta\bar X\).</p><p class="ans">β̂ = X̄ / σ̂², α̂ = X̄² / σ̂²</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.3</span><div>\(X_1,\dots,X_n\) iid Exp(λ). Find an unbiased estimator of λ built from \(\bar X\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\sum X_i\sim\Gamma(n,\lambda)\), and for \(Y\sim\Gamma(n,\lambda)\), \(E[1/Y]=\frac{\lambda}{n-1}\). So \(E[1/\bar X]=nE[1/Y]=\frac{n\lambda}{n-1}\). Multiply by \(\frac{n-1}{n}\).</p><p class="ans">λ̂ = (n−1) / (n X̄) = (n−1)/ΣXᵢ</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.4</span><div>\(X_1,\dots,X_n\) iid Poisson(λ). Use MGFs to find the distribution of \(Y=\sum X_i\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(M_Y(t)=[M_X(t)]^n=\big(e^{\lambda(e^t-1)}\big)^n=e^{n\lambda(e^t-1)}\), the Poisson MGF with parameter \(n\lambda\). MGFs determine the distribution.</p><p class="ans">Y ~ Poisson(nλ)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.5</span><div>(Graded lab) A printer's successful prints before each jam: 12, 9, 3, 17, 5, 5, 3, 7, 0, 5, 17, 6, 9, 1, 13. Model as \(\text{geom}_0(p)\) (support 0, 1, 2, …). Find the method-of-moments estimate of p.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>For \(\text{geom}_0\), \(E[X]=\frac{1-p}{p}\). Set \(\bar X=\frac{1-p}{p}\) and solve: \(p=\frac1{\bar X+1}\). Here \(\bar x=112/15=7.467\). The MLE is the same (graded lab, Module 3). R's <code>dgeom</code> uses this same failures-before-success form.</p><p class="ans">p̂ = 1/(X̄ + 1) = 0.118</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.6</span><div>(Graded lab) Joint pmf: rows x = 2, 3, 4; columns y = −1, 0, 1, 2.<br>x=2: 0.10, 0, 0.15, 0 · x=3: 0.10, 0.10, 0.05, 0.05 · x=4: 0, 0.05, 0.15, 0.25.<br>Find E[X], E[Y], E[XY], Cov(X, Y), whether X and Y are independent, and P(X + Y ≥ 4).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Marginals: \(p_X=(0.25,0.30,0.45)\), \(p_Y=(0.20,0.15,0.35,0.30)\). \(E[X]=3.2\), \(E[Y]=0.75\), \(E[XY]=\sum xy\,f(x,y)=2.85\). Not independent: \(f(2,0)=0\) but \(p_X(2)p_Y(0)=0.0375\). One zero cell where both marginals are positive is enough. X + Y ≥ 4 at (2,2), (3,1), (3,2), (4,0), (4,1), (4,2).</p><p class="ans">E[X] = 3.2, E[Y] = 0.75, E[XY] = 2.85, Cov = 0.45, not independent, P(X+Y ≥ 4) = 0.55</p></div></details>
+</section>
+
+<!-- ============ MODULE 3 ============ -->
+<section class="mod" id="m3">
+  <div class="modhead"><span class="num">Module 3</span><h2>Maximum Likelihood Estimation</h2></div>
+
+  <div class="box recipe">
+    <h3>Finding an MLE</h3>
+    <ol>
+      <li>Likelihood: \(L(\theta)=\prod_{i=1}^n f(x_i;\theta)\), with every indicator kept.</li>
+      <li>Log it: \(\ell(\theta)=\ln L(\theta)\). Products become sums.</li>
+      <li>Solve \(\frac{\partial\ell}{\partial\theta}=0\) (one equation per parameter), and check it's a maximum.</li>
+      <li>If θ appears in an indicator (the support depends on θ), <b>don't differentiate</b>. Sketch \(L(\theta)\) and find the max directly. It's usually at an order statistic.</li>
+    </ol>
+    <p>A likelihood is anything proportional to the joint pdf, so drop multiplicative factors without θ (indicators without θ, \(\prod x_i!\), \(2\pi\)…). With two parameters, set both partials to 0 and solve the system together; for the normal, differentiate with respect to σ² as a single symbol.</p>
+  </div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Standard MLEs.</b> Bernoulli: \(\hat p=\bar X\). Poisson: \(\hat\lambda=\bar X\). Exp(λ): \(\hat\lambda=1/\bar X\). Normal: \(\hat\mu=\bar X\), \(\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2\) (biased). Unif(0, θ): \(\hat\theta=X_{(n)}=\max X_i\).</li>
+      <li><b>Invariance.</b> If \(\hat\theta\) is the MLE of θ, then \(\tau(\hat\theta)\) is the MLE of \(\tau(\theta)\). E.g. the MLE of σ is \(\sqrt{\hat\sigma^2}\), and the MLE of \(P(X\gt1)=e^{-\lambda}\) is \(e^{-1/\bar X}\).</li>
+      <li><b>Bias.</b> \(B(\hat\theta)=E[\hat\theta]-\theta\).</li>
+      <li><b>MSE.</b> \(\mathrm{MSE}(\hat\theta)=E[(\hat\theta-\theta)^2]=\mathrm{Var}[\hat\theta]+B(\hat\theta)^2\). If any competitor is biased, compare by MSE.</li>
+      <li><b>Relative efficiency</b> (both unbiased): \(\mathrm{eff}(\hat\theta_1,\hat\theta_2)=\dfrac{\mathrm{Var}[\hat\theta_2]}{\mathrm{Var}[\hat\theta_1]}\). Greater than 1 means \(\hat\theta_1\) is more efficient.</li>
+      <li><b>Max of n iid Unif(0, θ).</b> \(F_{X_{(n)}}(x)=(x/\theta)^n\), \(E[X_{(n)}]=\frac{n}{n+1}\theta\), \(\mathrm{Var}[X_{(n)}]=\frac{n\theta^2}{(n+1)^2(n+2)}\).</li>
+      <li><b>Min of n iid Exp(λ)</b> is Exp(nλ).</li>
+    </ul>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>Invariance gives the MLE of τ(θ). It doesn't make that MLE unbiased.</li>
+      <li>With an indicator like \(I_{(0,\theta)}(\max x_i)\), setting the derivative to 0 gives nonsense (\(-n/\theta=0\)). Look at where L is nonzero.</li>
+      <li>For two-parameter normal, \(\hat\sigma^2\) divides by \(n\), not \(n-1\). Don't swap in \(S^2\) when a question asks for the MLE.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P3.1</span><div>\(X_1,\dots,X_n\) iid Exp(λ). Find the MLE of λ and of \(P(X_1\gt 2)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\ell(\lambda)=n\ln\lambda-\lambda\sum x_i\), \(\ell'=n/\lambda-\sum x_i=0\). \(P(X\gt2)=e^{-2\lambda}\), then apply invariance.</p><p class="ans">λ̂ = 1/X̄; MLE of P(X > 2) = e^(−2/X̄)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.2</span><div>\(X_1,\dots,X_n\) iid Unif(0, θ). Find the MLE, its bias, and an unbiased multiple of it.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(L(\theta)=\theta^{-n}I_{[X_{(n)},\infty)}(\theta)\). That's decreasing in θ wherever it's nonzero, so it's maximized at the smallest allowed θ. \(E[X_{(n)}]=\frac{n}{n+1}\theta\), bias \(-\frac{\theta}{n+1}\).</p><p class="ans">θ̂ = X₍ₙ₎ (max); unbiased version (n+1)/n · X₍ₙ₎</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.3</span><div>Compare the two unbiased estimators of θ for Unif(0, θ): \(2\bar X\) (P2.1) and \(\frac{n+1}{n}X_{(n)}\). Which is more efficient?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\mathrm{Var}[2\bar X]=\frac{\theta^2}{3n}\). \(\mathrm{Var}[\frac{n+1}{n}X_{(n)}]=\frac{(n+1)^2}{n^2}\cdot\frac{n\theta^2}{(n+1)^2(n+2)}=\frac{\theta^2}{n(n+2)}\). Ratio: \(\frac{\theta^2/(3n)}{\theta^2/(n(n+2))}\).</p><p class="ans">eff = (n+2)/3 > 1 for n ≥ 2, so the max-based estimator wins</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.4</span><div>(Lecture example) \(X_1,\dots,X_n\) iid Poisson(λ). Estimate \(p=P(X\gt0)=1-e^{-\lambda}\) two ways: the sample proportion \(\hat p_1=\frac1n\sum I(X_i\gt0)\), and the MLE \(\hat p_2\). Which is unbiased?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(E[\hat p_1]=E[I(X_1\gt0)]=P(X_1\gt0)=p\), so it's unbiased. The MLE of λ is \(\bar X\); by invariance \(\hat p_2=1-e^{-\bar X}\). With \(Y=\sum X_i\sim\) Poisson(nλ), \(E[e^{-\bar X}]=M_Y(-1/n)=e^{n\lambda(e^{-1/n}-1)}\). For n = 5, λ = 1 that gives \(E[\hat p_2]=0.596\) against p = 0.632.</p><p class="ans">p̂₁ is unbiased. p̂₂ = 1 − e^(−X̄) is biased but asymptotically unbiased: E[p̂₂] = 1 − exp(nλ(e^(−1/n) − 1)) → p.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.5</span><div>(Graded lab) Poisson(5) data. \(\hat\lambda_1=\bar X\) from n = 12 observations, \(\hat\lambda_2=\bar X\) from n = 8. Find the bias, variance and MSE of \(\hat\lambda_1\), and the efficiency of \(\hat\lambda_1\) relative to \(\hat\lambda_2\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\bar X\) is unbiased with variance λ/n, so MSE = Var = 5/12. eff \(=\frac{\mathrm{Var}[\hat\lambda_2]}{\mathrm{Var}[\hat\lambda_1]}=\frac{5/8}{5/12}\). These are theoretical values; they don't use the observed data.</p><p class="ans">Bias 0, Var = MSE = 5/12 ≈ 0.417, eff = 1.5</p></div></details>
+
+  <div class="box">
+    <h3>When the MLE has no closed form (graded lab, Module 4)</h3>
+    <p>Gamma(α, β) with both unknown: \(\partial\ell/\partial\beta=0\) gives \(\hat\beta=\hat\alpha/\bar x\), but the α equation has no algebraic solution. Substitute \(\beta=\alpha/\bar x\) into \(\ell\) (the <i>profile</i> log-likelihood), then maximize over α numerically: plot it on a grid and take <code>alpha[which.max(ell)]</code>, or use <code>optimize(f, lower, upper, maximum = TRUE)</code>.</p>
+    <div class="math">\[ \ell(\alpha,\alpha/\bar x) = -n\ln\Gamma(\alpha) + n\alpha\ln(\alpha/\bar x) + (\alpha-1)\textstyle\sum\ln x_i - n\alpha \]</div>
+  </div>
+</section>
+
+<!-- ============ MODULE 4 ============ -->
+<section class="mod" id="m4">
+  <div class="modhead"><span class="num">Module 4</span><h2>Large Sample Properties of MLEs</h2></div>
+
+  <div class="box">
+    <h3>Fisher information &amp; the Cramér–Rao lower bound</h3>
+    <div class="math">\[ I_n(\theta) = E\!\left[\left(\frac{\partial}{\partial\theta}\ln f(\mathbf X;\theta)\right)^{\!2}\right] = -E\!\left[\frac{\partial^2}{\partial\theta^2}\ln f(\mathbf X;\theta)\right] = n\,I_1(\theta) \]</div>
+    <div class="math">\[ \text{For any unbiased } \hat\tau \text{ of } \tau(\theta):\qquad \mathrm{Var}[\hat\tau] \;\ge\; \frac{[\tau'(\theta)]^2}{I_n(\theta)} \]</div>
+    <p>An unbiased estimator that hits the bound is a UMVUE (uniformly minimum-variance unbiased estimator). The second-derivative form of \(I_n\) is almost always faster.</p>
+  </div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Bernoulli(p).</b> \(I_1=\frac{1}{p(1-p)}\), CRLB \(\frac{p(1-p)}{n}\), and \(\bar X\) attains it.</li>
+      <li><b>Poisson(λ).</b> \(I_1=1/\lambda\), CRLB \(\lambda/n\), and \(\bar X\) attains it.</li>
+      <li><b>Exp(λ).</b> \(I_1=1/\lambda^2\). CRLB for λ is \(\lambda^2/n\). For the mean \(\tau=1/\lambda\) it's \(\frac{1}{n\lambda^2}\), which \(\bar X\) attains.</li>
+      <li><b>N(μ, σ²), σ² known.</b> \(I_1=1/\sigma^2\), CRLB \(\sigma^2/n\).</li>
+      <li><b>Consistent:</b> \(\hat\theta_n\xrightarrow{P}\theta\). Sufficient condition: (asymptotically) unbiased and \(\mathrm{Var}[\hat\theta_n]\to0\).</li>
+      <li><b>Asymptotic properties of the MLE</b> (under regularity conditions): consistent, asymptotically unbiased, asymptotically efficient, and</li>
+    </ul>
+    <div class="math">\[ \hat\theta_n \;\overset{\text{approx}}{\sim}\; N\!\left(\theta,\; \frac{1}{I_n(\theta)}\right) \quad\Longrightarrow\quad \hat\theta_n \pm z_{\alpha/2}\sqrt{1/I_n(\hat\theta_n)} \text{ is an approximate CI} \]</div>
+  </div>
+
+  <div class="box">
+    <h3>Sampling distributions from normal data</h3>
+    <ul class="k">
+      <li>Any linear combination of independent normals is normal.</li>
+      <li>\(Z^2\sim\chi^2(1)\), and sums of independent χ² add their degrees of freedom.</li>
+      <li>\(\frac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)\), independent of \(\bar X\).</li>
+      <li>\(T=\frac{\bar X-\mu}{S/\sqrt n}\sim t(n-1)\), and \(F=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F(n_1-1,\,n_2-1)\).</li>
+      <li>Moments: \(\chi^2(n)\) has mean n, variance 2n. \(t(n)\) has mean 0, variance \(\frac{n}{n-2}\) (n &gt; 2). \(F(n_1,n_2)\) has mean \(\frac{n_2}{n_2-2}\).</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Inequalities, convergence and the CLT (lecture material)</h3>
+    <ul class="k">
+      <li><b>Markov (general form).</b> For \(g\ge0\): \(P(g(X)\ge c)\le\frac{E[g(X)]}{c}\).</li>
+      <li><b>Chebyshev.</b> \(P(|X-\mu|\ge k\sigma)\le\frac1{k^2}\), or equivalently \(P(|X-\mu|\ge\varepsilon)\le\frac{\sigma^2}{\varepsilon^2}\).</li>
+      <li><b>Convergence in probability.</b> \(\hat\theta_n\xrightarrow{P}\theta\) if \(P(|\hat\theta_n-\theta|\gt\varepsilon)\to0\) for every ε &gt; 0. Use Chebyshev on \(\bar X\) to get the <b>WLLN</b>: \(\bar X_n\xrightarrow{P}\mu\).</li>
+      <li><b>Algebra of limits.</b> If \(X_n\xrightarrow{P}a\) and \(Y_n\xrightarrow{P}b\), then sums, products, quotients (b ≠ 0) and continuous g carry over: \(g(X_n)\xrightarrow{P}g(a)\). That's why \(1/\bar X\) is consistent for λ in the exponential.</li>
+      <li><b>Convergence in distribution</b> (CDFs converge) is weaker than convergence in probability.</li>
+      <li><b>CLT.</b> For iid data with mean μ and finite σ²: \(\frac{\bar X_n-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)\), so \(\bar X\overset{\text{approx}}{\sim}N(\mu,\sigma^2/n)\) for large n, whatever the distribution.</li>
+      <li><b>Score.</b> \(E\!\left[\frac{\partial}{\partial\theta}\ln f(X;\theta)\right]=0\), so \(I_1\) is the variance of the score.</li>
+      <li><b>Asymptotically efficient</b> means \(\frac{\text{CRLB}}{\mathrm{Var}[\hat\theta_n]}\to1\).</li>
+    </ul>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>The CRLB needs regularity: the support can't depend on θ. For Unif(0, θ) it doesn't apply, which is why \(\frac{n+1}{n}X_{(n)}\) can beat "the bound."</li>
+      <li>Don't forget the \([\tau'(\theta)]^2\) numerator when the target is a function of θ.</li>
+      <li>\(I_n=nI_1\) only for iid samples. Compute \(I_1\) from one observation, then multiply.</li>
+      <li>Asymptotic normality of the MLE also needs regularity. The graded lab simulated \(X_{(n)}\) for Unif(5, θ): its histogram is piled against θ and skewed left, <b>not normal</b>, even with n = 1000.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P4.1</span><div>\(X_1,\dots,X_n\) iid Poisson(λ). Find \(I_n(\lambda)\), the CRLB for unbiased estimators of λ, and whether \(\bar X\) attains it.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\ln f=x\ln\lambda-\lambda-\ln x!\). \(\frac{\partial^2}{\partial\lambda^2}\ln f=-x/\lambda^2\), so \(I_1=E[X]/\lambda^2=1/\lambda\). \(\mathrm{Var}[\bar X]=\lambda/n\).</p><p class="ans">I_n = n/λ, CRLB = λ/n, attained, so X̄ is the UMVUE</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.2</span><div>\(X_1,\dots,X_n\) iid Exp(λ). Find the CRLB for unbiased estimators of \(\tau(\lambda)=1/\lambda\), and use asymptotic normality to write an approximate 95% CI for λ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\ln f=\ln\lambda-\lambda x\), second derivative \(-1/\lambda^2\), so \(I_n=n/\lambda^2\). \(\tau'=-1/\lambda^2\), so the CRLB is \(\frac{1/\lambda^4}{n/\lambda^2}\). For the CI: \(\hat\lambda=1/\bar X\) with approximate variance \(1/I_n(\hat\lambda)=\hat\lambda^2/n\).</p><p class="ans">CRLB = 1/(nλ²) (attained by X̄). Approx CI: λ̂ ± 1.96·λ̂/√n with λ̂ = 1/X̄</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.3</span><div>Is \(X_{(n)}\) a consistent estimator of θ for Unif(0, θ)?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(E[X_{(n)}]=\frac{n}{n+1}\theta\to\theta\) (asymptotically unbiased), and \(\mathrm{Var}=\frac{n\theta^2}{(n+1)^2(n+2)}\to0\).</p><p class="ans">Yes</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.4</span><div>(Lecture example) \(X_1,\dots,X_{100}\) iid Γ(3, 2) (rate 2). Approximate \(P(\bar X\gt1.4)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\mu=3/2=1.5\), \(\sigma^2=3/4\), so \(\mathrm{Var}[\bar X]=3/400\) and SD \(=0.0866\). By the CLT, \(z=\frac{1.4-1.5}{0.0866}=-1.1547\). In R: <code>1 - pnorm(1.4, 1.5, sqrt(3/400))</code>.</p><p class="ans">≈ 0.876 (the lecture rounds z to −1.15 and gets 0.8749)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.5</span><div>X has mean 50 and standard deviation 5, distribution unknown. Give a lower bound for \(P(40\lt X\lt60)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>The interval is μ ± 2σ, so Chebyshev with k = 2 gives \(P(|X-50|\ge10)\le1/4\).</p><p class="ans">P(40 &lt; X &lt; 60) ≥ 3/4</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.6</span><div>(Lecture example) \(X_1,\dots,X_n\) iid Exp(λ). Find the CRLB for unbiased estimators of \(\tau(\lambda)=e^{-\lambda}\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(I_n=n/\lambda^2\) (from P4.2). \(\tau'(\lambda)=-e^{-\lambda}\), so \([\tau']^2=e^{-2\lambda}\).</p><p class="ans">CRLB = λ² e^(−2λ) / n</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.7</span><div>(Graded lab) Nightly sheep counts have mean 75 and SD 27. (a) Approximate \(P(\bar X\ge80)\) over n = 36 nights. (b) What would μ have to be for that probability to be 0.001? (c) Keeping μ = 75, how many nights make it 0.001?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>CLT: \(\bar X\approx N(75,\ 27^2/36)\), SD 4.5. (a) <code>1 - pnorm(80, 75, 4.5)</code>. (b) Solve \(\frac{80-\mu}{4.5}=z_{0.001}=3.090\): \(\mu=80-3.090(4.5)\). (c) Solve \(\frac{5}{27/\sqrt n}=3.090\): \(n=(3.090\cdot27/5)^2=278.46\), so round <i>up</i>.</p><p class="ans">(a) 0.133 (b) μ ≈ 66.09 (c) n = 279 nights (278.46 before rounding up)</p></div></details>
+</section>
+
+<!-- ============ MODULE 5 ============ -->
+<section class="mod" id="m5">
+  <div class="modhead"><span class="num">Module 5</span><h2>Confidence Intervals Involving the Normal Distribution</h2></div>
+
+  <div class="box">
+    <h3>Notation and interpretation</h3>
+    <ul class="k">
+      <li><b>Critical values are upper-tail.</b> \(z_\alpha\) cuts off area α to the <i>right</i>: \(z_{0.05}=1.645\), \(z_{0.025}=1.96\), \(z_{0.005}=2.576\). Same for \(t_{\alpha,\nu}\), \(\chi^2_{\alpha,\nu}\), \(F_{\alpha,\nu_1,\nu_2}\). In R, \(z_\alpha\) = <code>qnorm(1 - alpha)</code>.</li>
+      <li><b>Interpretation.</b> The interval is random, not μ. If you repeated the sampling many times, about 100(1−α)% of the intervals would capture μ. Never say "μ is in (a, b) with probability 0.95."</li>
+      <li><b>"Large"</b> means n &gt; 30 (the course's rule of thumb).</li>
+      <li><b>Computing \(S^2\) by hand:</b> \(S^2=\frac{\sum x_i^2-n\bar x^2}{n-1}\).</li>
+      <li><b>Why symmetric critical values?</b> For a symmetric pivot (Z, t), splitting α equally gives the shortest interval. Pick the confidence level before you look at the data.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>One sample: CI for μ</h3>
+    <div class="math">\[
+    \begin{aligned}
+    \text{Normal, } \sigma^2 \text{ known:}&\quad \bar X \pm z_{\alpha/2}\,\frac{\sigma}{\sqrt n}\\
+    \text{Any distribution, } n\gt30,\ \sigma^2 \text{ unknown:}&\quad \bar X \pm z_{\alpha/2}\,\frac{S}{\sqrt n}\ \ (\text{approximate, by CLT})\\
+    \text{Normal, small } n,\ \sigma^2 \text{ unknown:}&\quad \bar X \pm t_{\alpha/2,\,n-1}\,\frac{S}{\sqrt n}
+    \end{aligned}\]</div>
+  </div>
+
+  <div class="box">
+    <h3>Two independent samples: CI for μ₁ − μ₂</h3>
+    <div class="math">\[
+    \begin{aligned}
+    \sigma_1^2,\sigma_2^2 \text{ known:}&\quad (\bar X_1-\bar X_2) \pm z_{\alpha/2}\sqrt{\tfrac{\sigma_1^2}{n_1}+\tfrac{\sigma_2^2}{n_2}}\\
+    \text{both large, unknown:}&\quad (\bar X_1-\bar X_2) \pm z_{\alpha/2}\sqrt{\tfrac{S_1^2}{n_1}+\tfrac{S_2^2}{n_2}}\\
+    \text{normal, } \sigma_1^2=\sigma_2^2 \text{ unknown:}&\quad (\bar X_1-\bar X_2) \pm t_{\alpha/2,\,n_1+n_2-2}\; S_p\sqrt{\tfrac1{n_1}+\tfrac1{n_2}},\quad S_p^2=\tfrac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}\\
+    \text{normal, unequal, small (Welch):}&\quad (\bar X_1-\bar X_2) \pm t_{\alpha/2,\,\nu}\sqrt{\tfrac{S_1^2}{n_1}+\tfrac{S_2^2}{n_2}},\quad \nu=\frac{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}\right)^2}{\frac{(S_1^2/n_1)^2}{n_1-1}+\frac{(S_2^2/n_2)^2}{n_2-1}}
+    \end{aligned}\]</div>
+    <p>If a CI for μ₁ − μ₂ contains 0, the data don't show a difference at that confidence level. If it's entirely positive (or negative), they suggest μ₁ &gt; μ₂ (or &lt;).</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li><code>qt(0.975, df)</code> for a 95% interval, not <code>qt(0.95, df)</code>. Split α across both tails.</li>
+      <li>"Variance is 15.3" means σ² = 15.3; divide that by n, not its square.</li>
+      <li>Pooled t needs the equal-variance assumption stated in the problem. Without it, use Welch (round ν down if a table is involved; R accepts fractional df).</li>
+      <li>The t interval needs normal data. For small n from an unknown non-normal distribution, none of these intervals is justified. The labs check normality with a <b>Q–Q plot</b> (<code>qqnorm(x); qqline(x)</code>): points close to a straight line support normality.</li>
+      <li><b>Interpretation true/false (graded lab).</b> "90% chance μ is in [a, b]": false. "90% chance the next observation is in [a, b]": false (a CI is for μ, not for a new value). "A 95% CI from the same data is wider": true. Under repeated sampling, about (1−α) of intervals cover μ, so 10 intervals at 60% should hit about 6.</li>
+      <li>Do what the question says. One graded lab asked for <code>qnorm</code> with the sample SD for n = 20; if a problem names the method, use it even if you'd pick t.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P5.1</span><div>Two normal populations with known variances 15.3 and 19.7. Samples: \(n_1=57,\ \bar x_1=77.2\); \(n_2=63,\ \bar x_2=75.3\). Find a 99% CI for μ₁ − μ₂ and interpret it.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>SE \(=\sqrt{15.3/57+19.7/63}=0.7623\). \(z_{0.005}=2.5758\). Margin \(=1.9636\). Center 1.9.</p><p class="ans">(−0.064, 3.864). It contains 0, so there's no evidence of a difference in mean scores.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.2</span><div>Normal data, \(n=10\), \(\bar x=12.4\), \(s=2.1\). Find a 95% CI for μ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(t_{0.025,9}=2.2622\) (<code>qt(0.975, 9)</code>). Margin \(=2.2622\cdot2.1/\sqrt{10}=1.5022\).</p><p class="ans">(10.898, 13.902)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.3</span><div>Two normal populations with a common unknown variance. \(n_1=8,\ \bar x_1=25.1,\ s_1=3.2\); \(n_2=10,\ \bar x_2=21.7,\ s_2=2.8\). Find a 95% CI for μ₁ − μ₂.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(S_p^2=\frac{7(10.24)+9(7.84)}{16}=8.89\), \(S_p=2.9816\). \(t_{0.025,16}=2.1199\). Margin \(=2.1199\cdot2.9816\cdot\sqrt{1/8+1/10}=2.9982\). Center 3.4.</p><p class="ans">(0.402, 6.398). Entirely positive, so the data suggest μ₁ &gt; μ₂.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.4</span><div>(Lecture example) 20 normal sensor readings: \(\bar x=187\), \(s^2=16.2\). Find a 95% CI for μ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>σ² unknown and n small, so use t. \(t_{0.025,19}=2.093\) (<code>qt(0.975, 19)</code>). \(s/\sqrt n=\sqrt{16.2/20}=0.9\). Margin \(=1.884\).</p><p class="ans">(185.12, 188.88)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.5</span><div>(Graded lab) Ad 1: 60 days, mean 2.2 M views, SD 1. Ad 2: 40 days, mean 2.5 M, SD 0.75. Find an approximate 95% CI for μ₁ − μ₂. Is there a significant difference?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Both samples are large, so use z with sample SDs. SE \(=\sqrt{1/60+0.5625/40}=0.1754\). Margin \(=1.96(0.1754)=0.344\).</p><p class="ans">(−0.644, 0.044). It contains 0, so no significant difference.</p></div></details>
+</section>
+
+<!-- ============ MODULE 6 ============ -->
+<section class="mod" id="m6">
+  <div class="modhead"><span class="num">Module 6</span><h2>Beyond Normality: Confidence Intervals Unleashed!</h2></div>
+
+  <div class="box recipe">
+    <h3>The 4-step pivot method (works for everything)</h3>
+    <ol>
+      <li><b>Choose a statistic</b> whose distribution you know and that depends on the unknown parameter (\(\bar X\), \(\sum X_i\), \(S^2\), \(X_{(1)}\), …).</li>
+      <li><b>Build a pivot:</b> a function of the statistic and the parameter whose distribution is known and parameter-free (N(0,1), t, χ², F, Exp(1), Γ(n, n)…).</li>
+      <li><b>Find critical values</b> that cut off α/2 in each tail of the pivot's distribution.</li>
+      <li><b>Put the pivot between them</b> and solve for the parameter "in the middle." Watch for inequality flips when you take reciprocals.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h3>Proportions</h3>
+    <div class="math">\[ \hat p \pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}},\qquad (\hat p_1-\hat p_2) \pm z_{\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}} \]</div>
+    <p><b>Is n large enough?</b> Use normality only if \(\hat p\pm3\sqrt{\hat p(1-\hat p)/n}\) lies entirely inside [0, 1]. Check each sample separately for the two-sample case.</p>
+  </div>
+
+  <div class="box">
+    <h3>Variances (normal data)</h3>
+    <div class="math">\[ \sigma^2:\ \left(\frac{(n-1)S^2}{\chi^2_{\alpha/2,\,n-1}},\ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2,\,n-1}}\right) \qquad\qquad \frac{\sigma_1^2}{\sigma_2^2}:\ \left(\frac{S_1^2/S_2^2}{F_{\alpha/2,\,n_1-1,\,n_2-1}},\ \frac{S_1^2/S_2^2}{F_{1-\alpha/2,\,n_1-1,\,n_2-1}}\right) \]</div>
+    <p>With upper-tail notation, the <i>larger</i> critical value goes in the denominator of the <i>lower</i> endpoint. For σ, take square roots of both endpoints. \(F_{1-\alpha/2,\nu_1,\nu_2}=1/F_{\alpha/2,\nu_2,\nu_1}\).</p>
+    <p><b>One-sided intervals</b> (covered in lecture): put all of α in one tail. Upper bound for σ²: \(\left(0,\ \frac{(n-1)S^2}{\chi^2_{1-\alpha,\,n-1}}\right)\); lower bound: \(\left(\frac{(n-1)S^2}{\chi^2_{\alpha,\,n-1}},\ \infty\right)\).</p>
+  </div>
+
+  <div class="box">
+    <h3>Non-normal pivots from the lectures (Exp(λ))</h3>
+    <ul class="k">
+      <li><b>From the sum.</b> \(\sum X_i\sim\Gamma(n,\lambda)\) ⇒ \(\lambda\bar X\sim\Gamma(n,n)\) and \(2\lambda\sum X_i = 2n\lambda\bar X\sim\chi^2(2n)\).
+        <div class="math">\[ \chi^2_{1-\alpha/2,\,2n} \lt 2n\lambda\bar X \lt \chi^2_{\alpha/2,\,2n} \;\Longrightarrow\; \left(\frac{\chi^2_{1-\alpha/2,\,2n}}{2\sum X_i},\ \frac{\chi^2_{\alpha/2,\,2n}}{2\sum X_i}\right) \]</div></li>
+      <li><b>From the minimum.</b> \(X_{(1)}\sim\text{Exp}(n\lambda)\) ⇒ \(n\lambda X_{(1)}\sim\text{Exp}(1)\). Exp(1) quantiles: \(a=-\ln(1-\alpha/2)\), \(b=-\ln(\alpha/2)\). CI: \(\left(\frac{a}{nX_{(1)}},\ \frac{b}{nX_{(1)}}\right)\). <b>The lecture builds this one one-sided:</b> \(P(n\lambda X_{(1)}\le-\ln\alpha)=1-\alpha\) gives \(\left(0,\ \frac{-\ln\alpha}{nX_{(1)}}\right)\).</li>
+    </ul>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>χ² and F intervals aren't symmetric around the estimate. Don't write "estimate ± margin."</li>
+      <li>In the course's upper-tail notation, \(\chi^2_{0.025,\nu}\) is the <i>big</i> one, which is <code>qchisq(0.975, nu)</code> in R. Mixing these up swaps your endpoints.</li>
+      <li><b>The notation isn't consistent across materials.</b> The "Non-Normal CIs in R" lab writes \(\frac{\chi^2_{0.025,2n}}{2n\bar X}\le\lambda\le\frac{\chi^2_{0.975,2n}}{2n\bar X}\) with <i>lower</i>-tail subscripts (<code>qchisq(0.025, 2n)</code> on the left). Don't trust a subscript; sanity-check that the smaller quantile gives the lower endpoint.</li>
+      <li>Proportion CIs use \(\hat p\) inside the square root, but the validity check is ±3 SE, not ±z SE.</li>
+      <li>The minimum-based CI for λ is valid but much wider than the sum-based one. If asked which is better, the sum-based one uses all the data.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P6.1</span><div>240 of 400 sampled voters prefer Candidate A. Check that normality is OK, then find a 95% CI for p.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\hat p=0.6\), SE \(=\sqrt{0.24/400}=0.02449\). Check: \(0.6\pm3(0.02449)=(0.527, 0.673)\subset[0,1]\). Margin \(=1.96\cdot0.02449=0.0480\).</p><p class="ans">(0.552, 0.648)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.2</span><div>Bag weights are normal. A sample of 20 bags has \(s^2=0.04\). Find a 95% CI for σ².<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\chi^2_{0.025,19}=32.852\) (<code>qchisq(0.975, 19)</code>), \(\chi^2_{0.975,19}=8.907\) (<code>qchisq(0.025, 19)</code>). \((n-1)s^2=0.76\).</p><p class="ans">(0.76/32.852, 0.76/8.907) = (0.0231, 0.0853)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.3</span><div>Ten iid Exp(λ) observations have \(\sum x_i=25\). Find a 95% CI for λ using the sum.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(2\lambda\sum X_i\sim\chi^2(20)\). Critical values \(9.591\) and \(34.170\). Divide both by \(2\sum x_i=50\).</p><p class="ans">(0.192, 0.683)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.4</span><div>Same setting, n = 10, but you only know the minimum: \(x_{(1)}=0.2\). Find a 95% CI for λ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(10\lambda X_{(1)}\sim\text{Exp}(1)\). \(a=-\ln 0.975=0.02532\), \(b=-\ln0.025=3.6889\). Divide by \(nx_{(1)}=2\).</p><p class="ans">(0.0127, 1.844). Much wider than P6.3.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.5</span><div>Independent normal samples: \(n_1=11,\ s_1^2=5.2\); \(n_2=16,\ s_2^2=2.6\). Find a 90% CI for σ₁²/σ₂². Is there evidence the variances differ?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Ratio \(=2\). \(F_{0.05,10,15}=2.544\) (<code>qf(0.95, 10, 15)</code>), \(F_{0.95,10,15}=0.3515\) (<code>qf(0.05, 10, 15)</code>).</p><p class="ans">(2/2.544, 2/0.3515) = (0.786, 5.690). It contains 1, so no evidence of a difference.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.6</span><div>(Lecture version of P6.4) n = 10, \(x_{(1)}=0.2\). Find a one-sided 95% upper confidence bound for λ using the minimum.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(P(10\lambda X_{(1)}\le-\ln0.05)=0.95\), and \(-\ln0.05=2.9957\). Divide by \(nx_{(1)}=2\).</p><p class="ans">(0, 1.498)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.7</span><div>(Lecture example) Potato-chip bag weights are normal; n = 20 gives \(s^2=0.52\). Find a 95% CI for σ.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\((n-1)s^2=9.88\). Divide by 32.852 and 8.907 to get the σ² interval (0.3007, 1.1092), then take square roots.</p><p class="ans">(0.548, 1.053)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.8</span><div>(Graded lab) 385 of 500 in County 1 and 267 of 400 in County 2 favor a higher speed limit. Find a 95% CI for p₁ − p₂. Is there a difference?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\hat p_1=0.77\), \(\hat p_2=0.6675\). Checks: (0.714, 0.826) and (0.597, 0.738) are both inside [0, 1]. SE \(=0.03015\), margin \(=0.0591\). Center 0.1025. (The lab also asks for a confidence level that would flip the conclusion, e.g. 0.9999, and then warns that doing that with real data is data snooping.)</p><p class="ans">(0.043, 0.162). Excludes 0, so support differs.</p></div></details>
+</section>
+
+<!-- ============ CODE ============ -->
+<section class="mod" id="code">
+  <div class="modhead"><span class="num">Exam notebook</span><h2>R calculator toolkit</h2><p class="lede">The R notebook is your only calculator and your only source of critical values. You can't paste these in, so practise typing them from a blank cell. Remember the course's upper-tail notation: \(z_\alpha\) is <code>qnorm(1 - alpha)</code>.</p></div>
+
+  <div class="box"><h3>Critical values (95% two-sided shown)</h3>
+<pre>a &lt;- 0.05
+qnorm(1 - a/2)                 # z_{a/2} = 1.96
+qt(1 - a/2, df = 9)            # t_{a/2, 9} = 2.262
+qchisq(c(a/2, 1 - a/2), df = 19)   # small one, big one: 8.907, 32.852
+qf(c(a/2, 1 - a/2), 10, 15)    # F lower, upper
+qexp(c(a/2, 1 - a/2))          # Exp(1): -log(1 - a/2), -log(a/2)
+qgamma(c(a/2, 1 - a/2), shape = 10, rate = 10)   # pivot lambda*xbar ~ Gamma(n, n)
+pnorm(1.96); pt(2.262, 9); pchisq(30, 19)        # cdfs, if you need a probability</pre></div>
+
+  <div class="box"><h3>Mean CIs</h3>
+<pre>ci_z &lt;- function(xbar, sd, n, conf = .95) xbar + c(-1, 1) * qnorm(1 - (1 - conf)/2) * sd / sqrt(n)
+ci_t &lt;- function(xbar, s,  n, conf = .95) xbar + c(-1, 1) * qt(1 - (1 - conf)/2, n - 1) * s / sqrt(n)
+
+ci_pooled &lt;- function(x1, s1, n1, x2, s2, n2, conf = .95) {
+  sp &lt;- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
+  (x1 - x2) + c(-1, 1) * qt(1 - (1 - conf)/2, n1 + n2 - 2) * sp * sqrt(1/n1 + 1/n2)
+}
+
+ci_welch &lt;- function(x1, s1, n1, x2, s2, n2, conf = .95) {
+  v1 &lt;- s1^2 / n1; v2 &lt;- s2^2 / n2
+  nu &lt;- (v1 + v2)^2 / (v1^2 / (n1 - 1) + v2^2 / (n2 - 1))
+  (x1 - x2) + c(-1, 1) * qt(1 - (1 - conf)/2, nu) * sqrt(v1 + v2)
+}</pre></div>
+
+  <div class="box"><h3>Proportion, variance and exponential CIs</h3>
+<pre>ci_prop &lt;- function(x, n, conf = .95) {
+  p &lt;- x / n; se &lt;- sqrt(p * (1 - p) / n)
+  print(p + c(-3, 3) * se)                     # must sit inside [0, 1]
+  p + c(-1, 1) * qnorm(1 - (1 - conf)/2) * se
+}
+
+ci_var &lt;- function(s2, n, conf = .95) {        # sqrt() the result for sigma
+  a &lt;- 1 - conf
+  (n - 1) * s2 / qchisq(c(1 - a/2, a/2), n - 1)
+}
+
+ci_ratio &lt;- function(s1sq, n1, s2sq, n2, conf = .95) {
+  a &lt;- 1 - conf
+  (s1sq / s2sq) / qf(c(1 - a/2, a/2), n1 - 1, n2 - 1)
+}
+
+ci_exp_sum &lt;- function(sumx, n, conf = .95) {
+  a &lt;- 1 - conf
+  qchisq(c(a/2, 1 - a/2), 2 * n) / (2 * sumx)
+}
+
+ci_exp_min &lt;- function(xmin, n, conf = .95) {
+  a &lt;- 1 - conf
+  qexp(c(a/2, 1 - a/2)) / (n * xmin)
+}
+ci_exp_min_upper &lt;- function(xmin, n, conf = .95) c(0, -log(1 - conf) / (n * xmin))</pre></div>
+
+  <div class="box"><h3>From the lectures: raw data and CLT probabilities</h3>
+<pre>t.test(x, conf.level = .90)$conf.int                  # one-sample t CI
+t.test(x, y, conf.level = .90)$conf.int               # two-sample: Welch by default
+t.test(x, y, var.equal = TRUE, conf.level = .90)      # pooled
+1 - pnorm(1.4, mean = 1.5, sd = sqrt(3/400))          # CLT: P(xbar &gt; 1.4)
+(sum(x^2) - n * mean(x)^2) / (n - 1)                  # same as var(x)</pre></div>
+
+  <div class="box"><h3>R idioms the labs drilled</h3>
+<pre>x &lt;- c(unlist(read.table("data1")))         # read a data file into a vector
+hist(x, prob = TRUE, breaks = seq(0, 3.5, 0.1)); lines(xs, fx)   # density histogram + pdf
+hist(x, prob = TRUE, breaks = seq(-0.5, 17.5, 1))                # discrete: centre bars on integers
+dgeom(0:17, p); dpois(k, lam); dexp(x, rate); dgamma(x, a, rate = b); gamma(3)
+apply(M, 1, f)                               # f on each row (2 = each column)
+replicate(1000, mean(sample(pop, 5)))        # simulate a sampling distribution
+sum(lo &lt; mu &amp; mu &lt; hi)                       # count CIs that cover the truth
+alpha[which.max(ell)]                        # grid maximum
+optimize(f, lower = 2, upper = 4, maximum = TRUE)   # numerical MLE
+qqnorm(x); qqline(x)                         # normality check</pre></div>
+</section>
+
+<!-- ============ READINESS ============ -->
+<section class="mod" id="ready">
+  <div class="modhead"><span class="num">Self-check</span><h2>Readiness check</h2><p class="lede">Tick an item only when you can do it on blank paper without looking. Your ticks are saved in this browser.</p></div>
+  <div class="box checks" id="checks">
+    <label><input type="checkbox" id="c1"><span>Program Policy Quiz passed, ProctorU slot booked</span></label>
+    <label><input type="checkbox" id="c2"><span>Write the pdf, mean and variance of uniform, exponential, gamma (rate), normal and χ² from memory</span></label>
+    <label><input type="checkbox" id="c3"><span>Find distributions of sums of iid Bernoulli, Poisson, exponential, gamma and normal variables</span></label>
+    <label><input type="checkbox" id="c4"><span>Check an estimator for bias, and show why \(S^2\) divides by \(n-1\)</span></label>
+    <label><input type="checkbox" id="c5"><span>Derive method-of-moments estimators for one- and two-parameter models</span></label>
+    <label><input type="checkbox" id="c6"><span>Derive MLEs by calculus and by inspection when θ sits in an indicator</span></label>
+    <label><input type="checkbox" id="c7"><span>Use invariance to get the MLE of a function of θ</span></label>
+    <label><input type="checkbox" id="c8"><span>Compute MSE = Var + bias² and the relative efficiency of two estimators</span></label>
+    <label><input type="checkbox" id="c9"><span>Compute Fisher information and the CRLB, including for τ(θ)</span></label>
+    <label><input type="checkbox" id="c10"><span>State the MLE's large-sample properties and build an approximate CI from \(1/I_n(\hat\theta)\)</span></label>
+    <label><input type="checkbox" id="c11"><span>Pick the right mean CI (z, large-n z, t, pooled, Welch) from the problem's wording</span></label>
+    <label><input type="checkbox" id="c12"><span>Interpret a CI correctly, including what it means when a difference CI contains 0</span></label>
+    <label><input type="checkbox" id="c13"><span>Build proportion CIs (one and two samples) with the ±3 SE check</span></label>
+    <label><input type="checkbox" id="c14"><span>Build χ² CIs for σ² and F CIs for σ₁²/σ₂² with the endpoints the right way round</span></label>
+    <label><input type="checkbox" id="c15"><span>Run the 4-step pivot method on a new model (e.g. exponential sum and minimum)</span></label>
+    <label><input type="checkbox" id="c16"><span>Get every critical value in R using the upper-tail convention</span></label>
+    <label><input type="checkbox" id="c17"><span>Use MGFs to identify the distribution of a sum, and do a change of variables</span></label>
+    <label><input type="checkbox" id="c18"><span>Apply Chebyshev, the WLLN and the CLT (approximate a probability for \(\bar X\))</span></label>
+    <label><input type="checkbox" id="c19"><span>Build one-sided CIs (variance, exponential minimum)</span></label>
+    <label><input type="checkbox" id="c20"><span>Work a joint pmf table: marginals, E[XY], covariance, independence, P(X+Y ≥ c)</span></label>
+    <label><input type="checkbox" id="c21"><span>Solve a CLT problem backwards (find μ or the n needed for a given probability)</span></label>
+    <label><input type="checkbox" id="c22"><span>Find a numerical MLE in R with <code>optimize</code>, and fit a pdf over a density histogram</span></label>
+  </div>
+</section>
+
+<footer>Built from the APPA 5003 module outlines, final-exam pages on Coursera, the lesson slides in this folder, all 31 lecture transcripts, and the 5 graded and 7 ungraded R labs for Modules 1–6 (as of Nov 8, 2026). Practice-problem numbers were checked in software. Notation follows Prof. Corcoran's slides where they could be read; where this guide differs from a lecture, the lecture convention wins.</footer>
+</main>
+</div>
+
+<script>
+(function () {
+  // Countdown to Dec 11, 2026 4:50 PM MST (UTC-7)
+  var due = new Date(Date.UTC(2026, 11, 11, 23, 50));
+  var el = document.getElementById('countdown');
+  var days = Math.ceil((due - new Date()) / 86400000);
+  el.textContent = days > 1 ? days + ' days left' : days === 1 ? '1 day left' : days === 0 ? 'today' : 'past due';
+
+  // Readiness checklist, saved per browser
+  var KEY = 'appa5003-ready';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#checks input'));
+  function update() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById('progText').textContent = n + ' of ' + boxes.length + ' ready';
+    document.getElementById('progBar').style.width = (100 * n / boxes.length) + '%';
+  }
+  boxes.forEach(function (b) {
+    b.checked = !!saved[b.id];
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>

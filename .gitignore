@@ -5,3 +5,20 @@
 # Local Claude Code settings
 **/.claude/settings.local.json
 .claude/settings.local.json
+
+# Windows shortcuts
+*.lnk
+
+# Third-party / course-owned material (kept locally, not published)
+Textbooks/
+ML/Chapter*.pdf
+**/Readings/
+**/Lectures/
+*Lecture Transcripts.txt
+Current Issues in Ethics and AI/
+AI Ethics and Policy/Module 2/*.pdf
+AI Ethics and Policy/Module 2/Who makes AI Policy.txt
+AI Ethics and Policy/Module 2/Introduction to module 2 lab notebook*.docx
+Probability Foundations for Data Science and AI/Module*/*Formula Sheet*.pdf
+Probability Foundations for Data Science and AI/Module1/
+Statistical Estimation for Data Science and AI/Module[1-5]/

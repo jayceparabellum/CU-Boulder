@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APPA 5002 Final Prep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<style>
+/* Layout: sticky contents rail beside a single reading column; module sections as "state" blocks */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1b2130;
+  --muted: #5a6274;
+  --rule: #dde1e8;
+  --accent: #2c4a94;
+  --accent-soft: #e6ecf8;
+  --trap: #9a5b10;
+  --trap-soft: #fbf1e2;
+  --ok: #24704a;
+  --code-bg: #eef0f4;
+  --f-display: "Literata", Georgia, "Times New Roman", serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+    --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+    --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c; --surface: #1a1f29; --ink: #e3e6ee; --muted: #9aa2b4; --rule: #2c3240;
+  --accent: #9db4ee; --accent-soft: #222c44; --trap: #e2ad66; --trap-soft: #2e2416;
+  --ok: #7fcfa2; --code-bg: #10131a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body);
+  font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px;
+}
+@media (max-width: 860px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+nav.toc .label { text-transform: uppercase; letter-spacing: .08em; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+nav.toc a { display: block; padding: 4px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; border-left: 2px solid transparent; }
+nav.toc a:hover { background: var(--accent-soft); }
+nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+nav.toc .progress { margin-top: 16px; font-size: 13px; color: var(--muted); }
+nav.toc .bar { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+nav.toc .bar span { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+@media (max-width: 860px) {
+  nav.toc { position: static; }
+  nav.toc ol { display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { border: 1px solid var(--rule); padding: 3px 10px; }
+}
+
+main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+main > *, section.mod > *, .box > *, .modhead > * { min-width: 0; }
+section.mod, .box, .modhead, header.top { grid-template-columns: minmax(0, 1fr); }
+mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }
+header.top { display: grid; gap: 10px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .09em; font-size: 12px; font-weight: 600; color: var(--accent); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 650; }
+h2 { font-size: 27px; font-weight: 650; }
+h3 { font-size: 19px; font-weight: 650; margin-top: 8px; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); font-size: 17px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 8px; }
+.fact { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; }
+.fact .k { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+.fact .v { font-family: var(--f-display); font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.fact .s { font-size: 13.5px; color: var(--muted); }
+
+section.mod { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.modhead { display: grid; gap: 6px; border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.modhead .num { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
+
+.box { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.box h3 { margin: 0; }
+ul.k { margin: 0; padding-left: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+ul.k li { max-width: 72ch; min-width: 0; }
+.recipe ol, .checks label > span { min-width: 0; }
+.trap { background: var(--trap-soft); border: 1px solid color-mix(in srgb, var(--trap) 35%, transparent); border-radius: 8px; padding: 14px 18px; display: grid; gap: 8px; }
+.trap .tl { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--trap); }
+.recipe ol { margin: 0; padding-left: 22px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.recipe li { min-width: 0; }
+
+.math { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+mjx-container[display="true"] { margin: 6px 0 !important; }
+
+details.prob { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+details.prob > summary { cursor: pointer; padding: 14px 18px; list-style: none; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: start; }
+details.prob > summary::-webkit-details-marker { display: none; }
+details.prob > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+details.prob .tag { font-family: var(--f-mono); font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; margin-top: 3px; white-space: nowrap; }
+details.prob .reveal { font-size: 13px; color: var(--muted); margin-top: 6px; }
+details.prob[open] .reveal { display: none; }
+details.prob .sol { border-top: 1px dashed var(--rule); padding: 14px 18px; display: grid; gap: 8px; }
+details.prob .ans { font-weight: 600; color: var(--ok); }
+
+pre { margin: 0; background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; }
+code { font-family: var(--f-mono); font-size: .92em; }
+p code, li code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+.checks { display: grid; gap: 8px; }
+.checks label { display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 10px; align-items: start; cursor: pointer; }
+.checks input { margin-top: 4px; accent-color: var(--ok); width: 16px; height: 16px; }
+
+table.plan { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.plan th, table.plan td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.plan th { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+table.plan td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 500; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+
+footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--rule); padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+details, details > *, p { min-width: 0; max-width: 100%; }
+mjx-container[display="true"] { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="label">Contents</div>
+  <ol>
+    <li><a href="#exam">The exam</a></li>
+    <li><a href="#plan">Prep plan</a></li>
+    <li><a href="#m2">Markov basics</a></li>
+    <li><a href="#m3">Limiting distributions</a></li>
+    <li><a href="#m4">Stationary &amp; first-step</a></li>
+    <li><a href="#m5">Simulation &amp; MCMC</a></li>
+    <li><a href="#m6">MDPs</a></li>
+    <li><a href="#code">Notebook toolkit</a></li>
+    <li><a href="#ready">Readiness check</a></li>
+  </ol>
+  <div class="progress"><span id="progText">0 of 0 ready</span><div class="bar"><span id="progBar"></span></div></div>
+</nav>
+
+<main>
+<header class="top" id="exam">
+  <div class="eyebrow">APPA 5002 · CU Boulder MS-AI · Final exam prep</div>
+  <h1>Discrete-Time Markov Chains &amp; Monte Carlo Methods</h1>
+  <p class="lede">You've finished Modules 1–6 with every graded item at 100%. All that's left is the proctored final. The exam is closed-book, so this guide is about what you have to know from memory and what you can rebuild in the notebook in a couple of minutes.</p>
+  <div class="facts">
+    <div class="fact"><div class="k">Due</div><div class="v">Dec 11</div><div class="s">4:50 PM MST · <span id="countdown">—</span></div></div>
+    <div class="fact"><div class="k">Length</div><div class="v">3 hours</div><div class="s">Unlimited resubmits inside the window</div></div>
+    <div class="fact"><div class="k">Allowed</div><div class="v">Paper + notebook</div><div class="s">Blank scrap paper, pen, snack. The course Jupyter notebook as calculator. No notes.</div></div>
+    <div class="fact"><div class="k">Book ProctorU</div><div class="v">Now</div><div class="s">Slots fill fast. Must reserve ≥72 h before course access ends.</div></div>
+  </div>
+  <div class="trap">
+    <div class="tl">Logistics that cost people the exam</div>
+    <ul class="k">
+      <li>Schedule the ProctorU slot early. Missing the scheduling window isn't grounds for an extension or refund.</li>
+      <li>Don't open the "MS-AI Proctored Exam Password Quiz" yourself. The proctor opens it during the exam, and opening it locks you into a grade (no drop, withdrawal or refund).</li>
+      <li>The final looks like the module quizzes. Retaking those quizzes cold is the best rehearsal you have.</li>
+    </ul>
+  </div>
+</header>
+
+<section class="mod" id="plan">
+  <div class="modhead"><span class="num">33 days</span><h2>Prep plan</h2><p class="lede">One module a week, then a week of mixed timed practice. Work each week's problems on paper first and check them in the notebook second, the same way the exam runs.</p></div>
+  <div class="tablewrap"><table class="plan">
+    <thead><tr><th>Dates</th><th>Focus</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td>Nov 8 – 9</td><td>Logistics</td><td>Create the ProctorU account and book a slot. Open the Final Exam notebook once so you know what's preloaded.</td></tr>
+      <tr><td>Nov 10 – 16</td><td>Modules 2 – 3</td><td>Transition matrices, n-step, the forbidden-state absorbing trick, state classification, first-return splitting, positive vs. null recurrence, periodicity, random walk, TV distance. Retake both modules' quizzes.</td></tr>
+      <tr><td>Nov 17 – 23</td><td>Module 4</td><td>Stationary distributions, mean return time, first-step analysis (hitting times, hit-before probabilities, expected visits), tail-sum identity, mean pattern times (both lecture methods), eigenvalue convergence.</td></tr>
+      <tr><td>Nov 24 – 30</td><td>Module 5</td><td>Inverse CDF, accept–reject (envelope g, proposal h), continuous-state chains and detailed balance, Metropolis–Hastings with independence proposals, Gibbs conditionals, coupling from the past. Write the samplers from memory.</td></tr>
+      <tr><td>Dec 1 – 5</td><td>Module 6</td><td>Rewards r(s) and r(s,a), Bellman equations in q and v form, building P<sub>π</sub> and r<sub>π</sub>, solving v = (I − γP<sub>π</sub>)⁻¹r<sub>π</sub>, policy iteration with tie-splitting on small grids.</td></tr>
+      <tr><td>Dec 6 – 10</td><td>Mixed &amp; timed</td><td>One 3-hour mock using only scrap paper and the notebook. Redo every practice problem in this guide without opening the solutions.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ MODULE 2 ============ -->
+<section class="mod" id="m2">
+  <div class="modhead"><span class="num">Module 2</span><h2>Markov Chains I: The Basics</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Markov property.</b> \( P(X_{n+1}=j \mid X_n=i, X_{n-1},\dots,X_0) = P(X_{n+1}=j \mid X_n=i) = p_{ij} \). Time homogeneity is the default assumption. Rows of \(P\) are "from" and sum to 1, and time starts at 0. "Where you go next depends <i>at most</i> on where you are now," so an i.i.d. sequence is also a Markov chain.</li>
+      <li><b>Notation.</b> The lecture writes \(p^{(n)}_{ij}\) for the n-step probability. The parentheses mean it's an entry of \(P^n\), not \(p_{ij}\) raised to a power. \(p^{(0)}_{ij}=\delta_{ij}\) (1 if \(i=j\), else 0).</li>
+      <li><b>Path probability.</b> \( P(X_0=i_0, X_1=i_1,\dots,X_n=i_n) = \alpha_{i_0}\,p_{i_0 i_1} p_{i_1 i_2}\cdots p_{i_{n-1} i_n} \), where \(\alpha\) is the initial distribution. An unconditional probability like \(P(X_1=W)\) needs \(\alpha\). Conditioning on \(X_0\) makes it cancel.</li>
+      <li><b>A specific path vs. a skipped step.</b> When every intermediate state is named (S→F→S), multiply one-step entries. Use \(P^2\) only when the intermediate state is <i>unspecified</i>, because \(p^{(2)}_{ij}\) sums over all of them.</li>
+      <li><b>n-step / Chapman–Kolmogorov.</b> \( p^{(n)}_{ij} = \sum_k p^{(m)}_{ik}\,p^{(n-m)}_{kj} \) for any \(0\le m\le n\), so \(P^{(n)}=P^n\). Matrix powers commute: \(P^{(m)}P^{(n)}=P^{(n)}P^{(m)}\). Distribution at time \(n\): row vector \( \alpha P^n \).</li>
+      <li><b>Missing time steps.</b> \( P(X_5 = j \mid X_2 = i) = p^{(3)}_{ij} \). In the conditioning, only the most recent <i>given</i> value matters: \(P(X_4=2\mid X_2=5, X_0=0) = P(X_4=2\mid X_2=5) = p^{(2)}_{52}\). Conditioning on a later time needs Bayes: \( P(X_1=i\mid X_3=j) = \dfrac{P(X_1=i)\,p^{(2)}_{ij}}{P(X_3=j)} \).</li>
+      <li><b>Conditional independence.</b> Given the present, past and future are independent. That does <i>not</i> make \(X_{n-1}\) and \(X_{n+1}\) independent unconditionally.</li>
+      <li><b>Conditional probability toolkit.</b> \( P(A\mid B)=P(A\cap B)/P(B) \), law of total probability \( P(A)=\sum_k P(A\mid B_k)P(B_k) \), and the chain rule \( P(A\cap B\cap C) = P(A)P(B\mid A)P(C\mid A\cap B) \). Total probability also works inside a conditional universe: \( P(X=x\mid Y=y)=\sum_z P(X=x\mid Y=y,Z=z)\,P(Z=z\mid Y=y) \). The instructor's hint "condition on Y" means this.</li>
+      <li><b>Building P from a story.</b> Fill in every entry one by one at least once. Using "rows sum to 1" to fill gaps copies any earlier mistake forward. Lecture example: 2 green and 4 white balls, 3 per bucket, one ball swapped each step, \(X_n\) = greens in bucket 1. Then \(p_{01}=\tfrac23\) (draw a green from bucket 2), \(p_{11}=\tfrac13\cdot\tfrac13+\tfrac23\cdot\tfrac23=\tfrac59\), and \(p_{02}=p_{20}=0\).</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>The lecture's main tool: make the forbidden state absorbing</h3>
+    <p>For "never visits state C" questions, build a new matrix \(Q\). It's \(P\) with row C replaced by "stay in C with probability 1". The original chain and the modified chain move identically until C is hit, so "C was never visited by time \(n\)" is the same event as "the \(Q\)-chain isn't in C at time \(n\)".</p>
+    <div class="math">\[
+    \begin{aligned}
+    P(X_1,\dots,X_n\ne C\mid X_0=S) &= 1-q^{(n)}_{SC} \\
+    P(X_4=S\mid X_1,X_2,X_3\ne C,\ X_0=S) &= \frac{q^{(4)}_{SS}}{1-q^{(3)}_{SC}} \\
+    P(X_4=S\mid X_1,\dots,X_4\ne C,\ X_0=S) &= \frac{q^{(4)}_{SS}}{1-q^{(4)}_{SC}}
+    \end{aligned}\]</div>
+    <ol>
+      <li>Copy \(P\), then set row C to all zeros except a 1 in column C.</li>
+      <li>Raise \(Q\) to the needed powers. In the notebook that's one <code>matrix_power(Q, n)</code> call.</li>
+      <li>Write the target as a joint probability over a conditioning probability, and read both off \(Q^n\). Avoid brute force: the instructor enumerates 27 paths only to show why this trick exists.</li>
+      <li>Sanity check: extra "not C" information should move the answer in the direction that makes sense (here it raises P(sunny)).</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h3>Bonus, not in the lectures: the canonical form</h3>
+    <p>Useful for checking absorption answers, but the lectures never teach it. Note that its \(Q\) (transient-to-transient block) means something different from the lecture's \(Q\) above. With transient states first, \( P = \begin{pmatrix} Q_T & R \\ 0 & I \end{pmatrix} \) and \( N = (I - Q_T)^{-1} \). Then \(N_{ij}\) = expected visits to transient \(j\) from \(i\), expected steps to absorption are \( t = N\mathbf{1} \), and absorption probabilities are \( B = NR \). On the exam you can always get the same answers by first-step analysis (Module 4).</p>
+  </div>
+
+  <div class="box">
+    <h3>A longer history in a Markov framework</h3>
+    <p>If \(X_{n+1}\) depends on both \(X_n\) and \(X_{n-1}\), define the pair \(Y_n = (X_{n-1}, X_n)\). Then \(Y\) is a Markov chain with \(k^2\) states. A transition \((a,b)\to(c,d)\) is only possible when \(c=b\). The probability of a specific pair path like SF→FS→SZ is the product of the one-step entries along it.</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>\(\alpha P^n\) uses a <i>row</i> vector on the left. Writing \(P^n\alpha\) gives a wrong answer that still looks plausible.</li>
+      <li>\(p^{(n)}_{ij} \ne (p_{ij})^n\). Raise the matrix to the power, not the single entry. The instructor's example: \(p^{(2)}_{AD}\ne(p_{AD})^2\).</li>
+      <li>"\(X_3\ne C\)" is not a specific state, so you <b>can't</b> use the Markov property to drop the earlier conditions. Use the absorbing trick.</li>
+      <li>Don't fall back to the last specific known value, as in \(P(X_4=S\mid X_0=S)\). The "not C" information still matters (P2.4 shows the gap).</li>
+      <li>Never write two conditioning bars. Combine conditions with a comma: \(P(A\mid B, C)\).</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P2.1</span><div>States {0, 1} with \( P=\begin{pmatrix}0.5&0.5\\0.2&0.8\end{pmatrix} \). Find \(P(X_2=1\mid X_0=0)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Row 0 of \(P^2\) is \( (0.5\cdot0.5+0.5\cdot0.2,\; 0.5\cdot0.5+0.5\cdot0.8) = (0.35, 0.65) \).</p><p class="ans">0.65</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.2</span><div>Gambler's ruin with a fair coin on states {0, 1, 2, 3}. 0 and 3 are absorbing. Start at 1. Find P(reach 3) and the expected number of steps.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol">
+      <p>\( Q=\begin{pmatrix}0&\tfrac12\\ \tfrac12&0\end{pmatrix} \), \( N=(I-Q)^{-1}=\tfrac43\begin{pmatrix}1&\tfrac12\\ \tfrac12&1\end{pmatrix} \), \( R=\begin{pmatrix}\tfrac12&0\\0&\tfrac12\end{pmatrix} \).</p>
+      <p>\(t = N\mathbf 1 = (2, 2)\). \(B = NR\), first row \( (\tfrac23, \tfrac13) \). Check with the closed form: for a fair walk, P(hit \(N\) before 0 from \(i\)) = \(i/N\), and expected duration is \(i(N-i)\).</p>
+      <p class="ans">P(reach 3) = 1/3, expected steps = 2</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.3</span><div>Using P2.1's chain with \(X_0\) uniform on {0, 1}, find \(P(X_0=0 \mid X_1=1)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(P(X_1=1) = 0.5(0.5)+0.5(0.8) = 0.65\). By Bayes: \(0.5\cdot0.5/0.65\).</p><p class="ans">5/13 ≈ 0.385</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P2.4</span><div>Weather on {S, C, R} with \( P=\begin{pmatrix}.6&.3&.1\\.3&.4&.3\\.2&.4&.4\end{pmatrix} \). Today is sunny (\(X_0=S\)). Find (a) P(not cloudy on days 1–3), (b) P(sunny on day 4 | not cloudy on days 1–3), (c) the same as (b) but also given not cloudy on day 4.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Make C absorbing: \( Q=\begin{pmatrix}.6&.3&.1\\0&1&0\\.2&.4&.4\end{pmatrix} \). (a) \(1-q^{(3)}_{SC}\). (b) \(q^{(4)}_{SS}/(1-q^{(3)}_{SC})\). (c) \(q^{(4)}_{SS}/(1-q^{(4)}_{SC})\). For comparison, the naive \(p^{(4)}_{SS}=0.404\) ignores the "not cloudy" information and is wrong.</p><p class="ans">(a) 0.326 (b) ≈ 0.504 (c) ≈ 0.746</p></div></details>
+</section>
+
+<!-- ============ MODULE 3 ============ -->
+<section class="mod" id="m3">
+  <div class="modhead"><span class="num">Module 3</span><h2>Markov Chains II: Limiting Distributions</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Communication.</b> \(i\to j\) if \((P^n)_{ij}>0\) for some \(n\ge0\). \(i\leftrightarrow j\) is an equivalence relation, and its classes are the communication classes. The chain is <b>irreducible</b> if there's one class.</li>
+      <li><b>Hitting vs return time.</b> First hitting time \(T_i=\min\{n\ge0: X_n=i\}\). First <i>return</i> time \(\min\{n\ge1: X_n=i\}\) given \(X_0=i\). Shorthand: \(P_i(\cdot)\) and \(E_i[\cdot]\) mean "given \(X_0=i\)".</li>
+      <li><b>Recurrent vs transient.</b> The lecture writes \(g_i = P(\text{ever return to } i\mid X_0=i)\) (some texts use \(f_{ii}\)). The state is recurrent if \(g_i=1\) and transient if \(g_i\lt 1\).</li>
+      <li><b>Computing \(g_i\): split on the <i>first</i> return.</b> \(g_i=\sum_{n\ge1}P(\text{first return at step } n)\). Lecture example: \(g_1 = p_{11} + p_{13}\sum_{n\ge0}p_{33}^{\,n}\,p_{31}\). The word "first" matters: "back at \(i\) at step \(n\)" events overlap, and \(\sum_n p^{(n)}_{ii}\) isn't a probability.</li>
+      <li><b>Positive vs null recurrent.</b> A recurrent state is <b>positive recurrent</b> if \(E_i[\text{return time}]\lt\infty\) and <b>null recurrent</b> if it's \(\infty\). Both are class properties. The symmetric random walk is recurrent but null.</li>
+      <li><b>Sum test.</b> \(N=\sum_{n\ge1}\mathbb 1\{X_n=i\}\) counts returns, and \(E[\mathbb 1_A]=P(A)\) gives \(E_i[N]=\sum_{n\ge1} p^{(n)}_{ii}\). So \(i\) is recurrent ⇔ \( \sum_{n\ge1} p^{(n)}_{ii} = \infty \).</li>
+      <li><b>Returns to a transient state.</b> \(N\mid X_0=i\sim\text{Geom}_0(1-g_i)\): \(P_i(N=j)=g_i^{\,j}(1-g_i)\), \(P_i(N\ge k)=g_i^{\,k}\), \( E_i[N] = \dfrac{g_i}{1-g_i} \). The course's \(\text{Geom}_0(p)\) has \(P(X=x)=(1-p)^xp\) for \(x=0,1,\dots\) and mean \((1-p)/p\). \(\text{Geom}_1\) starts at 1. Counting the visit at time 0 too gives \(1/(1-g_i)\).</li>
+      <li><b>Class properties.</b> Recurrence, transience and period are shared by every state in a class. In an irreducible chain, check just one convenient state.</li>
+      <li><b>Finite chains.</b> At least one state is recurrent. An irreducible chain on a <b>finite</b> state space is automatically positive recurrent. A class you can leave and never come back to is transient. The easiest proof of transience is an escape path with no way back.</li>
+      <li><b>Communication edge cases.</b> \(i\to i\) always (take \(n=0\)). One-way movement between classes is possible. Two-way movement would merge them into one class.</li>
+      <li><b>Period.</b> \( d(i) = \gcd\{n\ge1 : (P^n)_{ii}>0\} \). The state is aperiodic if \(d=1\). A self-loop (\(P_{ii}>0\)) makes the whole class aperiodic.</li>
+      <li><b>Simple random walk on \(\mathbb Z\).</b> \( (P^{2n})_{00} = \binom{2n}{n}p^nq^n \approx \dfrac{(4pq)^n}{\sqrt{\pi n}} \). It's recurrent iff \(p=\tfrac12\), and then it's null recurrent. Symmetric walks are recurrent in 1D and 2D and transient in 3D and up.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Existence and uniqueness of the limiting distribution</h3>
+    <p>For an <b>irreducible, recurrent, aperiodic</b> chain, the lecture's theorem says that for every starting state \(i\):</p>
+    <div class="math">\[ \lim_{n\to\infty} p^{(n)}_{ij} = \frac{1}{E_j[\text{return time to } j]} \]</div>
+    <p>If \(j\) is <b>null recurrent</b>, the expected return time is \(\infty\), so the limit is <b>0</b> and there's no limiting distribution. If it's positive recurrent (ergodic = irreducible + positive recurrent + aperiodic), the limits form the distribution \(\pi\) with \(\pi P=\pi\), \(\sum_j\pi_j=1\).</p>
+    <p><b>Quiz workflow for a finite chain:</b> (1) check it's irreducible, (2) find a state with a self-loop to show it's aperiodic, (3) finite + irreducible gives positive recurrence for free. Then the limit exists, doesn't depend on the start, and equals the solution of \(\pi P=\pi\).</p>
+    <p>Drop aperiodicity and a stationary distribution can still exist without \(P^n\) converging, e.g. \( \begin{pmatrix}0&1\\1&0\end{pmatrix} \). Drop irreducibility and the limit can depend on where you start. Lecture example: a block-diagonal 4-state chain whose limit is \((3/5,2/5,0,0)\) or \((0,0,3/7,4/7)\) depending on which block you start in. Solve each closed block separately.</p>
+  </div>
+
+  <div class="box">
+    <h3>Total variation distance</h3>
+    <div class="math">\[ \lVert \mu-\nu\rVert_{TV} = \max_{A}\,|\mu(A)-\nu(A)| = \tfrac12 \sum_i |\mu_i-\nu_i| \]</div>
+    <p>The lecture calls ½ Σ the true definition. It says you can drop the ½ when you only care about convergence, but use the ½ for numeric answers. The distributions can have different supports: \((\tfrac13,\tfrac13,\tfrac13)\) vs \((\tfrac12,\tfrac12,0)\) gives \(\tfrac12(\tfrac16+\tfrac16+\tfrac13)=\tfrac13\).</p>
+  </div>
+
+  <div class="box">
+    <h3>Random walk details</h3>
+    <p>\(p^{(n)}_{00}=0\) for odd \(n\), so the period is 2. The lecture uses Stirling's formula \(n!\sim\sqrt{2\pi}\,n^{n+1/2}e^{-n}\) together with the limit comparison test on \(\sum p^{(2n)}_{00}\). Intuition: when \(p\ne\tfrac12\) the walk drifts away and is transient.</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>"Closed" and "recurrent" coincide only for finite chains. A symmetric random walk on \(\mathbb Z\) is irreducible but null recurrent, so it has no stationary distribution.</li>
+      <li>One self-loop anywhere in an irreducible chain makes every state aperiodic.</li>
+      <li>Finding the period requires the gcd of <i>all</i> return times. A shortest return that isn't 1 doesn't rule out period 1: returns in 3 and 7 give gcd 1.</li>
+      <li>Recurrent doesn't mean finite expected return time. The symmetric random walk returns with probability 1, but the expected wait is infinite.</li>
+      <li>When splitting a return probability over \(n\), say "<i>first</i> return at step \(n\)". Otherwise the events overlap and you double count.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P3.1</span><div>Classify the states of \( P=\begin{pmatrix} .5&.5&0&0\\ .5&.5&0&0\\ .25&.25&.25&.25\\ 0&0&0&1\end{pmatrix} \) (states 1–4).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>{1, 2} is closed and finite, so it's recurrent and aperiodic (self-loops). {3} leaks to other classes and never comes back, so it's transient. \(g_3=0.25\), so the expected number of returns is \(0.25/0.75 = 1/3\). {4} is absorbing, so it's recurrent.</p><p class="ans">Classes {1,2} recurrent, {3} transient, {4} absorbing. Reducible chain, so the limit depends on the starting state.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.2</span><div>Find the TV distance between \(\mu=(0.5,0.3,0.2)\) and \(\nu=(0.2,0.3,0.5)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\tfrac12(0.3+0+0.3)\). Equivalently, \(A=\{1\}\) gives \(|0.5-0.2|\).</p><p class="ans">0.3</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.3</span><div>A chain on {1, 2, 3} moves 1→2 and 3→1 with probability 1. From 2 it moves to 1 or 3 with probability ½ each. What's the period?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Returns to 1 are possible in 2 steps (1→2→1) and 3 steps (1→2→3→1). gcd(2, 3) = 1.</p><p class="ans">Aperiodic (period 1)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P3.4</span><div>From state 1: stay with probability .5, go to 2 with .2, go to 3 with .3. State 2 is absorbing. From state 3: stay with .6, go to 1 with .4. Find \(g_1\), classify state 1, and find the expected number of returns to 1.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Split on the first return: return at step 1 via the self-loop (.5), or go to 3, wait there \(n\ge0\) extra steps, then come back: \(.3\sum_{n\ge0}.6^n(.4) = .3\cdot\frac{.4}{.4}=.3\). So \(g_1=.5+.3=.8\lt1\), and state 1 is transient (escape path: 1→2, no way back). \(E_1[N]=g_1/(1-g_1)\).</p><p class="ans">g₁ = 0.8, transient, 4 expected returns</p></div></details>
+</section>
+
+<!-- ============ MODULE 4 ============ -->
+<section class="mod" id="m4">
+  <div class="modhead"><span class="num">Module 4</span><h2>Markov Chains III: Stationary Distributions &amp; First-Step Analyses</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Stationary, by hand (lecture method).</b> Write each \(\pi_j\) equation by reading down column \(j\) of \(P\): \(\pi_j=\sum_i\pi_i p_{ij}\). Drop any one equation, add \(\sum\pi_j=1\), and solve \(A\vec\pi=(0,\dots,0,1)^T\). Decimals are fine.</li>
+      <li><b>Every limiting distribution is stationary</b> (proved in lecture). The converse fails: a stationary distribution can exist with no limit (periodic), and it can be non-unique. With \(P=I\) on {0, 1}, both \((1,0)\) and \((0,1)\) are stationary.</li>
+      <li><b>Irreducible and positive recurrent</b> ⇒ there's a unique stationary \(\pi\), and \( \pi_j = 1/m_j \), where \(m_j\) is the mean return time to \(j\). Aperiodicity is needed only for the <i>limit</i>, not for uniqueness.</li>
+      <li><b>Started from \(\pi\), the chain stays stationary at fixed times</b> (\(X_n\sim\pi\) for every fixed \(n\)), but not at random times like a hitting time.</li>
+      <li><b>Long-run proportion of time</b> in \(j\) is \(\pi_j\). The lecture treats this as a limiting-distribution question for an ergodic chain.</li>
+      <li><b>Two-state shortcut.</b> \( P=\begin{pmatrix}1-a&a\\b&1-b\end{pmatrix} \Rightarrow \pi = \left(\dfrac{b}{a+b}, \dfrac{a}{a+b}\right) \), and the second eigenvalue is \(\lambda_2 = 1-a-b\).</li>
+      <li><b>Detailed balance</b> \(\pi_ip_{ij}=\pi_jp_{ji}\) for all \(i,j\) ⇒ \(\pi\) is stationary. It's a quick way to solve birth–death chains.</li>
+      <li><b>Eigenvalues.</b> \(\vec\pi=\vec\pi P\) makes \(\pi\) a <i>left</i> eigenvector for eigenvalue 1. Every eigenvalue of a stochastic matrix has \(|\lambda|\le1\) (Perron–Frobenius). Order them \(1=\lambda_1\gt|\lambda_2|\ge|\lambda_3|\ge\cdots\). They can be negative.</li>
+      <li><b>Convergence rate (lecture form, in total variation).</b> \( \lVert p^{(n)}_{i\cdot}-\pi\rVert_{TV} \le C\,|\lambda_2|^n \), where \(C\) depends on the start \(i\). Convergence is geometric. The closer \(|\lambda_2|\) is to 1, the slower the mixing. The lecture gives no recipe for an exact number of steps, and the instructor says this video won't affect a perfect score.</li>
+      <li><b>Tail-sum identity.</b> For a nonnegative integer random variable, \( E[X]=\sum_{x\ge0}P(X\gt x) \). The instructor calls it "an important tool" on its own.</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>First-step analysis: one recipe for four question types</h3>
+    <ol>
+      <li>Name the unknown for every state: \(h_i\), \(u_i\) or \(v_i\).</li>
+      <li>Condition on the first move: unknown at \(i\) = (cost of one step) + Σ\(_k P_{ik}\) · unknown at \(k\).</li>
+      <li>Set the boundary values, then solve the linear system.</li>
+    </ol>
+    <div class="math">\[
+    \begin{aligned}
+    \text{Expected hitting time of } A: &\quad u_i = 1 + \textstyle\sum_k p_{ik} u_k,\;\; u_A = 0 \\
+    \text{Mean return time to } j: &\quad m_j = 1 + \textstyle\sum_k p_{jk} u_k \;(\text{with } u_j=0) \\
+    \text{P(hit } A \text{ before } B): &\quad p_i = \textstyle\sum_k p_{ik}\, p_k,\;\; p_A=1,\; p_B=0 \\
+    \text{Expected visits to } j \text{ before hitting target } t: &\quad W_{ij} = \mathbb 1[i=j] + \textstyle\sum_k p_{ik} W_{kj},\;\; W_{tj}=0
+    \end{aligned}\]</div>
+    <p><b>When to write "1 +".</b> Expected-<i>time</i> equations always start with "1 +". <i>Probability</i> equations never do. <i>Visit-count</i> equations get the "1" only in the row where the start state is the state being counted (the start counts as a visit).</p>
+    <p><b>Visits and hitting time are linked.</b> The lecture's stopping state is an ordinary state, not necessarily an absorbing one. The expected hitting time of the target equals the sum of expected visits to every non-target state: \(u_i=\sum_{j\ne t}W_{ij}\). Expected visit counts don't have to be integers (the lecture gets 1.2844).</p>
+  </div>
+
+  <div class="box">
+    <h3>Mean pattern times (lecture methods)</h3>
+    <p><b>Method 1: non-overlapping patterns (no proper prefix equals a suffix, e.g. HTT, MARKOVCHAIN).</b> For i.i.d. symbols and a pattern of length \(L\), the pattern can only finish at time \(n+L\) if it hasn't appeared by time \(n\), so \(P(T=n+L)=P(\text{pattern})\,P(T\gt n)\). Sum over \(n\ge0\) and use the tail-sum identity:</p>
+    <div class="math">\[ 1 = P(\text{pattern})\,E[T] \quad\Longrightarrow\quad E[T]=\frac{1}{P(\text{pattern})} \]</div>
+    <p>Fair coin, HTT: \(E[T]=8\). A monkey typing MARKOVCHAIN on 26 keys: \(26^{11}\).</p>
+    <p><b>This fails for patterns that overlap themselves</b> (HH, HTH, HHH). The lecture's example of failure is HHH. For those, use first-step analysis. The instructor says martingale methods are "outside of the scope of this course." Check values: \(E[T_{HH}]=6\), \(E[T_{HTH}]=10\), \(E[T_{HHH}]=14\).</p>
+    <p><b>Method 2: the lecture's sliding-window chain.</b> Let \(Y_1,Y_2,\dots\) be the flips and \(X_n=(Y_n,Y_{n+1},Y_{n+2})\). That's 8 equally likely states, so \(P(X_1=i)=\tfrac18\). Let \(T=\min\{n\ge1: X_n=\text{HTT}\}\) and \(u_i=E[T\mid X_1=i]\). Here hitting is counted from \(n\ge1\), so <b>\(u_{HTT}=1\), not 0</b>. Solve the first-step system, then:</p>
+    <div class="math">\[ E[T]=\tfrac18\textstyle\sum_i u_i = 6, \qquad E[\#\text{flips}] = E[T]+2 = 8 \]</div>
+    <p>The "+2" is there because the window that completes the pattern at index \(T\) ends at flip \(T+2\).</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>Mean <i>return</i> time: in the \(u_1\) equation, the 1→1 term is "\(+\,p_{11}\cdot 0\)". The instructor repeats this: <b>do not write \(u_1\)</b> there.</li>
+      <li>Hit-before probabilities from different starting states <b>don't need to add up to 1</b>. Each one lives in a different conditional universe.</li>
+      <li>"Stationary" and "limiting" are different claims. Periodic chains have the first without the second.</li>
+      <li>Don't apply \(E[T]=1/P(\text{pattern})\) to an overlapping pattern. Check prefix vs. suffix first.</li>
+      <li>In the sliding-window pattern chain, the target's value is 1, and you add 2 at the end. Copying the general rule "\(u_A=0\)" there gives the wrong answer.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P4.1</span><div>For \( P=\begin{pmatrix}0.5&0.5\\0.2&0.8\end{pmatrix} \), find \(\pi\), the mean return time to state 0, and \(\lambda_2\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(a=0.5,\ b=0.2\): \(\pi = (0.2/0.7,\ 0.5/0.7)\). \(m_0 = 1/\pi_0\). \(\lambda_2 = 1-0.7\).</p><p class="ans">π = (2/7, 5/7), m₀ = 3.5, λ₂ = 0.3</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.2</span><div>Fair coin. Set up and solve first-step equations for the expected number of flips until HH.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>States: ∅ (no progress) and H. \(e_\varnothing = 1 + \tfrac12 e_H + \tfrac12 e_\varnothing\) and \(e_H = 1 + \tfrac12(0) + \tfrac12 e_\varnothing\). The first gives \(e_\varnothing = 2 + e_H\). Substituting gives \(e_H = 4\).</p><p class="ans">6 flips</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.3</span><div>Random walk on {0, …, 4} with \(p=0.6\) up and \(q=0.4\) down. 0 and 4 are absorbing. Find P(hit 4 before 0 | start 2).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Gambler's ruin formula with \(r=q/p=2/3\): \(p_i = \dfrac{1-r^i}{1-r^N}\). Then \(p_2 = \dfrac{1-4/9}{1-16/81} = \dfrac{5/9}{65/81} = \dfrac{45}{65}\). First-step analysis on states 1–3 gives the same answer.</p><p class="ans">9/13 ≈ 0.692</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P4.4</span><div>Fair coin. Expected number of flips until (a) HTT, (b) THH, (c) HTH. Which of these can use \(1/P(\text{pattern})\)?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>HTT and THH don't overlap themselves (no proper prefix equals a suffix), so \(E=1/(1/8)=8\). HTH does overlap (H…H), so the shortcut doesn't apply. First-step analysis with states ∅, H, HT gives 10.</p><p class="ans">(a) 8 (b) 8 (c) 10. Only HTT and THH can use the shortcut.</p></div></details>
+</section>
+
+<!-- ============ MODULE 5 ============ -->
+<section class="mod" id="m5">
+  <div class="modhead"><span class="num">Module 5</span><h2>Simulation &amp; Markov Chain Monte Carlo</h2></div>
+
+  <div class="box">
+    <h3>Direct simulation from \(U\sim\text{Unif}(0,1)\)</h3>
+    <ul class="k">
+      <li><b>Discrete ("interval chopping").</b> Set \(X=x_k\) when \(F(x_{k-1}) \lt U \le F(x_k)\). A Markov chain step from state \(i\) chops \([0,1]\) using row \(i\) of \(P\), so you simulate a sample path one row at a time. With infinite support (e.g. geometric), build each interval endpoint only when you need it.</li>
+      <li><b>Inverse CDF.</b> \(X=F^{-1}(U)\). Why it works: \(P(F^{-1}(U)\le y)=P(U\le F(y))=F(y)\), because \(F\) is non-decreasing. Exponential(rate λ): the lecture derives \(F^{-1}(u)=-\tfrac1\lambda\ln(1-u)\). Using \(-\ln(U)/\lambda\) gives the same distribution, but \(-\ln(1-u)/\lambda\) is the actual inverse. For \(f(x)=2x\) on [0, 1]: \(X=\sqrt U\).</li>
+      <li><b>Checking a sampler.</b> Plot a histogram of many draws against the target density. The y-axis must be a <i>density</i>: bin proportion ÷ bin width.</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>Accept–reject, with the lecture's letters</h3>
+    <p>Target density \(f\). Pick an <b>envelope</b> \(g\) with \(g(x)\ge f(x)\) everywhere. Let \(c=\int g\), and the <b>proposal density</b> is \(h=g/c\). (Some books call the proposal \(g\). In this course \(g\) is the envelope and \(h\) is the proposal.)</p>
+    <ol>
+      <li>Draw \(Y\sim h\) and \(U\sim\text{Unif}(0,1)\).</li>
+      <li>Accept \(Y\) if \( U \le \dfrac{f(Y)}{g(Y)} = \dfrac{f(Y)}{c\,h(Y)} \). Otherwise try again.</li>
+      <li>P(accept) = \(1/c\). The number of tries \(N\) is Geometric starting at 1, with \(E[N]=c\).</li>
+      <li>Smallest valid \(c\): \(c=\max_x f(x)/h(x)\). A bigger \(c\) means a lower acceptance rate and a longer wait.</li>
+      <li>\(h\) needs <b>heavier tails</b> than \(f\), or \(f/h\) is unbounded and no \(c\) works.</li>
+    </ol>
+    <p>Lecture example: \(f(x)=\tfrac{27}{2}x^2e^{-3x}\) on \(x\gt0\). \(h=\)Exp(3) fails because \(f/h=\tfrac92x^2\) is unbounded. \(h=\)Exp(2) works: \(f/h=\tfrac{27}{4}x^2e^{-x}\) peaks at \(x=2\), so \(c=27e^{-2}\approx3.65\) and P(accept) ≈ 0.274.</p>
+  </div>
+
+  <div class="box">
+    <h3>Markov chains on a continuous state space</h3>
+    <p>The transition density \(p(x,y)\) is a PDF in \(y\) for each fixed \(x\): \(\int_S p(x,y)\,dy=1\). The stationary equation is the continuous version of \(\pi_j=\sum_i\pi_ip_{ij}\):</p>
+    <div class="math">\[ \pi(y)=\int_S \pi(x)\,p(x,y)\,dx \]</div>
+    <p><b>Detailed balance ⇒ stationary.</b> If \(\pi(x)p(x,y)=\pi(y)p(y,x)\), integrate both sides over \(x\): \(\int\pi(x)p(x,y)\,dx=\pi(y)\int p(y,x)\,dx=\pi(y)\). This is why every MCMC recipe works.</p>
+  </div>
+
+  <div class="box">
+    <h3>Metropolis–Hastings</h3>
+    <p>Target \(\pi\), known up to a constant (it only appears in a ratio). Proposal density \(q(x,y)\) for moving from \(x\) to \(y\) (the same as \(q(y\mid x)\)). From current state \(x\), propose \(y\) and accept with probability:</p>
+    <div class="math">\[ \alpha(x,y) = \min\!\left(1,\; \frac{\pi(y)\,q(y,x)}{\pi(x)\,q(x,y)}\right) \]</div>
+    <p>If you reject, stay at \(x\), and <b>record \(x\) again</b>. The chain always moves forward in time. In code you can skip the min and just compare \(U\) to the raw ratio.</p>
+    <p><b>Transition kernel and why it works.</b> \(p(x,y)=q(x,y)\,\alpha(x,y)\) for \(y\ne x\), plus a point mass for staying put: \(p(x,\{x\})=\int_S q(x,y)\big(1-\alpha(x,y)\big)\,dy\). Moving \(\pi(x)q(x,y)\) inside the min shows \(\pi(x)p(x,y)=\min\big(\pi(x)q(x,y),\,\pi(y)q(y,x)\big)\), which is symmetric in \(x,y\). That's detailed balance. History: Metropolis used a symmetric \(q\), and Hastings generalized it to any \(q\).</p>
+    <p><b>Independence proposal (the one the lectures use in both examples).</b> \(q(x,y)=q(y)\): propose without looking at \(x\). Then</p>
+    <div class="math">\[ \alpha(x,y)=\min\!\left(1,\ \frac{\pi(y)\,q(x)}{\pi(x)\,q(y)}\right)=\min\!\left(1,\ \frac{\pi(y)/q(y)}{\pi(x)/q(x)}\right) \]</div>
+    <ul class="k">
+      <li><b>Example 1.</b> \(\pi(x)\propto x(1-x)^2e^{-x^2/2}\) on [0, 1] with Unif(0, 1) proposals. Since \(q\equiv1\), the ratio is \(\pi(y)/\pi(x)\). That's because \(q\) is constant, not because it's symmetric.</li>
+      <li><b>Example 2.</b> \(\pi(x_1,x_2)\propto x_1^2e^{-x_1(1+x_2)}\) on \(x_1,x_2\gt0\), with \(Y_1,Y_2\) i.i.d. Exp(1) proposals. Then \(q(y)=e^{-y_1-y_2}\) and \(\pi/q=x_1^2e^{-x_1x_2+x_2}\).</li>
+      <li><b>Random-walk proposal</b> (\(y=x+\varepsilon\), symmetric): the ratio is \(\pi(y)/\pi(x)\). This is standard, but the lectures don't use it in their examples.</li>
+    </ul>
+    <p><b>Getting draws.</b> Discard a burn-in period. Then either restart independent chains, or keep every ~100th value (thinning). With random-walk proposals, a small step size means nearly everything is accepted but the chain crawls, and a big one means nearly everything is rejected.</p>
+  </div>
+
+  <div class="box">
+    <h3>Gelman–Rubin \(\hat R\) (from the ungraded lab, not a video)</h3>
+    <p>Run \(m\) chains of length \(n\) (after burn-in). Let \(\bar\theta_j\) be the mean of chain \(j\), \(s_j^2\) its variance, and \(\bar\theta\) the grand mean.</p>
+    <div class="math">\[ W = \frac1m\sum_j s_j^2,\quad B = \frac{n}{m-1}\sum_j(\bar\theta_j-\bar\theta)^2,\quad \hat V = \frac{n-1}{n}W + \frac1n B,\quad \hat R = \sqrt{\hat V / W} \]</div>
+    <p>\(\hat R \approx 1\) (common cutoff &lt; 1.1) suggests the chains have mixed. A large \(\hat R\) means the chains still disagree, so keep running.</p>
+  </div>
+
+  <div class="box">
+    <h3>Gibbs sampler &amp; perfect simulation</h3>
+    <ul class="k">
+      <li><b>Gibbs (needs \(k\ge2\) coordinates).</b> Each sweep updates the coordinates in order, always using the newest values: \(x_1^{(n+1)}\sim\pi(x_1\mid x_2^{(n)},x_3^{(n)})\), then \(x_2^{(n+1)}\sim\pi(x_2\mid x_1^{(n+1)},x_3^{(n)})\), and so on. The lecture proves it works by checking the stationary equation directly.</li>
+      <li><b>Finding a full conditional.</b> Write the joint, keep only the factors that involve \(x_k\), and recognize the kernel (normal, gamma, beta…). Lecture example: \(\pi(x_1\mid x_2)=\tfrac12(1+x_2)^3x_1^2e^{-x_1(1+x_2)}\), which is Gamma(3, rate \(1+x_2\)).</li>
+      <li><b>Course gamma convention.</b> \(\Gamma(\alpha,\beta)\) with \(\beta\) a <b>rate</b>: density \(\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\), and \(\Gamma(n)=(n-1)!\). Also watch exponential rate vs. mean.</li>
+      <li><b>Speed.</b> In the lecture, Gibbs converged in about 10 steps vs. about 500 for MH. That was because the MH proposal was naive, not a general rule.</li>
+      <li><b>Bivariate normal (extra, not from the videos).</b> With correlation ρ, \(X\mid Y=y \sim N(\rho y,\ 1-\rho^2)\), and \(Y\mid X=x\) is symmetric. Mixing gets slow as \(|\rho|\to1\).</li>
+    </ul>
+  </div>
+
+  <div class="box recipe">
+    <h3>Perfect simulation: coupling from the past (Propp–Wilson)</h3>
+    <ol>
+      <li>Draw <b>one</b> uniform \(U_{-1}\) and use it to move a copy of the chain from <b>every</b> state from time −1 to time 0. If all copies land in the same state, that state is an exact draw from \(\pi\).</li>
+      <li>If not, go back <b>one more step</b>: draw \(U_{-2}\), run every state from −2 to −1, then <b>append the old paths</b> and reuse \(U_{-1}\) from −1 to 0.</li>
+      <li>Keep going back one step at a time (−3, −4, …), always reusing the earlier uniforms, until every path coalesces by time 0. You only need to store the \(U\)'s. The coalescence time is random.</li>
+    </ol>
+    <p>Why not run forward until the copies meet? Stationarity holds at fixed times, not at a random meeting time, so forward coupling is biased. For monotone chains you only need to run the top and bottom paths. Lecture example: a 3-state chain with \(\pi=(10/23,\,7/23,\,6/23)\).</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>On an MH rejection, the chain stays flat and the repeated value counts. Leaving it out of the sample biases the result.</li>
+      <li>With a non-symmetric proposal you must keep the \(q(y,x)/q(x,y)\) correction. An independence proposal is non-symmetric unless \(q\) is constant.</li>
+      <li>CFTP: going back one step and restarting with fresh uniforms, or running forward until the copies meet, are both wrong. The instructor calls reusing the old uniforms "really critical".</li>
+      <li>Accept–reject: \(f/h\) has to be bounded everywhere, including the tails. Accept on \(f/g\) with the envelope \(g\), or on \(f/(c\,h)\) with the proposal \(h\). Don't mix the two.</li>
+      <li>Parameterizations: exponential rate vs. mean, gamma rate vs. scale. The lectures also reuse the letter \(q\) for different one-dimensional densities.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P5.1</span><div>Target \(f(x)=2x\) on [0, 1] with proposal Unif(0, 1). Give the optimal \(c\), the acceptance rule and the acceptance rate.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Proposal \(h=1\) on [0, 1]. \(c=\max f/h = 2\), so the envelope is \(g=c\,h=2\). Accept \(Y\) if \(U\le f(Y)/g(Y) = 2Y/2 = Y\). Rate is \(1/c\).</p><p class="ans">c = 2, accept if U ≤ Y, acceptance rate 1/2</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.2</span><div>Random-walk MH targeting \(\pi(x)\propto e^{-x^2/2}\). The current state is \(x=1\) and the proposal is \(y=2\). What's the acceptance probability?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>The proposal is symmetric, so \(\alpha=\min(1, e^{-4/2}/e^{-1/2}) = e^{-1.5}\).</p><p class="ans">≈ 0.223</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.3</span><div>Joint density \(\pi(x,y)\propto x^{2}e^{-x(1+y)}\) for \(x,y\gt0\). Give both full conditionals for Gibbs.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Fix \(y\): \(x^2 e^{-x(1+y)}\) is a Gamma(shape 3, rate \(1+y\)) kernel. Fix \(x\): \(e^{-xy}\) is an Exponential(rate \(x\)) kernel.</p><p class="ans">X | y ~ Gamma(3, rate 1+y); Y | x ~ Exp(x)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.4</span><div>Same target \(\pi(x,y)\propto x^2e^{-x(1+y)}\), now with an independence MH sampler that proposes \(Y_1,Y_2\) i.i.d. Exp(1). The current state is \((1,1)\) and the proposal is \((2,0.5)\). What's the acceptance probability?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(\pi/q = x_1^2e^{-x_1x_2+x_2}\). At the proposal: \(4e^{-1+0.5}=4e^{-0.5}\approx2.426\). At the current state: \(1\cdot e^{-1+1}=1\). Ratio ≈ 2.43 ≥ 1.</p><p class="ans">α = 1 (always accept)</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P5.5</span><div>Target \(f(x)=\tfrac{27}{2}x^2e^{-3x}\), \(x\gt0\). Why does an Exp(3) proposal fail? With an Exp(2) proposal, find \(c\), the acceptance rule and the expected number of tries per draw.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Exp(3): \(f/h=\tfrac92x^2\to\infty\), so it isn't bounded (the tails aren't heavy enough). Exp(2): \(f/h=\tfrac{27}{4}x^2e^{-x}\). Set the derivative to zero: \(x=2\), so \(c=\tfrac{27}{4}\cdot4e^{-2}=27e^{-2}\). Accept if \(U\le f(Y)/(c\,h(Y)) = \tfrac14Y^2e^{2-Y}\).</p><p class="ans">c = 27e⁻² ≈ 3.65, P(accept) ≈ 0.274, about 3.65 tries per draw</p></div></details>
+</section>
+
+<!-- ============ MODULE 6 ============ -->
+<section class="mod" id="m6">
+  <div class="modhead"><span class="num">Module 6</span><h2>Reinforcement Learning &amp; Markov Decision Processes</h2></div>
+
+  <div class="box">
+    <h3>Know cold</h3>
+    <ul class="k">
+      <li><b>Ingredients (lecture notation).</b> States \(s\), actions \(a\), dynamics \(p(s',r\mid s,a)\) and transitions \(p(s'\mid s,a)\). A prime means "next time step". Discount \(\gamma\) is between 0 and 1 <b>inclusive</b>. Policy \(\pi(a\mid s)\). The MDP assumes the Markov property and stationarity (time homogeneity). \(E_\pi\) means "computed under policy \(\pi\)", not a starting distribution as in Modules 2–4.</li>
+      <li><b>Rewards: the course uses only two forms.</b> \(r(s,a)=E[R_t\mid S_{t-1}=s,A_{t-1}=a]\) and \(r(s)=E[R_t\mid S_{t-1}=s]=\sum_a\pi(a\mid s)\,r(s,a)\). (No \(r(s,a,s')\).) Setting the rewards well "is crucial" to steering the agent.</li>
+      <li><b>Return.</b> Continuing tasks: \(G_t = \sum_{k\ge0}\gamma^k R_{t+k+1}\), with the key identity \(G_t=R_{t+1}+\gamma G_{t+1}\). Episodic tasks: \(G_t=R_{t+1}+\dots+R_T\), where \(T\) is random. To make an episodic task continuing, add an imaginary absorbing state with reward 0. Don't make the goal itself absorbing, or its reward gets collected forever.</li>
+      <li><b>Values.</b> State value \(v_\pi(s)=E_\pi[G_t\mid S_t=s]\), which is "central to everything" in this module. Action value \(q_\pi(s,a)=E_\pi[G_t\mid S_t=s,A_t=a]\).</li>
+      <li><b>Effect of \(\gamma\).</b> \(\gamma=0\) is short-sighted (next reward only). \(\gamma=1\) is allowed but can diverge. 0.9–0.95 is typical. Raising \(\gamma\) from 0.9 to 0.99 flipped some arrows toward the truly shorter path but slowed the iteration. Tune it by experimenting and comparing policies.</li>
+    </ul>
+    <div class="math">\[
+    \begin{aligned}
+    \text{Bellman, } q \text{ form:}\quad & q_\pi(s,a) = r(s,a) + \gamma\sum_{s'} p(s'\mid s,a)\,v_\pi(s') \\
+    \text{Link:}\quad & v_\pi(s) = \sum_a \pi(a\mid s)\,q_\pi(s,a) \\
+    \text{Bellman, } v \text{ form:}\quad & v_\pi(s) = r(s) + \gamma\sum_{s'} p(s'\mid s)\,v_\pi(s'),\qquad p(s'\mid s)=\sum_a p(s'\mid s,a)\,\pi(a\mid s) \\
+    \text{Matrix form:}\quad & \vec v_\pi = \vec r_\pi + \gamma P_\pi \vec v_\pi \;\Longrightarrow\; \vec v_\pi = (I-\gamma P_\pi)^{-1}\vec r_\pi
+    \end{aligned}\]</div>
+    <p>The Bellman equation looks different in different sources, but it's the same equation. Write the \(q\) form first, then average over actions to get the \(v\) form.</p>
+  </div>
+
+  <div class="box recipe">
+    <h3>Building \(P_\pi\) and \(\vec r_\pi\) (grid world)</h3>
+    <ol>
+      <li><b>Lecture conventions.</b> Moving off the grid or into a blocked cell gives reward −1 and leaves you where you are (a "bounce"). Ordinary moves give 0. A special cell can be a trap door, e.g. any action in cell 10 sends you to cell 6 with probability 1, and its +5 is collected on that step.</li>
+      <li><b>\(\vec r_\pi\):</b> \(r(s)=\sum_a\pi(a\mid s)\,r(s,a)\). For the random walk (¼ each way) in a corner cell with two walls: \(r=\tfrac14(-1)+\tfrac14(0)+\tfrac14(-1)+\tfrac14(0)=-\tfrac12\). A cell with one wall gets \(-\tfrac14\).</li>
+      <li><b>\(P_\pi\) row for \(s\):</b> \(p(s'\mid s)=\sum_a p(s'\mid s,a)\,\pi(a\mid s)\). Bounces add to the <b>diagonal</b>. A corner cell under the random walk has ½ on the diagonal and ¼ on each of its two neighbors. A trap-door row has a single 1.</li>
+    </ol>
+  </div>
+
+  <div class="box recipe">
+    <h3>Finding the optimal policy (the lecture teaches policy iteration)</h3>
+    <ol>
+      <li>Start from the random-walk policy (every action equally likely).</li>
+      <li><b>Evaluate:</b> \(\vec v_\pi=(I-\gamma P_\pi)^{-1}\vec r_\pi\). For large problems the lecture also shows iterative evaluation: start at \(\vec v=0\) and repeat \(\vec v\leftarrow\vec r_\pi+\gamma P_\pi\vec v\). You can sweep state by state using only old values, or using new values as soon as they're computed.</li>
+      <li><b>Improve (greedy):</b> in each state, compute \(q(s,a)=r(s,a)+\gamma\sum_{s'}p(s'\mid s,a)v(s')\) and pick the best action. In a grid this "chases" the highest neighboring value. <b>Ties are split with equal probability</b>, so the new policy can be random (e.g. up or right, ½ each).</li>
+      <li>Repeat until the values, or equivalently the policy, stop changing.</li>
+    </ol>
+    <p><b>Optimality.</b> \(\pi^*\) is optimal if \(v_{\pi^*}(s)\ge v_\pi(s)\) for every \(s\) and every \(\pi\). It may not be unique, but every optimal policy has the same \(v^*(s)=\max_\pi v_\pi(s)\). Also \(q^*=\max_\pi q_\pi\), \(v^*(s)=\max_a q^*(s,a)\), and \(\pi^*(s)=\arg\max_a q^*(s,a)\).</p>
+    <p><b>Value iteration</b> (repeat \(v\leftarrow\max_a[r(s,a)+\gamma\sum p\,v]\)) isn't taught in the lectures. Use policy iteration on the exam.</p>
+  </div>
+
+  <div class="trap">
+    <div class="tl">Traps</div>
+    <ul class="k">
+      <li>\(\gamma\) multiplies the <i>next</i> state's value, not the current reward. In the \(q\) form, \(r(s,a)\) sits <i>outside</i> the sum over \(s'\).</li>
+      <li>Ties in the improvement step: split the probability evenly. Code that uses <code>argmax</code> silently picks the first action and can give a different answer.</li>
+      <li>Rounding: −3.708 and −3.679 both display as −3.7. Compare the full values before declaring a tie. The instructor tells you to pause and check the arrows yourself.</li>
+      <li>Staying put is never chosen in the grid unless it's a real action. A bounce is a −1 move, not a free stay.</li>
+      <li>With \(\gamma=1\) and no terminal state, values can diverge.</li>
+    </ul>
+  </div>
+
+  <details class="prob"><summary><span class="tag">P6.1</span><div>Fixed policy, \(\gamma=0.9\). From A: go to A or B with probability ½ each, expected reward 1. From B: stay in B, reward 2. Find \(V(A)\) and \(V(B)\).<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>\(v_B = 2 + 0.9v_B \Rightarrow v_B = 20\). \(v_A = 1 + 0.9(0.5v_A + 0.5\cdot20) = 10 + 0.45v_A \Rightarrow v_A = 10/0.55\).</p><p class="ans">v(A) = 200/11 ≈ 18.18, v(B) = 20</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.2</span><div>Same MDP, but in A there's a second action, "jump," that moves to B for sure with reward 0. Is switching A to "jump" an improvement?<div class="reveal">Show solution</div></div></summary>
+    <div class="sol"><p>Use \(v\) from P6.1. \(q(A,\text{jump}) = 0 + 0.9\cdot20 = 18\). \(q(A,\text{current}) = 18.18\). Since 18 &lt; 18.18, the greedy step keeps the current action, so this policy is already optimal.</p><p class="ans">No. Keep the current action.</p></div></details>
+
+  <details class="prob"><summary><span class="tag">P6.3</span><div>A corridor of cells 1–2–3 with actions left and right, \(\gamma=0.9\). Bumping a wall costs −1 and keeps you in place, and other moves give 0. In cell 3, <i>either</i> action is a trap door to cell 1 with reward +5. Start from the random policy (½, ½). Build \(\vec r_\pi\) and \(P_\pi\), evaluate, and do one greedy improvement.<div class="reveal">Show solution</div></div></summary>
+    <div class="sol">
+      <p>\(\vec r_\pi=(-\tfrac12,\,0,\,5)\). \(P_\pi=\begin{pmatrix}\tfrac12&\tfrac12&0\\ \tfrac12&0&\tfrac12\\ 1&0&0\end{pmatrix}\) (cell 1's bounce goes on the diagonal). \(\vec v_\pi=(I-0.9P_\pi)^{-1}\vec r_\pi\approx(3.10,\ 4.90,\ 7.79)\).</p>
+      <p>Cell 1: \(q(L)=-1+0.9(3.10)=1.79\), \(q(R)=0.9(4.90)=4.41\), so go right. Cell 2: \(q(L)=0.9(3.10)=2.79\), \(q(R)=0.9(7.79)=7.01\), so go right. Cell 3: both actions give \(5+0.9(3.10)=7.79\), a tie, so split ½–½. Evaluating the new policy gives \(v\approx(14.94,\,16.61,\,18.45)\), and the greedy step doesn't change, so it's optimal.</p>
+      <p class="ans">Right, right, and (½ left, ½ right) in cell 3</p></div></details>
+</section>
+
+<!-- ============ CODE ============ -->
+<section class="mod" id="code">
+  <div class="modhead"><span class="num">Exam notebook</span><h2>Notebook toolkit: write these from memory</h2><p class="lede">The Final Exam notebook is your only computing tool. You can't paste these in, so practice typing each one from a blank cell until it takes under two minutes.</p></div>
+
+  <div class="box"><h3>n-step, stationary distribution, eigenvalues</h3>
+<pre>import numpy as np
+P = np.array([[0.5, 0.5], [0.2, 0.8]])
+np.linalg.matrix_power(P, 10)              # n-step transitions
+
+def stationary(P):
+    n = P.shape[0]
+    A = np.vstack([P.T - np.eye(n), np.ones(n)])
+    b = np.zeros(n + 1); b[-1] = 1
+    return np.linalg.lstsq(A, b, rcond=None)[0]
+
+np.sort(np.abs(np.linalg.eigvals(P)))[::-1]  # |λ1|=1, |λ2| sets mixing speed</pre></div>
+
+  <div class="box"><h3>Module 2: forbidden state made absorbing</h3>
+<pre>mp = np.linalg.matrix_power
+def absorb(P, c):                  # Q = P with state c made absorbing
+    Q = P.copy(); Q[c] = 0; Q[c, c] = 1
+    return Q
+Q = absorb(P, 1)                   # e.g. forbid state 1 ("cloudy")
+1 - mp(Q, 3)[0, 1]                 # P(never in 1 at times 1..3 | X0=0)
+mp(Q, 4)[0, 0] / (1 - mp(Q, 3)[0, 1])   # P(X4=0 | not 1 at 1..3, X0=0)</pre></div>
+
+  <div class="box"><h3>Module 3: classes, period, TV distance</h3>
+<pre>def reach(P):                      # R[i,j] True if i -&gt; j (n &gt;= 0)
+    n = len(P); A = ((P &gt; 0) | np.eye(n, dtype=bool)).astype(int)
+    return mp(A, n) &gt; 0
+R = reach(P); C = R &amp; R.T          # C[i,j]: i and j communicate
+closed = [i for i in range(len(P)) if all(C[i, j] for j in np.where(R[i])[0])]
+
+from math import gcd
+def period(P, i, nmax=50):
+    d = 0
+    for n in range(1, nmax + 1):
+        if mp(P, n)[i, i] &gt; 1e-12: d = gcd(d, n)
+    return d
+
+tv = lambda mu, nu: 0.5 * np.abs(np.asarray(mu) - np.asarray(nu)).sum()</pre></div>
+
+  <div class="box"><h3>Module 4: first-step systems</h3>
+<pre>def hit_time(P, A):                # u_i = 1 + sum_k p_ik u_k, u_A = 0
+    idx = [s for s in range(len(P)) if s not in A]
+    u = np.zeros(len(P))
+    u[idx] = np.linalg.solve(np.eye(len(idx)) - P[np.ix_(idx, idx)], np.ones(len(idx)))
+    return u
+
+def return_time(P, j):             # m_j = 1 + sum_k p_jk u_k, with u_j = 0
+    return 1 + P[j] @ hit_time(P, [j])
+
+def hit_before(P, A, B):           # p_i = sum_k p_ik p_k, p_A = 1, p_B = 0
+    idx = [s for s in range(len(P)) if s not in A + B]
+    b = P[np.ix_(idx, A)].sum(axis=1)
+    p = np.zeros(len(P)); p[A] = 1
+    p[idx] = np.linalg.solve(np.eye(len(idx)) - P[np.ix_(idx, idx)], b)
+    return p
+
+def visits(P, t):                  # W[i,j] = expected visits to j before hitting t
+    idx = [s for s in range(len(P)) if s != t]
+    W = np.linalg.inv(np.eye(len(idx)) - P[np.ix_(idx, idx)])
+    return idx, W                  # rows of W sum to hit_time(P,[t])[idx]</pre></div>
+
+  <div class="box"><h3>Metropolis–Hastings &amp; Gibbs</h3>
+<pre>rng = np.random.default_rng(1)
+
+def metropolis(log_target, x0, n, step=1.0):
+    x, out, acc = x0, np.empty(n), 0
+    for i in range(n):
+        y = x + step * rng.normal()
+        if np.log(rng.uniform()) &lt; log_target(y) - log_target(x):
+            x, acc = y, acc + 1
+        out[i] = x                    # record x even on rejection
+    return out, acc / n
+
+def mh_independence(target, q_sample, q_pdf, x0, n):   # lecture style
+    x, out = x0, []
+    for _ in range(n):
+        y = q_sample()
+        ratio = (target(y) / q_pdf(y)) / (target(x) / q_pdf(x))
+        if rng.uniform() &lt;= ratio:    # no min needed
+            x = y
+        out.append(x)                 # repeat x on rejection
+    return np.array(out)
+
+def gibbs_bvn(rho, n):
+    x = y = 0.0; s = np.sqrt(1 - rho**2); out = np.empty((n, 2))
+    for i in range(n):
+        x = rng.normal(rho * y, s)
+        y = rng.normal(rho * x, s)
+        out[i] = x, y
+    return out</pre></div>
+
+  <div class="box"><h3>Gelman–Rubin &amp; accept–reject</h3>
+<pre>def gelman_rubin(chains):            # array shape (m, n)
+    m, n = chains.shape
+    W = chains.var(axis=1, ddof=1).mean()
+    B = n * chains.mean(axis=1).var(ddof=1)
+    V = (n - 1) / n * W + B / n
+    return np.sqrt(V / W)
+
+# lecture letters: h = proposal pdf, g = c*h = envelope (g &gt;= f)
+def accept_reject(f, h_sample, h_pdf, c, n):
+    out, tries = [], 0
+    while len(out) &lt; n:
+        y = h_sample(); tries += 1
+        if rng.uniform() &lt;= f(y) / (c * h_pdf(y)):    # = f(Y)/g(Y)
+            out.append(y)
+    return np.array(out), n / tries       # acceptance rate ~ 1/c
+
+def inv_exp(lam, n):                      # lecture's F^-1(u) = -ln(1-u)/lam
+    return -np.log(1 - rng.uniform(size=n)) / lam</pre></div>
+
+  <div class="box"><h3>Policy evaluation &amp; policy iteration</h3>
+<pre># P[a]: (S,S) matrix p(s'|s,a);  r[a]: (S,) reward r(s,a)
+# pi: (S,A) matrix of probabilities pi(a|s)
+def evaluate(P, r, pi, gamma):
+    P_pi = sum(pi[:, [a]] * P[a] for a in range(len(P)))   # p(s'|s)
+    r_pi = sum(pi[:, a] * r[a] for a in range(len(P)))     # r(s)
+    return np.linalg.solve(np.eye(len(r_pi)) - gamma * P_pi, r_pi)
+
+def policy_iteration(P, r, gamma, tol=1e-9):
+    A, S = len(P), len(r[0])
+    pi = np.full((S, A), 1 / A)                  # start: random walk
+    while True:
+        v = evaluate(P, r, pi, gamma)
+        q = np.array([r[a] + gamma * P[a] @ v for a in range(A)]).T  # (S,A)
+        best = q &gt;= q.max(axis=1, keepdims=True) - tol
+        new = best / best.sum(axis=1, keepdims=True)    # split ties evenly
+        if np.allclose(new, pi):
+            return pi, v
+        pi = new</pre></div>
+</section>
+
+<!-- ============ READINESS ============ -->
+<section class="mod" id="ready">
+  <div class="modhead"><span class="num">Self-check</span><h2>Readiness check</h2><p class="lede">Tick an item only when you can do it on blank paper without looking. Your ticks are saved in this browser.</p></div>
+  <div class="box checks" id="checks">
+    <label><input type="checkbox" id="c1"><span>ProctorU account created and exam slot booked</span></label>
+    <label><input type="checkbox" id="c2"><span>Compute n-step probabilities and Bayes-flipped questions like \(P(X_1\mid X_3)\)</span></label>
+    <label><input type="checkbox" id="c3"><span>Answer "never visits C" questions by making C absorbing and reading \(Q^n\)</span></label>
+    <label><input type="checkbox" id="c4"><span>Classify every state (class, recurrent/transient, positive/null, period) of a 4–6 state matrix, and compute \(g_i\) by splitting on the first return</span></label>
+    <label><input type="checkbox" id="c5"><span>State the ergodic theorem's conditions and give counterexamples when each one fails</span></label>
+    <label><input type="checkbox" id="c6"><span>Compute TV distance both ways (½ Σ and max over A)</span></label>
+    <label><input type="checkbox" id="c7"><span>Solve \(\pi P=\pi\) by hand for 2–3 states and relate \(\pi_j\) to the mean return time</span></label>
+    <label><input type="checkbox" id="c8"><span>Set up first-step equations for hitting time, hitting probability and expected visits</span></label>
+    <label><input type="checkbox" id="c9"><span>Get mean pattern times by 1/P(pattern) for non-overlapping patterns and by the sliding-window chain (u = 1 at the target, then +2)</span></label>
+    <label><input type="checkbox" id="c10"><span>Derive inverse-CDF and accept–reject samplers with the lecture's g, h, c, including the acceptance rate</span></label>
+    <label><input type="checkbox" id="c11"><span>Write the MH ratio as \(\pi(y)q(y,x)/\pi(x)q(x,y)\), simplify it for an independence proposal, and prove detailed balance ⇒ stationary</span></label>
+    <label><input type="checkbox" id="c12"><span>Derive full conditionals for a Gibbs sampler from a joint density</span></label>
+    <label><input type="checkbox" id="c13"><span>Run CFTP by hand on a 3-state chain, going back one step at a time and reusing the uniforms</span></label>
+    <label><input type="checkbox" id="c14"><span>Build \(P_\pi\) and \(\vec r_\pi\) for a grid, write both Bellman forms, and run one round of policy iteration with ties split</span></label>
+    <label><input type="checkbox" id="c15"><span>Type every notebook toolkit function from memory</span></label>
+  </div>
+</section>
+
+<footer>Built from the APPA 5002 module outlines and final-exam pages on Coursera, and checked against all 50 lecture transcripts (Nov 8, 2026). Methods and notation follow Prof. Corcoran's lectures. Anything not from the videos is marked "bonus" or "extra". The transcripts are saved in the Module 2–6 folders.</footer>
+</main>
+</div>
+
+<script>
+(function () {
+  // Countdown to Dec 11, 2026 4:50 PM MST (UTC-7)
+  var due = new Date(Date.UTC(2026, 11, 11, 23, 50));
+  var el = document.getElementById('countdown');
+  var days = Math.ceil((due - new Date()) / 86400000);
+  el.textContent = days > 1 ? days + ' days left' : days === 1 ? '1 day left' : days === 0 ? 'today' : 'past due';
+
+  // Readiness checklist, saved per browser
+  var KEY = 'appa5002-ready';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#checks input'));
+  function update() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById('progText').textContent = n + ' of ' + boxes.length + ' ready';
+    document.getElementById('progBar').style.width = (100 * n / boxes.length) + '%';
+  }
+  boxes.forEach(function (b) {
+    b.checked = !!saved[b.id];
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>

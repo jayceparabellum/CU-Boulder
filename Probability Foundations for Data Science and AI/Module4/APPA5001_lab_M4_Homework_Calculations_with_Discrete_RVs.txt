@@ -1,0 +1,182 @@
+
+
+######## release/A_M3/A_M3.ipynb ########
+
+[MD]
+# Module 3 Assessment
+In this notebook you will use the rules of conditional probability to solve various problems. Please read each statement and answer all questions in the code blocks that contain "your code here". Feel free to add as many blocks as you need, only the original code blocks will be graded.
+
+[CODE]
+#Hidden cell that imports the test_that library
+library(testthat)
+
+[MD]
+### Problem 1
+
+The planning department for the local county requires a contractor to submit one, two,
+three, four, or five forms (depending on the nature of the project) when applying
+for a building permit. Let $Y$ be the number of forms required for the next applicant.
+The probability that $y$ forms are required is known to be proportional to $y$; that
+is, $P(Y = y) = ky$ for $y = 1, ..., 5$.
+
+[MD]
+#### Part a)
+What is the value of k? Save your answer as `p1.1`.
+
+[CODE]
+p1.2 = NA
+y <- 1:5
+p1.1 <- 1 / sum(y)
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (b)
+
+What is the probability that at most three forms are required? Save your answer as `p1.2`.
+
+[CODE]
+p1.2 = NA
+p1.2 <- sum(p1.1 * y[y <= 3])
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (c)
+
+What is the probability that between two and four forms (inclusive) are
+required? Save your answer as `p1.3`.
+
+
+[CODE]
+p1.3 = NA
+p1.3 <- sum(p1.1 * y[y >= 2 & y <= 4])
+
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (d)
+
+Could $P(Y = y) = y^2/50$ for $y = 1, ..., 5$ be the pmf of $Y$ ? Store your answer as TRUE or FALSE. Save your answer as `TF_1.4`.
+
+[CODE]
+TF_1.4 = NA
+TF_1.4 <- isTRUE(all.equal(sum(y^2 / 50), 1))
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 2
+
+[MD]
+Individuals A and B play a sequence of chess games until one player wins 9 games. A wins an individual game with probability p, and B wins a game with probability 1 − p (i.e., there are no draws). Let X denote the number of games played.
+
+[MD]
+#### Part (a) 
+
+What are the possible values of X? Store your answers the vector `Vals_2.1`. Don't worry about the order.
+
+[CODE]
+Vals_2.1 = c()
+Vals_2.1 <- c(9, 10, 11, 12, 13, 14, 15, 16, 17)
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (b)
+
+The expression for $P(X = x)$ can be shown to include what known distribution? It will end up being the sum of two of these distributions each multiplied by a different factor. Below are the options listing several distributions. Select the number corresponding to the correct distribution as `Dist_2.2`. (Hint: Think of splitting probability into a probability for player A winning in x games summed with the probability of the disjoint event of player B winning in x games.)
+
+1. Geometric Distribution
+2. Binomial Distribution
+3. Poisson Distribution
+4. Exponential Distribution
+5. Negative Binomial Distribution
+6. Normal Distribution
+
+
+[CODE]
+Dist_2.2 = "5"
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (c) 
+
+Let $p = 0.5$. Find $P(X = 12)$. Round your answer to four decimal places. Save your answer as `p2.3`.
+
+[CODE]
+p2.3 = NA
+p <- 0.5
+x <- 12
+wins_needed <- 9
+
+# A needs 8 wins in the first 11 games (binomial), then wins game 12 (factor p);
+# B is the mirror image with p and 1 - p swapped.
+p_A <- p       * dbinom(wins_needed - 1, x - 1, p)
+p_B <- (1 - p) * dbinom(wins_needed - 1, x - 1, 1 - p)
+p2.3 <- round(p_A + p_B, 4)   # 0.0806
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 3
+
+[MD]
+Note the following distribution: X = the leading digit of a randomly selected number from a large accounting ledger. The pmf for this random variable has been found to be defined by:
+$$ P(X=x) = f(x) = log_{10}\Big(\frac{x+1}{x}\Big), \ \ x=1,2,...,9. $$
+
+[MD]
+#### Part (a)
+
+Find E(X). Round your answer to two decimal places. Save your answer as `e3.1`.
+
+[CODE]
+e3.1 = NA
+x <- 1:9
+fx <- log10((x + 1) / x)
+e3.1 <- round(sum(x * fx), 2)
+
+[CODE]
+# Hidden test cell
+
+
+[MD]
+### Problem 4
+
+Suppose we have an unfair coin with a probability of $0.6$ of obtaining a heads on any given toss. As is typical for coin toss problems, assume each coin toss is independent.
+
+[MD]
+#### Part (a) 
+
+What is the expected number of flips **before** we get a heads? Round your answer to two decimal places. Save your answer as `e4.1`.
+
+[CODE]
+p <- 0.6
+e4.1 <- round((1 - p) / p, 2)
+
+[CODE]
+# Hidden test cell
+
+[MD]
+#### Part (b) 
+How many tails do you expect to see before getting three heads? Save your answer as `e4.2`. 
+
+For example, imagine you see the third heads on the tenth trial. This would mean you have seen 2 heads in the first 9 trials followed by a heads on the tenth. Then your answer would be observing $7$ tails. Generalize this to the $i^{th}$ trial.
+
+[CODE]
+e4.2 = NA
+p <- 0.6
+r <- 3    
+e4.2 <- r * (1 - p) / p   # 2
+
+[CODE]
+# Hidden test cell

@@ -1,0 +1,127 @@
+
+
+######## conditional_probability.ipynb ########
+
+[MD]
+Simulation is a great tool for probability problems even when you are trying to compute exact results since it can help you to check your work!
+
+[MD]
+# Problem 1
+
+[MD]
+Suppose you roll a fair six-sided die two times. Let $A$ be the event "the sum of the throws equals 5" and $B$ be the event "at least one of the throws is a $4$".
+
+[MD]
+**Part a)** 
+
+By hand, solve for the probability that the sum of the throws equals 5, given that at least one of the throws is a 4. That is, solve $P(A|B)$.
+
+[MD]
+**Part b)**
+
+In the next cell, write a simple simulation to confirm your result. Make sure you run your simulation enough times to be confident in your result. We will get you started but <b>feel free to delete the provided code to use your own approach</b>.
+
+Hint: Think about the definition of conditional probability. 
+
+[CODE]
+set.seed(42)          # reproducible results
+n_sims <- 1e6         # large n: only ~11/36 of trials land in B
+
+# Simulate values
+roll1 <- sample(1:6, n_sims, replace = TRUE)
+roll2 <- sample(1:6, n_sims, replace = TRUE)
+
+# Put the two columns together and convert to a data frame
+mydata <- as.data.frame(cbind(roll1, roll2))   # fixed: was my.data
+
+# Logical vectors for each event (vectorized, so O(n), no loops)
+event_A <- (mydata$roll1 + mydata$roll2) == 5
+event_B <- (mydata$roll1 == 4) | (mydata$roll2 == 4)
+
+# Guard against an empty conditioning set (would give division by zero)
+if (sum(event_B) == 0) stop("No trials satisfied B; increase n_sims.")
+
+# P(A|B) = P(A and B) / P(B). Equivalently, the fraction of B-trials where A also holds
+p_A_given_B <- sum(event_A & event_B) / sum(event_B)
+
+cat("Simulated P(A|B):", round(p_A_given_B, 4), "\n")
+cat("Exact     P(A|B):", round(2/11, 4), "\n")
+
+# Optional: look at the subset where both events occur
+head(mydata[event_A & event_B, ])
+[OUT] Simulated P(A|B): 0.1823 
+Exact     P(A|B): 0.1818 
+
+[OUT]     roll1 roll2
+6   4     1    
+41  4     1    
+72  1     4    
+80  4     1    
+135 1     4    
+137 1     4    
+
+[MD]
+<hr>
+
+[MD]
+# Problem 2
+
+Suppose you have two bags of marbles that are in a box. Bag 1 contains 7 white marbles, 6 black marbles, and 3 gold marbles. Bag 2 contains 4 white marbles, 5 black marbles, and 15 gold marbles. You will reach into the box to pull out a bag. Suppose that, due to the size and shapes of the bags, the probability of grabbing Bag 1 from the box is twice the probability of grabbing Bag 2.
+
+If you close your eyes, grab a bag from the box, and then grab a marble from that bag, what is the probability that it is gold?
+
+[MD]
+**Part a)** 
+
+Solve this problem by hand. This should give us a theoretical value for pulling a gold marble.
+
+[MD]
+**Part b)**
+
+Create a simulation to estimate the probability of pulling a gold marble. Make sure to run the simulation enough times to be confident in your final result!
+
+Hint: You can sample one marble from Bag 1 with this line of code
+
+<code>sample(c("white","black","gold"),1,prob=c(7/16,6/16,3/16))</code>
+
+though you mind find it easier to label white marbles as "1", black marbles as "2", and gold marbles as "3" rather than having to work with strings.
+
+[CODE]
+set.seed(42)
+n_sims <- 1e6
+
+# Configuration lives in one place: marble counts per bag and bag-selection weights
+WHITE <- 1; BLACK <- 2; GOLD <- 3
+bag_counts <- list(
+  bag1 = c(7, 6, 3),    # white, black, gold
+  bag2 = c(4, 5, 15)
+)
+bag_probs <- c(2/3, 1/3)  # P(Bag 1) is twice P(Bag 2)
+
+# Stage 1: choose a bag for each trial
+bag <- sample(1:2, n_sims, replace = TRUE, prob = bag_probs)
+
+# Stage 2: draw one marble per trial from the chosen bag.
+# Sampling all trials of a given bag in one call avoids an n-length loop.
+marble <- integer(n_sims)
+for (b in seq_along(bag_counts)) {
+  idx <- which(bag == b)
+  if (length(idx) > 0) {   # guard: a bag could in principle never be chosen
+    counts <- bag_counts[[b]]
+    marble[idx] <- sample(c(WHITE, BLACK, GOLD), length(idx),
+                          replace = TRUE, prob = counts / sum(counts))
+  }
+}
+
+p_gold <- mean(marble == GOLD)
+
+cat("Simulated P(gold):", round(p_gold, 4), "\n")
+cat("Exact     P(gold):", round(1/3, 4), "\n")
+
+
+[OUT] Simulated P(gold): 0.3336 
+Exact     P(gold): 0.3333 
+
+
+[CODE]
+

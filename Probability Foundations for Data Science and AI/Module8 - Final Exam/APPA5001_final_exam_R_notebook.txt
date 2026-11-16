@@ -1,0 +1,78 @@
+
+
+######## Untitled.ipynb ########
+
+[CODE]
+p_A <- 0.7
+p_B <- 0.5
+p_B_given_p_A = 0.6
+
+
+
+[CODE]
+p_A <- 0.06
+p_B <- 0.4
+p_B_given_A <- 0.5 
+[OUT] ERROR: Error in parse(text = x, srcfile = src): <text>:3:0: unexpected end of input
+1: p_A <- 
+2: p_B <- 
+  ^
+
+
+[CODE]
+p_A         <- 0.7
+p_B         <- 0.5
+p_B_given_A <- 0.6
+
+p_A_and_B <- p_B_given_A * p_A
+p_A_or_B  <- p_A + p_B - p_A_and_B
+
+stopifnot(p_A_or_B <= 1, p_A_or_B >= max(p_A, p_B))
+round(p_A_or_B, 2)
+[OUT] [1] 0.78
+
+[CODE]
+p2.1 = NA
+pG = 0.5
+pF_G = 0.85
+pF_notG = 0.30
+
+p2.1 = round(pF_G * pG + pF_notG * (1 - pG), 3)
+p2.1
+[OUT] [1] 0.575
+
+[CODE]
+
+
+
+######## Calculator Notebook.ipynb ########
+
+[MD]
+# Calculator Notebook
+
+> This is an empty notebook that you can use during the final exam for calculations and computations. Anything in this notebooks will not be graded.
+
+[CODE]
+n_total = 40
+n_dog = 18
+n_cat = 15
+n_neither = 10
+
+n_either = n_total - n_neither
+n_dog_no_cat = n_dog - n_cat - n_either
+
+n_both / n_dog + n_cat - n_either
+
+n_both / n_dog
+
+n_no_cat = n_total - n_cat
+n_dog_no_cat = n_dog - n_both
+n_dog_no_cat / n_no_cat
+[OUT] ERROR: Error in eval(expr, envir, enclos): object 'n_total' not found
+
+
+[CODE]
+
+
+[CODE]
+

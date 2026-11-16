@@ -1,0 +1,75 @@
+
+
+######## continuous_distributions.ipynb ########
+
+[MD]
+# Problem 1
+
+[MD]
+To plot a function in R such as $f(x)=e^{-x}$, we can create a very fine sequence of x values such as
+
+<code>x = seq(0,5,0.001)</code>
+
+We can then create a new sequence of points for the $y$-values.
+
+<code>y = exp(-x)</code>
+
+Finally, we can plot all of the $x$-$y$ pairs as follows.
+
+[CODE]
+x = seq(0,5,0.001)
+y = exp(-x)
+plot(x, y, type="l")
+[OUT] plot without title
+
+[MD]
+In the plot above you should see what appears to be a very thick curve. It is, in fact, a sequence of large and disconnected points. Go back to the previous cell and add <code>type="l"</code> to the plot function to have it connect the dots with a line/curve. It is much nicer don't you think?
+
+[MD]
+In the next cell, plot the pdf for the normal distribution with mean $\mu=1$ and variance $\sigma^{2}=2$.
+
+[CODE]
+x = seq(-5, 7, 0.001)
+y = dnorm(x, mean = 1, sd = sqrt(2))
+plot(x, y, type="l")
+
+
+[MD]
+# Problem 2
+
+[MD]
+In this problem, we are going to use a built-in R function to simulate values from a normal distribution and then we will look at simple transformations of our sample.
+
+[CODE]
+mean(mysample)   # close to 0
+sd(mysample)     # close to 1
+hist(mysample, breaks = 100, freq = FALSE)          # bell shape
+curve(dnorm(x), add = TRUE, col = "red", lwd = 2)   # overlay the true N(0,1) pdf
+
+[MD]
+In the next cell, make a histogram of "mysample". Be sure to use "prob=T" in order to have "density" on the $y$-axis. This makes it so the area of each rectangle is equal to the proportion of values in "mysample" that fall into the corresponding bin.
+
+[CODE]
+hist(mysample, prob = T)
+curve(dnorm(x), add = TRUE, col = "red", lwd = 2)
+
+[MD]
+Go back to the previous cell and, right before the histogram command, make a fine sequence of $x$-values and then corresponding $y$-values defined by the $N(0,1)$ pdf.  Under your histogram command, add the additional line
+
+<code>lines(x,y)</code>
+
+to add the $N(0,1)$ pdf to the histogram. If you have done everything correctly, the curve should match the histogram fairly well. If it does not, try to find your error and fix it!
+
+[MD]
+<hr>
+In the next cell, we will multiply every value in the sample by 2 and then subtract 1 from each result. Make a histogram of the results. Can you guess what the new distribution is? Use the commands 
+<code>mean(mysample2)</code> 
+and 
+<code>var(mysample2)</code>
+to help you figure out the parameters for the new distribution. Superimpose the new pdf. (Note: You can not simply multiply the old $y$-values used in the previous "lines" function  by 2 and subtract 1. Pdfs for transformations of random variables do not, in general, work that way!)
+
+[CODE]
+# Add code and run this cell
+mysample2 = 2*mysample-1
+
+

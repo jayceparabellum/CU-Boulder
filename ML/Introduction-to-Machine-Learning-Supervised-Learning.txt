@@ -1,0 +1,513 @@
+================================================================================
+  STUDY GUIDE
+  Introduction to Machine Learning: supervised Learning
+  CU Boulder (Coursera) - Instructor: Daniel Acuna, Ph.D.
+  (Repo folder: Introduction-to-Machine-Learning:Supervised-Learning)
+================================================================================
+
+Built from your own coursework: Quizzes 1-5 and Labs 1-5.
+Note: the folder is named "Supervised-Learning", but the content (and the Lab 5
+header) is the UNSUPERVISED learning course.
+
+CONTENTS
+  0. Big picture + one-page cheat sheet
+  1. Module 1 - Unsupervised learning, distances, standardization
+  2. Module 2 - Dimensionality reduction: PCA, SVD, MDS, t-SNE, UMAP
+  3. Module 3 - K-Means, GMMs/EM, choosing K, cluster profiling
+  4. Module 4 - Hierarchical clustering, linkage, dendrograms, ARI
+  5. Module 5 - Missing data, matrix completion, recommenders, other topics
+  6. Your weak spots (questions you lost points on)
+  7. Code patterns to memorize (sklearn / scipy / numpy)
+  8. Self-test questions (answers at the end)
+
+
+================================================================================
+0. BIG PICTURE
+================================================================================
+
+Supervised learning:   labeled data (X, y) -> learn to predict y.
+Unsupervised learning: NO labels -> find hidden patterns / structure in X.
+
+The course's main task types:
+  - Dimensionality reduction  (PCA, SVD, MDS, t-SNE, UMAP, LDA*)
+  - Clustering                (K-Means, Hierarchical, GMM, DBSCAN)
+  - Matrix completion / imputation (SVD-based, recommender systems)
+  - Anomaly detection         (Isolation Forest)
+  - Topic modeling            (Latent Dirichlet Allocation, also "LDA")
+  - Generative models         (create NEW samples resembling the training data)
+
+  * Two different "LDA"s: Linear Discriminant Analysis (dimensionality
+    reduction, actually supervised) vs. Latent Dirichlet Allocation (topic
+    modeling on text). Read the question context carefully.
+
+The pipeline used in nearly every lab:
+  load data -> summary stats -> STANDARDIZE -> (PCA / distances)
+  -> cluster -> evaluate (elbow, silhouette) -> profile clusters
+  -> visualize in PCA 2-D space
+
+------------------------- ONE-PAGE CHEAT SHEET ---------------------------------
+ Standardize:       z = (x - mean) / std           -> mean 0, std 1 per feature
+ Euclidean:         d = sqrt( sum (x_i - y_i)^2 )
+ Manhattan:         d = sum |x_i - y_i|
+ PCA:               eigen-decomposition of covariance matrix (or SVD of data)
+ PVE (PC k):        lambda_k / sum(lambda)         ("explained_variance_ratio_")
+ Loadings:          pca.components_  (rows = PCs, cols = features)
+ Scores:            pca.transform(X)  (coordinates in PC space)
+ K-Means objective: minimize WCSS (inertia) = sum ||x - centroid||^2
+ Centroid:          mean of the points in the cluster
+ Silhouette s(i):   (b - a) / max(a, b),   range [-1, 1], higher = better
+ Elbow method:      plot inertia vs K, pick the "bend"
+ GMM:               soft/probabilistic membership, fit by EM
+ Dendrogram cut:    cut across the LONGEST vertical gap
+ Single linkage:    min distance   -> long "chaining"/elongated clusters
+ Complete linkage:  max distance   -> compact clusters, sensitive to outliers
+ Average linkage:   mean distance  -> compromise
+ ARI:               1 = perfect agreement, 0 = random, <0 = worse than random
+ Truncated SVD:     X ~ U_M * Sigma_M * V_M^T   (rank-M approximation)
+ Choose rank M:     cross-validation by masking observed entries
+--------------------------------------------------------------------------------
+
+
+================================================================================
+1. MODULE 1 - UNSUPERVISED LEARNING FOUNDATIONS & DISTANCE
+   Lab 1 dataset: USArrests (50 states x 4 features:
+   Murder, Assault, UrbanPop, Rape)
+================================================================================
+
+1.1 What unsupervised learning is
+  - Does NOT use labeled data for training.
+  - Goal: find hidden patterns / intrinsic structure without guidance.
+  - It does NOT "always provide a clear output" - results need interpretation.
+
+1.2 Goals of dimensionality reduction (quiz: select all)
+  YES: improve computational efficiency
+  YES: remove noise and redundancy
+  YES: enhance data visualization
+  NO:  increase number of features / "ensure data accuracy"
+
+1.3 Clustering methods vs. non-clustering methods
+  Clustering:     K-Means, Hierarchical, GMM, DBSCAN
+  NOT clustering: SVM, Linear Regression, Random Forest, Decision Trees, PCA
+
+1.4 Visualizing high-dimensional data: PCA, t-SNE (also UMAP, MDS)
+
+1.5 Distance metrics - which one when?
+  Euclidean    straight-line; default for continuous, scaled data
+  Manhattan    sum of absolute differences ("city block"); less outlier-driven
+  Chebyshev    max coordinate difference
+  Hamming      # of positions that differ (categorical / binary strings)
+  Jaccard      set overlap (binary / set data)
+  Gower        MIXED numerical + categorical features   <-- quiz answer
+  Mahalanobis  accounts for feature correlations/scale; the quiz's answer
+               for "preferred for high-dimensional data due to robustness"
+
+1.6 Why standardize (the most important practical lesson in the course)
+  - Distance-based methods are dominated by large-scale features.
+    In USArrests, Assault (hundreds) swamps Murder (single digits).
+  - Lab 1 Q8 compared Alabama-Alaska distance before vs after scaling:
+    the unstandardized distance is much larger and mostly reflects Assault.
+  - StandardScaler: z = (x - mu) / sigma; uses population std (ddof=0).
+
+1.7 Lab 1 skills
+  - pd.read_csv(path, index_col=0)          # states as the index
+  - df.std(ddof=0)                           # population std (matches sklearn)
+  - Implement euclidean_distance and manhattan_distance with numpy
+  - Distance matrix: squareform(pdist(X, metric="euclidean"))
+      * shape (n, n), diagonal = 0, symmetric
+  - Most similar pair: copy matrix, np.fill_diagonal(D, np.inf),
+      np.unravel_index(np.argmin(D), D.shape)
+  - k nearest neighbors: set self-distance to inf, np.argsort(row)[:k]
+
+1.8 K-Means "k" = number of clusters to form.
+    Hierarchical clustering does NOT need a pre-set number of clusters.
+
+
+================================================================================
+2. MODULE 2 - DIMENSIONALITY REDUCTION (PCA & FRIENDS)
+   Lab 2 dataset: Wine (178 samples, 13 chemical features, 3 cultivars)
+================================================================================
+
+2.1 PCA intuition
+  - Finds new orthogonal axes (principal components) along directions of
+    MAXIMUM variance. PC1 = most variance, PC2 = next most, etc.
+  - PCs are uncorrelated: corr(PC1 scores, PC2 scores) ~ 0 (Lab 2 Q9).
+  - Mathematical foundation: EIGEN-DECOMPOSITION OF THE COVARIANCE MATRIX.
+
+2.2 PCA algorithm, step by step
+  1. Standardize the data (first step - quiz answer)
+     (centering = subtracting the mean is the essential part)
+  2. Compute the covariance matrix  C = (1/(n-1)) X^T X
+     (matrix multiplication's role in PCA = computing the covariance matrix)
+  3. Find eigenvalues and eigenvectors of C
+  4. Sort eigenvectors by eigenvalue (descending)
+  5. Project: scores = X_centered @ eigenvectors[:, :k]
+  NOT part of PCA: logistic regression, k-means, multiplying by eigenvalues.
+
+2.3 Key PCA outputs (sklearn names)
+  explained_variance_ratio_  PVE per component (sums to 1)
+  np.cumsum(...)             cumulative PVE
+  components_                LOADINGS, shape (n_components, n_features)
+  transform(X)               SCORES, shape (n_samples, n_components)
+  inverse_transform(scores)  reconstruction back to feature space
+
+2.4 Loadings
+  - Indicate how strongly each original variable contributes to / correlates
+    with each PC. Largest |loading| = feature that "drives" that PC.
+  - Wine: PCA identifies which chemical compounds drive the variation;
+    supports visualization of taste profiles and grouping similar wines.
+    It canNOT give wine age or predict production.
+
+2.5 Choosing the number of components
+  - Variance threshold: smallest k with cumulative PVE >= 80% (Lab 2: k=5)
+      k = np.argmax(cumsum >= 0.8) + 1     # +1 because index is 0-based
+  - Scree plot: look for the elbow where PVE drops off.
+
+2.6 Reconstruction
+  - Fewer components -> approximation with some error (MSE).
+  - All components -> MSE ~ 0. Reconstruction error falls as k increases.
+
+2.7 Why standardize before PCA
+  - Without it, the largest-variance feature dominates (Wine: proline,
+    range ~280-1680, vs hue ~0.5-1.7). PC1 would just be "proline".
+
+2.8 SVD and its relation to PCA
+  - X = U * Sigma * V^T (singular vectors + singular values).
+  - Right singular vectors V = principal directions; singular values relate
+    to eigenvalues: lambda_k = s_k^2 / (n-1).
+  - Purpose in PCA: reduce dimensionality while preserving variance.
+  - Also used for data compression. It is NOT a normalization step and
+    does not by itself pick the number of components.
+
+2.9 Other methods (know the one-line distinction)
+  MDS    preserve pairwise distances as closely as possible in low dims
+  t-SNE  nonlinear; great for 2-D/3-D embeddings; preserves LOCAL structure;
+         slower than PCA on large data
+  UMAP   nonlinear; preserves MORE GLOBAL structure than t-SNE; faster
+  (t-SNE and UMAP are NOT linear transformations.)
+
+2.10 Limitation of PCA: assumes LINEAR relationships among variables.
+     (PCA does not need labels and handles large data fine.)
+
+2.11 Clustering vocabulary appearing in Module 2 quizzes
+  - Centroid = mean position of all points in a cluster.
+  - Dendrogram = tree diagram showing how clusters merge across scales.
+
+
+================================================================================
+3. MODULE 3 - K-MEANS, GAUSSIAN MIXTURES, CHOOSING K
+   Lab 3 dataset: Iris (150 samples, 4 features, 3 species)
+================================================================================
+
+3.1 K-Means algorithm (Lloyd's)
+  1. Choose K; initialize K centroids (randomly / k-means++)
+  2. ASSIGNMENT step: assign each point to its nearest centroid
+  3. UPDATE step: recompute each centroid as the mean of its points
+  4. Repeat 2-3 until assignments stop changing
+  NOT K-Means: decision-tree splits, merging clusters by distance (that's
+  hierarchical).
+
+3.2 The objective
+  J = WCSS = sum over clusters sum over points ||x - mu_k||^2
+  - sklearn calls this inertia_.
+  - Assignment step never INCREASES J; update step minimizes it for fixed
+    assignments (mean is optimal - found by setting the derivative to 0).
+  - Converges, but only to a LOCAL optimum -> no global guarantee.
+
+3.3 K-Means pitfalls
+  - Sensitive to initial centroid placement (use n_init > 1)
+  - Sensitive to outliers (mean is pulled by extremes)
+  - Assumes spherical, similarly sized clusters
+  - Struggles with non-spherical shapes
+  - It CAN handle large datasets - that is not a pitfall.
+
+3.4 Choosing K
+  Elbow method: plot inertia vs K; choose where the decrease flattens.
+    Inertia always decreases as K grows - so you can't just minimize it.
+  Silhouette: s(i) = (b - a) / max(a, b)
+    a = mean distance to own cluster, b = mean distance to nearest other
+    Range -1..1; near 1 = well clustered; requires K >= 2.
+    Measures how similar a point is to its own cluster vs. others.
+  Lab 3 result: elbow says K=3; silhouette may favor K=2 (setosa separates
+  cleanly, versicolor/virginica overlap). Chose K=3 using both lines of
+  evidence + domain knowledge.
+
+3.5 Evaluating clusters WITHOUT labels
+  YES: silhouette score, WCSS/inertia, elbow, Dunn index
+  NO:  accuracy, confusion matrix, ROC-AUC, cross-validation (need labels)
+
+3.6 Stability (Lab 3 Q9)
+  Run K-Means with n_init=1 across random seeds; compute coefficient of
+  variation CV = std/mean of inertias. CV < 5% -> stable.
+
+3.7 Gaussian Mixture Models (GMM)
+  - Each cluster = a Gaussian with its own mean and covariance.
+  - PROBABILISTIC (soft) membership: each point belongs to every cluster
+    with some probability.
+  - Advantage over K-Means: models overlapping, elliptical, different-sized
+    clusters (K-Means assumes spherical, equally sized).
+  - No global-optimum guarantee; more compute than K-Means.
+
+3.8 Expectation-Maximization (EM)
+  E-step: compute the probability each point belongs to each cluster
+          (the "responsibilities").
+  M-step: update parameters (means, covariances, weights) to maximize the
+          expected log-likelihood.
+  Convergence: stop when log-likelihood improvement is tiny.
+  Facts: finds MAXIMUM LIKELIHOOD estimates; used for clustering;
+  iterative (NOT closed form); does NOT need labels; does NOT guarantee
+  a global maximum.
+
+3.9 Profiling clusters
+  - Add labels to data, df.groupby("cluster").mean() (plus std).
+  - Useful: visualize with PCA/t-SNE, silhouette, cluster size variability,
+    distribution of points within each cluster, means and stds.
+  - Not useful: initial centroids, color coding, order points were added,
+    "average distance between clusters" alone, ignoring outliers,
+    assuming equal variance.
+
+3.10 Labeling clusters ethically
+  YES: clarity/interpretability, cultural sensitivity, statistical
+       significance of differences between clusters.
+  NO:  personal biases, current market trends.
+
+
+================================================================================
+4. MODULE 4 - HIERARCHICAL CLUSTERING
+   Lab 4 dataset: Iris again (to compare with K-Means)
+================================================================================
+
+4.1 Two flavors
+  Agglomerative = BOTTOM-UP: every point starts alone; repeatedly merge the
+                  two closest clusters until one remains. (Course focus.)
+  Divisive      = TOP-DOWN: start with one cluster, split recursively.
+
+4.2 Key properties
+  - Does NOT require specifying the number of clusters in advance.
+  - Produces nested, non-overlapping (hard) clusters.
+  - Handles non-spherical clusters (esp. single linkage).
+  - Main challenge: computational cost grows fast with n (O(n^2) memory,
+    ~O(n^2)-O(n^3) time) -> poor for very large or real-time data.
+
+4.3 Linkage criteria (distance between two clusters)
+  Single    MIN distance between any pair ("nearest neighbor")
+            -> elongated, chained clusters
+  Complete  MAX distance between any pair ("furthest neighbor")
+            -> compact clusters; sensitive to outliers
+  Average   MEAN of all pairwise distances -> compromise
+  Centroid  distance between centroids
+  Ward      merge that minimizes increase in within-cluster variance
+  Factors in choosing a linkage: shape of data, presence of outliers,
+  computational efficiency. (NOT number of clusters desired!)
+
+4.4 Dendrograms
+  - y-axis = distance at which clusters merge; leaves = samples.
+  - To pick clusters: cut horizontally across the LONGEST vertical distance
+    (biggest gap between successive merges).
+  - Linkage matrix (scipy) has n-1 rows; each row = [idx1, idx2, distance,
+    size]. Last row's distance = final (max) merge height.
+
+4.5 Comparing clusterings: Adjusted Rand Index (ARI)
+  1 = identical partitions, 0 = random, negative = worse than random.
+  Label numbering doesn't matter (fcluster is 1-indexed, KMeans 0-indexed).
+  Lab 4 thresholds: >0.7 high, 0.4-0.7 moderate, <0.4 low.
+
+4.6 Good clustering algorithm properties
+  YES: high INTRA-cluster similarity, scalability, can find non-linear
+       structure.   NO: dependence on labels, high INTER-cluster similarity.
+
+4.7 Cluster-quality techniques: Elbow, Silhouette, Dunn index
+    (NOT Gini impurity or gradient descent - those are supervised/optim.)
+
+
+================================================================================
+5. MODULE 5 - MISSING DATA, MATRIX COMPLETION, RECOMMENDERS & MORE
+   Lab 5 dataset: synthetic user-movie ratings (sparse, 1-5 scale)
+================================================================================
+
+5.1 Why missing values matter
+  - They can BIAS results if not handled properly.
+  - They don't always mean a collection error, and shouldn't just be zeros.
+
+5.2 Mean imputation
+  - Replace a missing entry with the mean of that column's OBSERVED values.
+    Example: 40, 55, 45, 60, ? -> mean = 200/4 = 50.
+  - Baseline only: ignores correlations between variables.
+  - After centering by column means, mean imputation = fill with 0.
+
+5.3 Rating matrix workflow (Lab 5)
+  1. Long format (user_id, movie_id, rating) -> matrix with NaN for missing
+  2. Sparsity = (# missing) / (total entries)
+  3. Center: subtract each movie's mean (np.nanmean, axis=0)
+  4. Initialize missing as 0 (mean imputation)
+  5. Iterate:
+       a. rank-M SVD of filled matrix  X ~ U_M Sigma_M V_M^T
+       b. replace ONLY missing entries with the low-rank reconstruction
+       c. keep observed entries fixed
+       d. stop when change < tol or max_iter reached
+  6. Un-center (add movie means back) and clip to [1, 5]
+  7. Recommend: for a user, rank unrated movies by predicted rating
+
+5.4 Choosing rank M: VALIDATION BY MASKING (cross-validation)
+  - Hide a random subset (e.g., 20%) of OBSERVED entries.
+  - Run completion for several M (1, 2, 3, 5, 10).
+  - Compare imputed vs the hidden true values (RMSE); pick lowest error.
+  - Gives you ground truth you otherwise lack, and balances fit vs.
+    overfitting. (M is NOT 1, # missing, or # variables by rule.)
+
+5.5 Evaluate imputation: RMSE and Pearson correlation between imputed and
+    true values (on originally-missing entries, if ground truth exists).
+
+5.6 Anomaly detection - Isolation Forest
+  - Anomalies are isolated in fewer random splits.
+  - contamination = assumed fraction of anomalies. If set HIGHER than the
+    true rate, it flags normal points -> FALSE POSITIVES. It does not
+    self-adjust.
+
+5.7 Topic modeling - Latent Dirichlet Allocation (LDA)
+  Text preprocessing: TOKENIZATION (first step) -> remove stop words ->
+  stemming/lemmatization. (Not uppercasing, not Gaussian filters.)
+  Usually lowercase rather than uppercase.
+
+5.8 Generative models: generate NEW samples that resemble the training data.
+
+5.9 Typical scenario question: unlabeled customer purchase histories,
+    group similar customers -> CLUSTERING.
+
+
+================================================================================
+6. YOUR WEAK SPOTS (points you actually lost)
+================================================================================
+
+ a) Module 2 Q9 (0.6/1) - Steps to project data onto principal components.
+    Correct set: center the data (subtract mean), find eigenvectors of the
+    covariance matrix, SORT eigenvectors by eigenvalue (descending).
+    The quiz marked "divide by the standard deviation" as NOT part of the
+    projection step - even though standardizing is often done beforehand.
+    Lesson: centering is essential to PCA; scaling is a preprocessing choice.
+
+ b) Module 3 Q10 - Cluster profile elements.
+    Correct: cluster size variability, distribution of points within each
+    cluster. "Average distance between clusters" alone was marked wrong.
+
+ c) Module 4 Q5 (0.8/1) - Choosing a linkage method.
+    Correct: shape of data, computational efficiency, presence of outliers.
+    "Number of clusters desired" was WRONG - hierarchical clustering doesn't
+    need a preset K.
+
+
+================================================================================
+7. CODE PATTERNS TO MEMORIZE
+================================================================================
+
+# Standardize
+from sklearn.preprocessing import StandardScaler
+X = StandardScaler().fit_transform(df.values)
+
+# Distance matrix
+from scipy.spatial.distance import pdist, squareform
+D = squareform(pdist(X, metric="euclidean"))
+
+# PCA
+from sklearn.decomposition import PCA
+pca = PCA().fit(X)
+pve = pca.explained_variance_ratio_
+cum = np.cumsum(pve)
+k80 = int(np.argmax(cum >= 0.8)) + 1
+loadings = pca.components_                 # (n_components, n_features)
+scores = pca.transform(X)
+X_hat = PCA(n_components=k).fit(X).inverse_transform(scores_k)
+
+# K-Means + elbow + silhouette
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+inertias = [KMeans(k, n_init=10, random_state=42).fit(X).inertia_
+            for k in range(1, 11)]
+sil = {k: silhouette_score(X, KMeans(k, n_init=10, random_state=42)
+                           .fit_predict(X)) for k in range(2, 7)}
+
+# Cluster profiling
+prof = pd.DataFrame(X, columns=cols).assign(cluster=labels) \
+         .groupby("cluster").mean()
+
+# Hierarchical
+from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
+Z = linkage(X, method="complete")          # "single", "average", "ward"
+dendrogram(Z)
+labels = fcluster(Z, t=3, criterion="maxclust")   # 1-indexed
+
+# Compare clusterings
+from sklearn.metrics import adjusted_rand_score
+ari = adjusted_rand_score(labels_a, labels_b)
+
+# Truncated SVD (rank M)
+U, s, Vt = np.linalg.svd(A, full_matrices=False)
+A_M = U[:, :M] @ np.diag(s[:M]) @ Vt[:M, :]
+
+# Iterative matrix completion core loop
+mask = ~np.isnan(Xc)
+X = np.nan_to_num(Xc, nan=0.0)
+for _ in range(max_iter):
+    X_hat = low_rank(X, M)
+    X = np.where(mask, X, X_hat)   # keep observed, update missing
+
+Gotchas from the labs:
+  - Use ddof=0 for std to match StandardScaler.
+  - "number of components" = index + 1.
+  - Silhouette requires K >= 2.
+  - Set diagonal to np.inf before argmin on a distance matrix.
+  - Use np.nanmean when computing means on a matrix with NaN.
+  - Always fix random_state and n_init for reproducible K-Means.
+
+
+================================================================================
+8. SELF-TEST QUESTIONS
+================================================================================
+
+ 1. Why does an unstandardized USArrests distance mostly reflect Assault?
+ 2. What does pca.components_[0] tell you?
+ 3. If cumulative PVE is [.36, .55, .67, .74, .80, .85], how many PCs
+    for 80%?
+ 4. Which step of K-Means never increases the objective J? Which recomputes
+    centroids?
+ 5. Why can't you pick K by minimizing inertia?
+ 6. A silhouette score of -0.2 for a point means what?
+ 7. Name two things GMMs can do that K-Means can't.
+ 8. What happens in the E-step vs the M-step?
+ 9. Which linkage chains points into elongated clusters?
+10. Where do you cut a dendrogram?
+11. ARI = 0.05 between hierarchical and K-Means labels. Interpretation?
+12. How do you choose the rank M for SVD matrix completion?
+13. During iterative completion, which entries change each iteration?
+14. Isolation Forest contamination = 5%, true rate = 0.5%. Result?
+15. First preprocessing step for LDA topic modeling?
+16. Best metric for mixed numerical + categorical features?
+17. Main limitation of PCA?
+18. t-SNE vs UMAP: which preserves more global structure?
+
+ANSWERS
+ 1. Assault has by far the largest scale/variance, so it dominates the sum.
+ 2. The loadings of PC1: each feature's weight/contribution to PC1.
+ 3. 5 components.
+ 4. Assignment step doesn't increase J; update step recomputes centroids
+    (as cluster means), also minimizing J.
+ 5. Inertia always decreases as K increases (K = n gives 0).
+ 6. The point is probably in the wrong cluster (closer to another cluster).
+ 7. Soft/probabilistic membership; elliptical, overlapping, different-sized
+    clusters.
+ 8. E: compute membership probabilities. M: update parameters to maximize
+    expected log-likelihood.
+ 9. Single linkage.
+10. Across the longest vertical distance (largest gap between merges).
+11. Essentially no agreement - about what random labeling would give.
+12. Validation by masking: hide observed entries, try several M, pick the
+    lowest held-out error.
+13. Only the missing entries; observed entries stay fixed.
+14. Too many points flagged -> false positives.
+15. Tokenization.
+16. Gower's distance.
+17. Assumes linear relationships.
+18. UMAP.
+
+================================================================================
+Good luck!
+================================================================================

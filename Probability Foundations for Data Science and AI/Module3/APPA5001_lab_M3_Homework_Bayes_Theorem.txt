@@ -1,0 +1,194 @@
+
+
+######## release/A_M2/A_M2.ipynb ########
+
+[MD]
+# Module 2 Assessment
+In this notebook you will use the rules of conditional probability to solve various problems. Please read each statement and answer all questions in the code blocks that contain "your code here". Feel free to add as many blocks as you need, only the original code blocks will be graded.
+
+[CODE]
+#Hidden cell that imports the test_that library
+library(testthat)
+
+[MD]
+### Problem 1
+
+[MD]
+The CU Boulder triathlon team has 12 women and 9 men. The team is
+going to a race and can only enter 5 participants. What is the probability of
+randomly selecting a race squad of 5 participants with exactly 3 women? Round your answer to three decimal places. Enter your solution into variable `p1.1`.
+
+[CODE]
+p1.1 = round(choose(12, 3) * choose(9, 2) / choose(21, 5), 3)
+p1.1
+
+[OUT] [1] 0.389
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 2
+
+[MD]
+Suppose a particular crime is committed in Jerry’s apartment. We’d like to know
+whether Newman is guilty of the crime. We are torn as to whether we think he is
+guilty: we think it’s equally likely that he is guilty or not guilty. Suppose that, in
+similar situations, we know that if a suspect is guilty, $85\%$ of the time their finger
+prints are found at the scene, and, we know that if a suspect is not guilty, $30\%$ of
+the time their finger prints are found at the scene.
+
+[MD]
+**a)** What is the probability that Newman’s finger prints are found at the scene? Round your answer to three decimal places. Enter your solution into variable `p2.1`.
+
+[CODE]
+p2.1 = NA
+pG  = 0.5
+pF_G = 0.85
+pF_notG = 0.30
+
+p2.1 = round(pF_G * pG + pF_notG * (1 - pG), 3)
+p2.1
+
+[OUT] [1] 0.575
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**b)** If Newman’s finger prints are found at the scene, how likely is it that he is
+guilty? Round your answer to three decimal places. Enter your solution into variable `p2.2`.
+
+[CODE]
+p2.2 = NA
+pF = pF_G * pG + pF_notG * (1 - pG)
+p2.2 = round(pF_G * pG / pF, 3)
+p2.2
+[OUT] [1] 0.739
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**c)** If Newman’s finger prints are not found at the scene, how likely is it that he
+is guilty? Round your answer to three decimal places. Enter your answer into variable `p2.3`.
+
+[CODE]
+p2.3 = NA
+p2.3 = round((1 - pF_G) * pG / (1 - pF), 3)
+p2.3
+
+[OUT] [1] 0.176
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 3
+
+[MD]
+The game of Yahtzee is played with five fair dice. The goal is to roll certain
+‘hands’, such as Yahtzee (all five dice showing the same number) or a full house
+(three of a kind and two of a kind). In the first round of a player’s turn, the player
+rolls all five dice. Based on the outcome of that roll, the player has a second and
+third round, where he/she can then choose to re-roll any subset of the dice to get
+a desired hand.
+
+[MD]
+**a)** What is the probability of rolling a Yahtzee (all 5 dice showing the same number) on the first round? Round your answer to 4 decimal places. Enter your answer into variable `p3.1`.
+
+[CODE]
+p3.1 = round(6 / 6^5, 4)
+p3.1
+
+[OUT] [1] 8e-04
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**b)** Suppose that, on the second round, the dice are {2, 3, 4, 6, 6}. You decide to
+re-roll both sixes in the third round. What is the probability that you roll
+either a small straight (exactly four dice are in a row) or a large straight (exactly five
+dice are in a row)? Round your answer to three decimal places. Enter your solution into variable `p3.2`. (Note that to be "in a row" means that the dice come up with numbers that could be arranged in a row. Examples of exactly 5 numbers in a row are "1,2,3,4,5" or  "2,3,4,5,6". You may want to look up small and large straights in Yhatzee if you are unfamilar with the game or confused by this terminology).
+
+[CODE]
+p3.2 = NA
+
+rolls <- expand.grid(d1 = 1:6, d2 = 1:6)
+
+has_straight <- function(d1, d2) {
+  hand <- unique(c(2, 3, 4, d1, d2))
+  any(sapply(1:3, function(s) all(s:(s + 3) %in% hand)))
+}
+
+hits <- mapply(has_straight, rolls$d1, rolls$d2)
+p3.2 = round(mean(hits), 3)
+p3.2
+[OUT] [1] 0.556
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**c)** What is the probability of rolling a
+small straight (exactly four dice in a row) on the first round? Round your answer to have three decimal places. Enter your solution into variable `p3.3`.
+
+[CODE]
+p3.3 = NA
+p3.3 = round(960 / 6^5, 3)
+p3.3
+[OUT] [1] 0.123
+
+[CODE]
+# Hidden test cell
+
+[MD]
+### Problem 4
+
+[MD]
+In 2008, $3\%$ of adults (age 25 or older) in Boulder, CO had a PhD, $45\%$ had at
+least a bachelor’s degree, and $75\%$ were employed full-time. Consider randomly
+selecting an adult from Boulder, CO for an interview. Let $A$ denote the event
+that the individual has a PhD, let $B$ be the event that the individual has a bachelor’s
+degree, and let $C$ be the event that the individual is employed full-time. Assume that,
+in order to have a PhD, you must have a bachelor’s degree.
+
+[MD]
+**a)** Is it possible for $P(A \cap B) = 0.03$? Enter your answer as a boolean `TRUE` or `FALSE`. Enter your solution into variable `TF_4.1`.
+
+[CODE]
+TF_4.1 = NA
+TF_4.1 = TRUE
+
+
+[CODE]
+# Hidden test cell
+test_that("Make sure your answer is Logical: True/False", expect_is(TF_4.1, "logical"))
+
+[MD]
+**b)** For the remaining questions, let $P(B \cup C) = 0.75$. Compute the probability that the selected individual has a bachelor’s degree and full-time employ-ment. Round your answer to two decimal points. Enter your solution into variable `p4.2`.
+
+[CODE]
+p4.2 = NA
+p4.2 = round(0.45 + 0.75 - 0.75, 2)
+p4.2
+
+[OUT] [1] 0.45
+
+[CODE]
+# Hidden test cell
+
+[MD]
+**c)** What is the probability that the selected individual has a bachelor’s degree
+given that they are employed full-time? Round your answers to two decimal places. Save your solution as variable `p4.3`.
+
+[CODE]
+p4.3 = NA
+p4.3 = round(0.45 / 0.75, 2)
+p4.3
+
+[OUT] [1] 0.6
+
+[CODE]
+# Hidden test cell
